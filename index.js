@@ -1,0 +1,77 @@
+// configuración para empezar a trabajar - se usa require sin la necesidad de incluir la ruta (en este caso de express) 
+// porque esta instalado como modulo
+
+const express = require("express")
+
+const users = require("./routes/users.js")
+
+// esto nos devuelve un funcion.
+// sin invoco a express, le doy inicio al servidor:
+
+const server = express()
+
+// ahora falta el listen (al final por una cuestión de orden de este proyecto):
+// este metodo recibe el numero que indica el puerto al que esta escuchando y por callback le mandamos un console.log para verlo en la consola
+// funcionando.
+
+//la estructura para armar las rutas es la siguiente (estos son los endpoints)
+//constante inyectada con express mas metodo.
+
+//server.METHOD(path, (req, res, next) => {
+// -----------contenido----------
+// en el caso de que no se use res, se puede utilizar un next() para que, una vez terminado la ejecucion de la ruta que encontre
+// continue con la proxima ruta que coincida tambien.
+//})
+
+// dato aparte: el navegador por defecto hace un get al servidor.
+
+// el next de la funcion permite delegar la tarea, sin la necesidad de que el endpoint brinde una respuesta a quien la solicito.
+// esto puede ser util para los middleware: se pueden definir antes de las rutas e incluirlos en los metodos. Ej:
+// server.get("/", "nombredelmiddleware", (req, res, next) => { contenido })
+// por lo tanto, si defino un middleware:
+// function logger(req, res, next) => { algun calculo; next()}
+// buscará la ruta que matchee, ejecutará el middleware si esta en los argumentos, y luego seguira con la ejecución.
+
+// los middleware, principalmente, son funciones.
+
+
+// para poder hacer un seguimiento en la consola de todas las consultas que se hacen al back, se puede utilizar morgan,
+// indicandole a todo el server que debe pasar por ahi antes. Tambien se podría hacer con el logger arriba definido,
+// y ponerlo como argunmento en todas las funciones. 
+
+// primero instalar morgan. luego requerirlo. Morgan es un middleware.
+
+// luego, para la comunicación, en lo que respecta a interpretar los datos que llegan, hay que utilizar otro middleware:
+// para identificar los .json.
+// para ello, se realiza la siguiente línea de codigo (debajo de la declaración de morgan)
+
+const morgan = require("morgan")
+
+server.use(morgan("dev"))
+server.use(express.json()) // con esto le indico como interpretar un json => traduciendolo a un objeto.
+// con ello se puede hacer un destructuring de lo que llegue. Ej en ruta post
+
+
+// para configurar el routeo ( y poder trabajar con modulos ), se debe realizar lo siguiente:
+// en concreto, indicarle donde buscar las rutas en el caso de que la solicitud tenga lo indicado:
+// para ello es importante importar el archivo, realizado mas arriba:
+
+server.use("users", users)
+
+// EL ORDEN DE LOS MIDDLEWARES SI IMPORTAN, seguir con el que está planteado aca.
+
+
+server.get("/", (req, res) => {
+    res.send("bienvenidos aca")
+})
+
+server.post("/", (req, res) => {
+    let {id, data, loQueSea} = req.body  // ejemplo de destructuring, que puede ser un json enviado como request
+})
+
+// si en una ruta pongo /:algo, luego lo puedo llamar por destructuring con req.params. Debe tener el mismo nombre:
+// en este caso sería { algo } = req.params. Puedo tener varios: /:algo/:otroAlgo
+
+// para indicar que hay una query, se hace con ?: ruta/?nombre=gonzalo => en este caso, req.query será gonzalo.
+
+server.listen(3000, () => {console.log("listen on port 3000")})

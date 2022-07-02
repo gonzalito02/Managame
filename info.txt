@@ -1,0 +1,21 @@
+para empezar, se hizo npm init -y (para que de yes a todas las preguntas de preparacion)
+
+luego instalamos express (el servidor a utilizar en este proyecto)
+
+instalamos nodemon. 
+
+creamos un archivo, por defecto, index.js (el entry point) -> instrucciones en el archivo en comentarios.
+
+luego agregar un script en el package.json (para que le indique a npm que debe ejecutar al principio). En este caso 
+le pedimos que ejecute nodemon index.js (nuestro entry point)
+
+con estos pasos es suficiente para levantar un servidor (en este caso, express). colocar npm start en la terminal para ejecutar
+
+
+Un middleware es una funcion => entre el request y el respond
+
+
+luego hay que instalar sequelize (en nuestro caso, y posgres) para el manejo de base de datos.
+
+Sequelize es un interprete entre el lenguaje de la base de datos y javascript (a grosso modo) y posgres el administrador de la base de datos.
+
