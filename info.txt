@@ -19,3 +19,12 @@ luego hay que instalar sequelize (en nuestro caso, y posgres) para el manejo de 
 
 Sequelize es un interprete entre el lenguaje de la base de datos y javascript (a grosso modo) y posgres el administrador de la base de datos.
 
+
+
+// esto es un ejemplo de que se puende crear funciones y demas para exportarlos como modulos y usarlos en otro archivo.
+
+function addProduct (algo) {
+    console.log("esto es un algo: ", algo)
+}
+
+module.exports = {addProduct}

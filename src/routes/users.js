@@ -7,11 +7,7 @@ const router = express.Router()
 // aca se construyen las rutas sobre router:
 
 router.get("/", (req, res) => {
-    res.send("esto es una respuesta")
+    res.send("en este momento estamos en users")
 })
-
-
-
-
 
 module.exports = router
