@@ -10,10 +10,14 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER, //la idea es que las empresas tengan un numero de identificacion corto, del estilo 100 y el numero: 1001
       allowNull: false,
       primaryKey: true,
+      unique: true
     },
     officialName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    fantasyName: {
+      type: DataTypes.STRING,
     },
     group: {
       type: DataTypes.STRING,
