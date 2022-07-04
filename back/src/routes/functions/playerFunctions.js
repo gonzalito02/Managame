@@ -16,7 +16,7 @@ async function playerCreate ({id, officialName, fantasyName, group, members, pas
     if (newPlayer) return newPlayer
 
     } catch (e) {
-        throw new Error("Cannot create the player")
+        throw new Error("Cannot create the player, maybe conflict id. Try again.")
     }
 
 }
