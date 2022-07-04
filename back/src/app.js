@@ -2,8 +2,9 @@
 // porque esta instalado como modulo
 
 const express = require("express")
-const users = require("./routes/users.js")
+const forms = require("./routes/form.js")
 const player = require("./routes/player.js")
+const adminControl = require("./routes/adminControl.js")
 
 // esto nos devuelve un funcion.
 // sin invoco a express, le doy inicio al servidor:
@@ -56,8 +57,9 @@ server.use(express.json()) // con esto le indico como interpretar un json => tra
 // en concreto, indicarle donde buscar las rutas en el caso de que la solicitud tenga lo indicado:
 // para ello es importante importar el archivo, realizado mas arriba:
 
-server.use("/users", users)
+server.use("/form", forms)
 server.use("/player", player)
+server.use("/adminControl", adminControl)
 
 // EL ORDEN DE LOS MIDDLEWARES SI IMPORTAN, seguir con el que está planteado aca.
 

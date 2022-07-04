@@ -7,9 +7,13 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('actionData', {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    playerID: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
     },
     period: {
       type: DataTypes.INTEGER,
@@ -70,6 +74,6 @@ module.exports = (sequelize) => {
   }, {
     timestamps: true,
     createdAt: true,
-    updatedAt: true,
+    updatedAt: false,
   });
 };

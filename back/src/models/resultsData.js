@@ -7,9 +7,9 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('resultsData', {
     id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
     },
     period: {
       type: DataTypes.INTEGER,
@@ -19,14 +19,21 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    investmentResults: {
+    finantialInvestmentResults: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    qualityInvestmentResults: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     loanResults: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     extraResults: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     observations: {
       type: DataTypes.STRING,

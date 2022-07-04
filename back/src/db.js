@@ -33,14 +33,13 @@ console.log("modelos injectados con sequelize: " ,sequelize.models)
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-// const { User } = sequelize.models;
-// const { Token } = sequelize.models;
-// const { Rol } = sequelize.models;
+const { Player, GameControl, ActionData, ResultsData } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-// User.belongsToMany(Token, {through: "userstokens"})
+Player.hasMany(ActionData, ) //{foreignKey: "playerID"}
+ActionData.belongsTo(Player)
 // Token.belongsToMany(User, {through: "userstokens"}) 
 // User.belongsToMany(Rol, { through: "userxrol" });
 // Rol.belongsToMany(User, { through: "userxrol" });

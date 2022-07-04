@@ -21,10 +21,10 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('gameControl', {
     id: {
-      type: DataTypes.STRING,
-      defaultValue: "gameControl",
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
+      allowNull: false
     },
     period: {
       type: DataTypes.INTEGER,
