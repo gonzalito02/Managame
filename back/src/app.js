@@ -5,6 +5,7 @@ const express = require("express")
 const forms = require("./routes/form.js")
 const player = require("./routes/player.js")
 const adminControl = require("./routes/adminControl.js")
+const cors = require('cors');
 
 // esto nos devuelve un funcion.
 // sin invoco a express, le doy inicio al servidor:
@@ -52,6 +53,9 @@ server.use(morgan("dev"))
 server.use(express.json()) // con esto le indico como interpretar un json => traduciendolo a un objeto.
 // con ello se puede hacer un destructuring de lo que llegue. Ej en ruta post
 
+// middleware para evitar los cors: 
+
+server.use(cors())
 
 // para configurar el routeo ( y poder trabajar con modulos ), se debe realizar lo siguiente:
 // en concreto, indicarle donde buscar las rutas en el caso de que la solicitud tenga lo indicado:
