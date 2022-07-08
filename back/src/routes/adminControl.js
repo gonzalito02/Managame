@@ -1,5 +1,5 @@
 const express = require("express")
-const { gameControlCreate, getGameControl } = require("./functions/adminControlFunctions.js")
+const { gameControlCreate, getGameControl, updateGameControl } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
 
 
@@ -19,8 +19,8 @@ router.get("/",  async (req, res) => {
 
 router.post("/",  async (req, res) => {
 
-    let { period, variables } = req.body
-    if (!period || !variables) res.send({error:true, message: "missing data"})
+    let { variables } = req.body
+    if ( !variables ) res.send({error:true, message: "missing data"})
 
     try {
 
@@ -34,5 +34,21 @@ router.post("/",  async (req, res) => {
     }
 })
 
+router.put("/",  async (req, res) => {
+
+    let { variables } = req.body
+    if ( !variables ) res.send({error:true, message: "missing data"})
+
+    try {
+
+        const gameControl = await updateGameControl(req.body)
+        if (gameControl) return res.send({message: "gameControl update"})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
 
 module.exports = router
