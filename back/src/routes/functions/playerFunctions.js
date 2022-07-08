@@ -49,7 +49,7 @@ async function getPlayer (id) {
 
 }
 
-async function updatePlayer (id, {officialName, fantasyName, group, members, password}) {
+async function updatePlayer (id, {officialName, fantasyName, group, members, password, resultAcc, index}) {
 
     try {
 
@@ -99,6 +99,26 @@ async function updatePlayer (id, {officialName, fantasyName, group, members, pas
             await Player.update(
             {
                 password: password,
+            },
+            {
+                where: { id: id },
+            }
+            );
+        }
+        if (resultAcc) {
+            await Player.update(
+            {
+                resultAcc: resultAcc,
+            },
+            {
+                where: { id: id },
+            }
+            );
+        }
+        if (index) {
+            await Player.update(
+            {
+                index: index,
             },
             {
                 where: { id: id },

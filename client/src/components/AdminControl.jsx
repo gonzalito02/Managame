@@ -1,0 +1,1 @@
+// aca, ademas de los botones para controlar el juego, tmb poner los controles para autorizar o no una inversión o prestamo.
