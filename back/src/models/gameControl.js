@@ -27,10 +27,6 @@ module.exports = (sequelize) => {
       primaryKey: true,
       allowNull: false
     },
-    period: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     variables: {
       type: DataTypes.JSON,
       allowNull: false,

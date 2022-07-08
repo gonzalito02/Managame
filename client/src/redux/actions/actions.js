@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ALLPLAYERS, SET_ERRORS } from "./types";
+import { GET_ALLPLAYERS, GET_GAMECONTROL, SET_ERRORS } from "./types";
 
 // ejemplos:
 
@@ -36,4 +36,21 @@ export const getAllPlayers = (dispatch) => {
 
         }
     }
+}
+
+export const getGameControl = (dispatch) => {
+  return async function (dispatch) {
+
+      try {
+
+          var response = await axios.get(`http://localhost:3002/adminControl`);
+          return dispatch({ type: GET_GAMECONTROL, payload: response.data });
+
+      } catch (e) {
+
+          console.log(e);
+          return dispatch({ type: SET_ERRORS });
+
+      }
+  }
 }

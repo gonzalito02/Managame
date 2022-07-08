@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function FormActionCreate () {
 
+    var gameCont = useSelector(state => state.gameControl)
+
+    console.log(gameCont)
+    
     var valor = 0
+    var [errors, setErrors] = useState({})
+
+    var [form, setForm] = useState({
+        
+    })
+
+    const submitForm = () => {
+        
+    }
 
     return (
         <>
@@ -200,7 +214,7 @@ export default function FormActionCreate () {
 
             </tbody>
         </table>
-        <button type="submit">Enviar</button>
+        <button type="submit" onClick={() => submitForm()}>Enviar</button>
         </>
     )
 }

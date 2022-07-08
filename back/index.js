@@ -1,15 +1,44 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const { playerCreate } = require('./src/routes/functions/playerFunctions.js');
-const { dataPlayer } = require("./initialdata.js")
+const { dataPlayer } = require("./initialdata.js");
+const { gameControlCreate } = require('./src/routes/functions/adminControlFunctions.js');
 
 // Syncing all the models at once.
+
+// costo de un punto de calidad.
+// tasa maxima de rendimiento de una inversión financiera.
+// capital inicial global ?
+// costo de produccion de los productos.
+// tasa minima de costo de un prestamo.
+// montos maximos de inversión y mínimo de producción.
+// habilitaciones para comprar o enviar formularios.
 
 function initial () {
   for (data of dataPlayer) {
     playerCreate(data)
   }
-  console.log("initial function executed")
+  console.log("initialPlayers function executed")
+}
+
+function gameControlInit () {
+  gameControlCreate(
+    {
+      "period": 1,
+      "QualityInvCost": 25000,
+      "initialCapital": 1000000,
+      "costProdA": 20000,
+      "costProdB": 10000,
+      "costProdC": 5000,
+      "minProductCapacity": 0.5,
+      "minRateLoan": 0.20,
+      "maxLoanAmount": 150000,
+      "maxRateFinDinInvest": 0.50,
+      "maxRateFinFixedInvest": 0.30,
+      "maxTotalFinInvestAmount": 200000
+    }
+  )
+  console.log("gameControlInit executed")
 }
 // actions before start to set up the program
 
@@ -19,7 +48,7 @@ conn.sync({ force: true }).then(() => {
     // funciones a ejecutarse al inicio ------------
 
     initial();
-    
+    gameControlInit()
     // ------------
     
     console.log('%s listening at 3002'); // eslint-disable-line no-console

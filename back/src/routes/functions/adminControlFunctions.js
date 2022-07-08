@@ -6,12 +6,11 @@ const { GameControl } = require("C:/Users/gonza/Desktop/Managame/Managame/back/s
 // tasa minima de costo de un prestamo
 // montos maximos de inversión y mínimo de producción.
 
-async function gameControlCreate ({period, variables}) {
+async function gameControlCreate (variables) {
 
     try {
 
     const gameControl = await GameControl.create({
-        period: period,
         variables: variables
     })
 
@@ -37,4 +36,23 @@ async function getGameControl () {
 
 }
 
-module.exports = { gameControlCreate, getGameControl }
+async function updateGameControl ({variables}) {
+
+    try {
+
+        const gameControl = await GameControl.update(
+        {
+            variables: variables,
+        }
+        );
+        
+        return gameControl
+    } catch (e) {
+        throw new Error("No gameControl found")
+    }
+
+}
+
+
+
+module.exports = { gameControlCreate, getGameControl, updateGameControl }
