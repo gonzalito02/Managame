@@ -1,6 +1,7 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Home from './components/Home';
+import PlayerControl from './components/PlayerControl';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/home" element = {<Home/>}/>
+          <Route path="/player" element = {<PlayerControl/>}/>
         </Routes>
       </div>
     </BrowserRouter>

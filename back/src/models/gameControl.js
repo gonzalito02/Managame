@@ -10,9 +10,10 @@
 // costo de un punto de calidad.
 // tasa maxima de rendimiento de una inversión financiera.
 // capital inicial global ?
-// costo de produccion de los productos
-// tasa minima de costo de un prestamo
+// costo de produccion de los productos.
+// tasa minima de costo de un prestamo.
 // montos maximos de inversión y mínimo de producción.
+// habilitaciones para comprar o enviar formularios.
 
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo

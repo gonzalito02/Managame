@@ -27,6 +27,12 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
+    resultsAcc: {
+      type: DataTypes.INTEGER,
+    },
+    index: {
+      type: DataTypes.FLOAT,
+    },
     password:{
       type: DataTypes.STRING,
       allowNull: false

@@ -27,7 +27,6 @@ export const getAllPlayers = (dispatch) => {
         try {
 
             var response = await axios.get(`http://localhost:3002/player`);
-            console.log(response.data)
             return dispatch({ type: GET_ALLPLAYERS, payload: response.data });
 
         } catch (e) {

@@ -14,8 +14,6 @@ export default function PlayerTable () {
     if (players.length === 0) var play = ["none"]  
     else var play = players.response 
 
-    console.log(players)
-
     useEffect(() => {
         dispatch(getAllPlayers())
     }, [dispatch])

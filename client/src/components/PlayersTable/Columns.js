@@ -9,7 +9,7 @@ export const COLUMNS = [
     }, 
     {
         Header: 'Nombre de Fantasía',
-        accessor: 'fantasyName',
+        accessor: row => { return row.fantasyName === null ? "None" : row.fantasyName}
     },
     {
         Header: 'Grupo',
@@ -18,6 +18,10 @@ export const COLUMNS = [
     {
         Header: 'Miembros',
         //acccesor: "members"
-        accessor: row => { return row.members }
+        accessor: row => { return row.members ?  
+        row.members.map(m => {return (<span key={m}>{m}{"; "}</span>)})
+        :
+        "none"
+        }
     }
 ]
