@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    quanlityA: {
+    qualityA: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    quanlityB: {
+    qualityB: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -49,7 +49,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    quanlityC: {
+    qualityC: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -61,11 +61,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    finantialInvestment: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    loanInvestment: {
+    finantialFixedInvestment: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

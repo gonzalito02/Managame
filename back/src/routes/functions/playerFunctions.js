@@ -10,7 +10,8 @@ async function playerCreate ({id, officialName, fantasyName, group, members, pas
         fantasyName: fantasyName,
         group: group,
         members: members,
-        password: password
+        password: password,
+        index: 100
     })
 
     if (newPlayer) return newPlayer

@@ -3,16 +3,66 @@ import { useSelector } from "react-redux";
 
 export default function FormActionCreate () {
 
-    var gameCont = useSelector(state => state.gameControl)
+    var gameControl = useSelector(state => state.gameControl)
 
-    console.log(gameCont)
-    
+    var {
+        period,
+        QualityInvCost,
+        initialCapital,
+        productionCapacity,
+        costProdA,
+        costProdB,
+        costProdC,
+        minProductCapacity,
+        minRateLoan,
+        maxLoanAmount,
+        maxRateFinDinInvest,
+        maxRateFinFixedInvest,
+        maxTotalFinInvestAmount
+    } = gameControl
+
     var valor = 0
-    var [errors, setErrors] = useState({})
+    var [errors, setErrors] = useState({
+        decimal:"",
+        integer:"",
+        total:""
+    })
 
     var [form, setForm] = useState({
-        
+        playerID: 1002, 
+        period: period,  
+        initialCapital: initialCapital, 
+        priceA: 0, 
+        qualityA: 0,
+        quantityA: 0,
+        priceB: 0, 
+        qualityB: 0,
+        quantityB: 0,
+        priceC: 0, 
+        qualityC: 0,
+        quantityC: 0,
+        qualityInvestment: 0,
+        finantialFixedInvestment: 0
     })
+
+    //function to modify and control the values
+
+    const changeValue = (e) => {
+        setForm({...form, [e.target.name]: e.target.value })
+    }
+
+    const decimalControl = (e) => {
+        if (e.target.value > 1 || e.target.value < 0) setErrors({...errors, decimal: "Debe ser un valor decimal menor que 1 y mayor que 0, multiplo de 0,10"})
+        else if (e.target.name.slice(0,8) === "quantity" && e.target.value * 100 % 10 !== 0) setErrors({...errors, decimal: "Debe ser un decimal multiplo de 0,10"})
+        else setErrors({...errors, decimal:""})
+    }
+
+    const integerControl = (e) => {
+        if (e.target.value > 100000 || e.target.value < 0) setErrors({...errors, integer: "Debe ser un valor entero menor que 100000 y mayor que 0"})
+        else if (e.target.name.slice(0,7) === "quality" && e.target.value % 1 !== 0) setErrors({...errors, integer: "Deben ser unidades enteras, no decimales"})
+        else if (e.target.name.slice(0,7) === "quality" && e.target.value < 0) setErrors({...errors, integer: "No pueden haber números negativos"})
+        else setErrors({...errors, integer:""})
+    }
 
     const submitForm = () => {
         
@@ -35,6 +85,9 @@ export default function FormActionCreate () {
                     <th>
                         % de planta / Tasa 
                     </th>
+                    <th>
+                        Puntos de Calidad / Stock 
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +99,13 @@ export default function FormActionCreate () {
                         Indicar el precio de venta en el mercado del producto A.
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="priceA" value={form.priceA} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
                     </td>
                 </tr>
                 <tr>
@@ -54,13 +113,16 @@ export default function FormActionCreate () {
                         Producción de A.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto A. Recuerde que es por porcentajes múltiplos de 10.
+                        Indicar la cantidad a generar del producto A. Recuerde que es por porcentajes múltiplos de 0,10.
                     </td>
                     <td>
-                        {"stock a producir de A"}
+                        <span>$ {form.quantityA * productionCapacity}</span>
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="quantityA" value={form.quantityA} type="number" onChange={(e) => {changeValue(e); decimalControl(e)}}/>
+                    </td>
+                    <td>
+                        <span>{form.quantityA * productionCapacity / costProdA} un.</span>
                     </td>
                 </tr>
                 <tr>
@@ -68,10 +130,17 @@ export default function FormActionCreate () {
                         Inversión en Calidad de A.
                     </td>
                     <td>
-                        Inversión en calidad del producto A. Costo por punto de calidad: $25.000
+                        Inversión en calidad del producto A. Costo por punto de calidad: {QualityInvCost}
                     </td>
                     <td>
-                        <input type="number" />
+                        <span>$ {form.qualityA * QualityInvCost}</span>
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    
+                    <td>
+                        <input name="qualityA" value={form.qualityA} type="number" onChange={(e) => {changeValue(e); integerControl(e)} }/>
                     </td>
                 </tr>
 
@@ -83,7 +152,13 @@ export default function FormActionCreate () {
                         Indicar el precio de venta en el mercado del producto B.
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="priceB" value={form.priceB} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
                     </td>
                 </tr>
                 <tr>
@@ -91,13 +166,16 @@ export default function FormActionCreate () {
                         Producción de B.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto B. Recuerde que es por porcentajes múltiplos de 10.
+                        Indicar la cantidad a generar del producto B. Recuerde que es por porcentajes múltiplos de 0,10.
                     </td>
                     <td>
-                        {"stock a producir de B"}
+                        <span>$ {form.quantityB * productionCapacity}</span>
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="quantityB" value={form.quantityB} type="number" onChange={(e) => {changeValue(e); decimalControl(e)}}/>
+                    </td>
+                    <td>
+                        <span>{form.quantityB * productionCapacity / costProdB} un.</span>
                     </td>
                 </tr>
                 <tr>
@@ -105,10 +183,17 @@ export default function FormActionCreate () {
                         Inversión en Calidad de B.
                     </td>
                     <td>
-                        Inversión en calidad del producto B. Costo por punto de calidad: $25.000
+                        Inversión en calidad del producto B. Costo por punto de calidad: {QualityInvCost}
                     </td>
                     <td>
-                        <input type="number" />
+                        <span>$ {form.qualityB * QualityInvCost}</span>
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    
+                    <td>
+                        <input name="qualityB" value={form.qualityB} type="number" onChange={(e) => {changeValue(e); integerControl(e)} }/>
                     </td>
                 </tr>
 
@@ -120,7 +205,13 @@ export default function FormActionCreate () {
                         Indicar el precio de venta en el mercado del producto C.
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="priceC" value={form.priceC} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
                     </td>
                 </tr>
                 <tr>
@@ -128,13 +219,16 @@ export default function FormActionCreate () {
                         Producción de C.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto C. Recuerde que es por porcentajes múltiplos de 10.
+                        Indicar la cantidad a generar del producto C. Recuerde que es por porcentajes múltiplos de 0,10.
                     </td>
                     <td>
-                        {"stock a producir de C"}
+                        <span>$ {form.quantityC * productionCapacity}</span>
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="quantityC" value={form.quantityC} type="number" onChange={(e) => {changeValue(e); decimalControl(e)}}/>
+                    </td>
+                    <td>
+                        <span>{form.quantityC * productionCapacity / costProdC} un.</span>
                     </td>
                 </tr>
                 <tr>
@@ -142,10 +236,17 @@ export default function FormActionCreate () {
                         Inversión en Calidad de C.
                     </td>
                     <td>
-                        Inversión en calidad del producto C. Costo por punto de calidad: $25.000
+                        Inversión en calidad del producto C. Costo por punto de calidad: {QualityInvCost}
                     </td>
                     <td>
-                        <input type="number" />
+                        <span>$ {form.qualityC * QualityInvCost}</span>
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    
+                    <td>
+                        <input name="qualityC" value={form.qualityC} type="number" onChange={(e) => {changeValue(e); integerControl(e)} }/>
                     </td>
                 </tr>
 
@@ -214,6 +315,14 @@ export default function FormActionCreate () {
 
             </tbody>
         </table>
+        <h4>
+            Control
+            <ul>
+            <li>Control decimales: {(errors.decimal !== "") ? errors.decimal : "OK"}</li>
+            <li>Control enteros: {(errors.integer !== "") ? errors.integer : "OK"}</li>
+            <li>Control totales: {(errors.total !== "") ? errors.total : "OK"}</li>
+            </ul>
+        </h4>
         <button type="submit" onClick={() => submitForm()}>Enviar</button>
         </>
     )

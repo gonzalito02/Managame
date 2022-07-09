@@ -27,6 +27,7 @@ function gameControlInit () {
       "period": 1,
       "QualityInvCost": 25000,
       "initialCapital": 1000000,
+      "productionCapacity": 1000000,
       "costProdA": 20000,
       "costProdB": 10000,
       "costProdC": 5000,
