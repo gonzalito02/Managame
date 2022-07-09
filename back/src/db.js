@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
@@ -38,7 +38,7 @@ const { Player, GameControl, ActionData, ResultsData } = sequelize.models;
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Player.hasMany(ActionData, ) //{foreignKey: "playerID"}
+Player.hasMany(ActionData) 
 ActionData.belongsTo(Player)
 // Token.belongsToMany(User, {through: "userstokens"}) 
 // User.belongsToMany(Rol, { through: "userxrol" });

@@ -42,7 +42,6 @@ router.post("/:id",  async (req, res) => {
 
     const { 
             period, 
-            initialCapital, 
             priceA, 
             qualityA,
             quantityA,
@@ -59,7 +58,6 @@ router.post("/:id",  async (req, res) => {
 
     if (!id ||
         !period || 
-        !initialCapital || 
         !priceA || 
         !qualityA ||
         !quantityA ||
@@ -78,7 +76,7 @@ router.post("/:id",  async (req, res) => {
     try {
 
         const newForm = await formCreate(id, req.body)
-        if (newForm) return res.send({message: "form created", response: newForm})
+        if (newForm) return res.send({message: `form created for playerID ${id}`, response: newForm})
 
     } catch (e) {
 

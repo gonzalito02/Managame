@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { createActionForm } from "../redux/actions/actions";
 
 export default function FormActionCreate () {
+
+    const dispatch = useDispatch()
 
     var gameControl = useSelector(state => state.gameControl)
 
     var {
         period,
-        QualityInvCost,
-        initialCapital,
+        qualityInvCost,
         productionCapacity,
         costProdA,
         costProdB,
@@ -20,8 +22,6 @@ export default function FormActionCreate () {
         maxRateFinFixedInvest,
         maxTotalFinInvestAmount
     } = gameControl
-
- 
 
     var [errors, setErrors] = useState({
         integer:"",
@@ -44,39 +44,67 @@ export default function FormActionCreate () {
         finantialFixedRentability: 0
     })
 
-    var [formul, Setformul] = useState({
-        playerID: 1002, 
-        period: period,  
-        initialCapital: initialCapital, 
-    })
-
-    console.log("game control", period, "formul", formul.period)
-
-    //function to modify and control the values
-
     const changeValue = (e) => {
-        var value = parseFloat(e.target.value)
+        var value = parseInt(e.target.value)
+        value = value || ""
         setForm({...form, [e.target.name]: value})
     }
 
-    const generalControl = (e) => {
-        if (e.target.value > 1 || e.target.value < 0) setErrors({...errors, general: "Debe ser un valor decimal menor que 1 y mayor que 0, multiplo de 0,10"})
-        else if (e.target.name.slice(0,8) === "quantity" && e.target.value * 100 % 10 !== 0) setErrors({...errors, general: "Debe ser un decimal multiplo de 0,10"})
-        else setErrors({...errors, general:""})
-    }
-
     const integerControl = (e) => {
-        if (e.target.value > 100000 || e.target.value < 0) setErrors({...errors, integer: "Debe ser un valor entero menor que 100000 y mayor que 0"})
+        if (e.target.value > 1000000 || e.target.value < 0) setErrors({...errors, integer: "Debe ser un valor entero menor que 1000000 y mayor que 0"})
         else if (e.target.name.slice(0,7) === "quality" && e.target.value % 1 !== 0) setErrors({...errors, integer: "Deben ser unidades enteras, no decimales"})
         else if (e.target.name.slice(0,7) === "quality" && e.target.value < 0) setErrors({...errors, integer: "No pueden haber números negativos"})
-        else if (e.target.name.slice(0,8) === "quantity" && e.target.value % 10 !== 0) setErrors({...errors, integer: "Debe ser un multiplo de 10"})
-        else if (e.target.name.slice(0,8) === "quantity" && e.target.value > 100) setErrors({...errors, integer: "Capacidad de planta excedida"})
-        else setErrors({...errors, integer:""})
+        else if (e.target.name.slice(0,8) === "quantity" && e.target.value % 5 !== 0) setErrors({...errors, integer: "Debe ser un multiplo de 5"})
+        else setErrors({...errors, integer:"", general: ""})
+    }
+
+    var controlProd = ((form.quantityA * costProdA) / (productionCapacity / 100)) +
+                      ((form.quantityB * costProdB) / (productionCapacity / 100)) +
+                      ((form.quantityC * costProdC) / (productionCapacity / 100))
+
+    if (controlProd > 100 && errors.general === "") {
+        setErrors({...errors, general: "La capacidad de la planta en general no puede superar el 100%"})
+    }
+
+    if (controlProd < 50 && errors.general === "") {
+        setErrors({...errors, general: "La capacidad de la planta no puede ser inferior al 50%"})
+    }
+
+    if (form.finantialFixedInvestment > maxTotalFinInvestAmount && errors.general === "") {
+        setErrors({...errors, general: "Monto máximo de inversión financiera superado"})
+    }
+    if ( (form.finantialFixedRentability / form.finantialFixedInvestment) > maxRateFinFixedInvest && errors.general === "") {
+        setErrors({...errors, general: "La tasa de rentabilidad es superior a la permitida"})
     }
 
     const submitForm = () => {
-        
+        const formul = {
+            period: period,
+            priceA: form.priceA,
+            qualityA: form.qualityA,
+            quantityA: form.quantityA,
+            priceB: form.priceB,     
+            qualityB: form.qualityB, 
+            quantityB: form.quantityB, 
+            priceC: form.priceC,
+            qualityC: form.qualityC,
+            quantityC: form.quantityC,
+            qualityInvestment: (form.qualityA + form.qualityB + form.qualityC) * qualityInvCost, 
+            finantialFixedInvestment: form.finantialFixedInvestment,
+            finantialFixedRentability: form.finantialFixedRentability
+        }
+        console.log(formul)
+        dispatch(createActionForm(1004, formul))
+        console.log("form enviado")
     }
+
+    var disabled = true
+
+    if (
+        errors.general === "" &&
+        errors.integer === "" &&
+        errors.total === ""
+        ) { disabled = false}
 
     return (
         <>
@@ -140,10 +168,10 @@ export default function FormActionCreate () {
                         Inversión en Calidad de A.
                     </td>
                     <td>
-                        Inversión en calidad del producto A. Costo por punto de calidad: {QualityInvCost}
+                        Inversión en calidad del producto A. Costo por punto de calidad: {qualityInvCost}
                     </td>
                     <td>
-                        <span>$ {form.qualityA * QualityInvCost}</span>
+                        <span>$ {form.qualityA * qualityInvCost}</span>
                     </td>
                     <td>
                         -
@@ -193,10 +221,10 @@ export default function FormActionCreate () {
                         Inversión en Calidad de B.
                     </td>
                     <td>
-                        Inversión en calidad del producto B. Costo por punto de calidad: {QualityInvCost}
+                        Inversión en calidad del producto B. Costo por punto de calidad: {qualityInvCost}
                     </td>
                     <td>
-                        <span>$ {form.qualityB * QualityInvCost}</span>
+                        <span>$ {form.qualityB * qualityInvCost}</span>
                     </td>
                     <td>
                         -
@@ -246,10 +274,10 @@ export default function FormActionCreate () {
                         Inversión en Calidad de C.
                     </td>
                     <td>
-                        Inversión en calidad del producto C. Costo por punto de calidad: {QualityInvCost}
+                        Inversión en calidad del producto C. Costo por punto de calidad: {qualityInvCost}
                     </td>
                     <td>
-                        <span>$ {form.qualityC * QualityInvCost}</span>
+                        <span>$ {form.qualityC * qualityInvCost}</span>
                     </td>
                     <td>
                         -
@@ -262,7 +290,16 @@ export default function FormActionCreate () {
 
                 <tr>
                     <td>
-                        Otros movimientos.
+                        Totales
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        {controlProd} %
                     </td>
                 </tr>
 
@@ -277,7 +314,7 @@ export default function FormActionCreate () {
                         <input name="finantialFixedInvestment" value={form.finantialFixedInvestment} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                     <td>
-                        <input name="finantialFixedResult" value={form.finantialFixedResult} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
+                        <input name="finantialFixedRentability" value={form.finantialFixedRentability} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                 </tr>
 
@@ -304,7 +341,7 @@ export default function FormActionCreate () {
                         {( form.quantityA * costProdA + 
                            form.quantityB * costProdB + 
                            form.quantityC * costProdC +
-                           ((form.qualityA + form.qualityB + form.qualityC ) * QualityInvCost) +
+                           ((form.qualityA + form.qualityB + form.qualityC ) * qualityInvCost) +
                            form.finantialFixedInvestment)
                         }
                     </td>
@@ -320,7 +357,7 @@ export default function FormActionCreate () {
             <li>Control totales: {(errors.total !== "") ? errors.total : "OK"}</li>
             </ul>
         </h4>
-        <button type="submit" onClick={() => submitForm()}>Enviar</button>
+        <button type="submit" disabled={disabled} onClick={() => submitForm()}>Enviar</button>
         </>
     )
 }

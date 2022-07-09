@@ -9,15 +9,11 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
-    playerID: {
+/*     playerID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
+    }, */
     period: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    initialCapital: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
