@@ -44,13 +44,13 @@ router.post("/:id",  async (req, res) => {
             period, 
             initialCapital, 
             priceA, 
-            quanlityA,
+            qualityA,
             quantityA,
             priceB, 
-            quanlityB,
+            qualityB,
             quantityB,
             priceC, 
-            quanlityC,
+            qualityC,
             quantityC
         } = req.body
     
@@ -61,13 +61,13 @@ router.post("/:id",  async (req, res) => {
         !period || 
         !initialCapital || 
         !priceA || 
-        !quanlityA ||
+        !qualityA ||
         !quantityA ||
         !priceB || 
-        !quanlityB ||
+        !qualityB ||
         !quantityB ||
         !priceC || 
-        !quanlityC ||
+        !qualityC ||
         !quantityC
         ) {
         

@@ -44,7 +44,7 @@ export const getGameControl = (dispatch) => {
       try {
 
           var response = await axios.get(`http://localhost:3002/adminControl`);
-          return dispatch({ type: GET_GAMECONTROL, payload: response.data });
+          return dispatch({ type: GET_GAMECONTROL, payload: response.data.response[0].variables });
 
       } catch (e) {
 

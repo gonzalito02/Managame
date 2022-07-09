@@ -5,17 +5,16 @@ async function formCreate (playerID,
         period, 
         initialCapital, 
         priceA, 
-        quanlityA,
+        qualityA,
         quantityA,
         priceB, 
-        quanlityB,
+        qualityB,
         quantityB,
         priceC, 
-        quanlityC,
+        qualityC,
         quantityC,
         qualityInvestment,
-        finantialInvestment,
-        loanInvestment
+        finantialFixedInvestment,
     }
     ) {
 
@@ -26,17 +25,16 @@ async function formCreate (playerID,
         period: period,  
         initialCapital: initialCapital, 
         priceA: priceA, 
-        quanlityA: quanlityA,
+        qualityA: qualityA,
         quantityA: quantityA,
         priceB: priceB, 
-        quanlityB: quanlityB,
+        qualityB: qualityB,
         quantityB: quantityB,
         priceC: priceC, 
-        quanlityC: quanlityC,
+        qualityC: qualityC,
         quantityC: quantityC,
         qualityInvestment: qualityInvestment,
-        finantialInvestment: finantialInvestment,
-        loanInvestment: loanInvestment
+        finantialFixedInvestment: finantialFixedInvestment,
     })
 
     if (newForm) return newForm
