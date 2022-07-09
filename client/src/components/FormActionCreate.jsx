@@ -21,17 +21,16 @@ export default function FormActionCreate () {
         maxTotalFinInvestAmount
     } = gameControl
 
-    var valor = 0
+ 
+
     var [errors, setErrors] = useState({
-        decimal:"",
         integer:"",
+        general: "",
         total:""
     })
 
     var [form, setForm] = useState({
-        playerID: 1002, 
-        period: period,  
-        initialCapital: initialCapital, 
+        period: period,
         priceA: 0, 
         qualityA: 0,
         quantityA: 0,
@@ -41,26 +40,37 @@ export default function FormActionCreate () {
         priceC: 0, 
         qualityC: 0,
         quantityC: 0,
-        qualityInvestment: 0,
-        finantialFixedInvestment: 0
+        finantialFixedInvestment: 0,
+        finantialFixedRentability: 0
     })
+
+    var [formul, Setformul] = useState({
+        playerID: 1002, 
+        period: period,  
+        initialCapital: initialCapital, 
+    })
+
+    console.log("game control", period, "formul", formul.period)
 
     //function to modify and control the values
 
     const changeValue = (e) => {
-        setForm({...form, [e.target.name]: e.target.value })
+        var value = parseFloat(e.target.value)
+        setForm({...form, [e.target.name]: value})
     }
 
-    const decimalControl = (e) => {
-        if (e.target.value > 1 || e.target.value < 0) setErrors({...errors, decimal: "Debe ser un valor decimal menor que 1 y mayor que 0, multiplo de 0,10"})
-        else if (e.target.name.slice(0,8) === "quantity" && e.target.value * 100 % 10 !== 0) setErrors({...errors, decimal: "Debe ser un decimal multiplo de 0,10"})
-        else setErrors({...errors, decimal:""})
+    const generalControl = (e) => {
+        if (e.target.value > 1 || e.target.value < 0) setErrors({...errors, general: "Debe ser un valor decimal menor que 1 y mayor que 0, multiplo de 0,10"})
+        else if (e.target.name.slice(0,8) === "quantity" && e.target.value * 100 % 10 !== 0) setErrors({...errors, general: "Debe ser un decimal multiplo de 0,10"})
+        else setErrors({...errors, general:""})
     }
 
     const integerControl = (e) => {
         if (e.target.value > 100000 || e.target.value < 0) setErrors({...errors, integer: "Debe ser un valor entero menor que 100000 y mayor que 0"})
         else if (e.target.name.slice(0,7) === "quality" && e.target.value % 1 !== 0) setErrors({...errors, integer: "Deben ser unidades enteras, no decimales"})
         else if (e.target.name.slice(0,7) === "quality" && e.target.value < 0) setErrors({...errors, integer: "No pueden haber números negativos"})
+        else if (e.target.name.slice(0,8) === "quantity" && e.target.value % 10 !== 0) setErrors({...errors, integer: "Debe ser un multiplo de 10"})
+        else if (e.target.name.slice(0,8) === "quantity" && e.target.value > 100) setErrors({...errors, integer: "Capacidad de planta excedida"})
         else setErrors({...errors, integer:""})
     }
 
@@ -83,7 +93,7 @@ export default function FormActionCreate () {
                         Input
                     </th>
                     <th>
-                        % de planta / Tasa 
+                        % de planta
                     </th>
                     <th>
                         Puntos de Calidad / Stock 
@@ -116,13 +126,13 @@ export default function FormActionCreate () {
                         Indicar la cantidad a generar del producto A. Recuerde que es por porcentajes múltiplos de 0,10.
                     </td>
                     <td>
-                        <span>$ {form.quantityA * productionCapacity}</span>
+                        <span>$ {form.quantityA * costProdA}</span>
                     </td>
                     <td>
-                        <input name="quantityA" value={form.quantityA} type="number" onChange={(e) => {changeValue(e); decimalControl(e)}}/>
+                        <span> {(form.quantityA * costProdA) / (productionCapacity / 100)} %</span>
                     </td>
                     <td>
-                        <span>{form.quantityA * productionCapacity / costProdA} un.</span>
+                        <input name="quantityA" value={form.quantityA} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                 </tr>
                 <tr>
@@ -169,13 +179,13 @@ export default function FormActionCreate () {
                         Indicar la cantidad a generar del producto B. Recuerde que es por porcentajes múltiplos de 0,10.
                     </td>
                     <td>
-                        <span>$ {form.quantityB * productionCapacity}</span>
+                        <span>$ {form.quantityB * costProdB}</span>
                     </td>
                     <td>
-                        <input name="quantityB" value={form.quantityB} type="number" onChange={(e) => {changeValue(e); decimalControl(e)}}/>
+                        <span> {(form.quantityB * costProdB) / (productionCapacity / 100)} %</span>
                     </td>
                     <td>
-                        <span>{form.quantityB * productionCapacity / costProdB} un.</span>
+                        <input name="quantityB" value={form.quantityB} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                 </tr>
                 <tr>
@@ -222,13 +232,13 @@ export default function FormActionCreate () {
                         Indicar la cantidad a generar del producto C. Recuerde que es por porcentajes múltiplos de 0,10.
                     </td>
                     <td>
-                        <span>$ {form.quantityC * productionCapacity}</span>
+                        <span>$ {form.quantityC * costProdC}</span>
                     </td>
                     <td>
-                        <input name="quantityC" value={form.quantityC} type="number" onChange={(e) => {changeValue(e); decimalControl(e)}}/>
+                        <span> {(form.quantityC * costProdC) / (productionCapacity / 100)} %</span>
                     </td>
                     <td>
-                        <span>{form.quantityC * productionCapacity / costProdC} un.</span>
+                        <input name="quantityC" value={form.quantityC} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                 </tr>
                 <tr>
@@ -246,7 +256,7 @@ export default function FormActionCreate () {
                     </td>
                     
                     <td>
-                        <input name="qualityC" value={form.qualityC} type="number" onChange={(e) => {changeValue(e); integerControl(e)} }/>
+                        <input name="qualityC" value={form.qualityC} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                 </tr>
 
@@ -261,13 +271,13 @@ export default function FormActionCreate () {
                         Inversión Financiera Fija.
                     </td>
                     <td>
-                        Inversión a plazo conocido y tasa fija inicial.
+                        Inversión a plazo conocido. Indicar en la primera celda el monto destinado, en la segunda la ganancia neta.
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="finantialFixedInvestment" value={form.finantialFixedInvestment} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                     <td>
-                        <input type="number" />
+                        <input name="finantialFixedResult" value={form.finantialFixedResult} type="number" onChange={(e) => {changeValue(e); integerControl(e)}}/>
                     </td>
                 </tr>
 
@@ -275,29 +285,11 @@ export default function FormActionCreate () {
                     <td>
                         Inversión Financiera Variable.
                     </td>
-                    <td>
-                        Inversión dinámica. Una vez creada la posición, se debe cerrar la misma. Tasa máxima de rendimiento: 30%
-                    </td>
-                    <td>
-                        <input type="number" />
-                    </td>
-                    <td>
-                        <input type="number" />
-                    </td>
                 </tr>
 
                 <tr>
                     <td>
                         Préstamo.
-                    </td>
-                    <td>
-                        Tasa mínima 20%. Monto máximo: $100.000
-                    </td>
-                    <td>
-                        <input type="number" />
-                    </td>
-                    <td>
-                        <input type="number" />
                     </td>
                 </tr>
 
@@ -309,7 +301,12 @@ export default function FormActionCreate () {
                         Total acumulado
                     </td>
                     <td>
-                        {valor}
+                        {( form.quantityA * costProdA + 
+                           form.quantityB * costProdB + 
+                           form.quantityC * costProdC +
+                           ((form.qualityA + form.qualityB + form.qualityC ) * QualityInvCost) +
+                           form.finantialFixedInvestment)
+                        }
                     </td>
                 </tr>
 
@@ -318,7 +315,7 @@ export default function FormActionCreate () {
         <h4>
             Control
             <ul>
-            <li>Control decimales: {(errors.decimal !== "") ? errors.decimal : "OK"}</li>
+            <li>Control general: {(errors.general !== "") ? errors.general : "OK"}</li>
             <li>Control enteros: {(errors.integer !== "") ? errors.integer : "OK"}</li>
             <li>Control totales: {(errors.total !== "") ? errors.total : "OK"}</li>
             </ul>

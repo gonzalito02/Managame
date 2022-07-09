@@ -64,6 +64,10 @@ module.exports = (sequelize) => {
     finantialFixedInvestment: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    finantialFixedRentability: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     timestamps: true,
