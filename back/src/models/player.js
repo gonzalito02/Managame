@@ -30,6 +30,10 @@ module.exports = (sequelize) => {
     resultsAcc: {
       type: DataTypes.INTEGER,
     },
+    initialCapital: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1000000
+    },
     index: {
       type: DataTypes.FLOAT,
     },

@@ -5,8 +5,7 @@ export default function NavBar ({gameControl}) {
 
     var {
         period,
-        QualityInvCost,
-        initialCapital,
+        qualityInvCost,
         productionCapacity,
         costProdA,
         costProdB,
@@ -63,19 +62,10 @@ export default function NavBar ({gameControl}) {
 
                         <tr>
                             <td>
-                                QualityInvCost
+                                qualityInvCost
                             </td>
                             <td>
-                                {QualityInvCost}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                initialCapital
-                            </td>
-                            <td>
-                                {initialCapital}
+                                {qualityInvCost}
                             </td>
                         </tr>
 

@@ -22,8 +22,8 @@ router.get("/",  async (req, res) => {
 
 router.post("/",  async (req, res) => {
 
-    let { id, officialName, fantasyName, group, members, password } = req.body
-    if (!id || !officialName || !group || !members || !password) res.send({error:true, message: "missing data"})
+    let { playerId, officialName, fantasyName, group, members, password } = req.body
+    if (!playerId || !officialName || !group || !members || !password) res.send({error:true, message: "missing data"})
 
     try {
 

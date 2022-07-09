@@ -1,9 +1,9 @@
+const { Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 const { ActionData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 
 async function formCreate (playerID,
     {
         period, 
-        initialCapital, 
         priceA, 
         qualityA,
         quantityA,
@@ -21,10 +21,10 @@ async function formCreate (playerID,
 
     try {
 
+    const player = await Player.findOne({ where: { id: playerID } });
+
     const newForm = await ActionData.create({
-        playerID: playerID, 
         period: period,  
-        initialCapital: initialCapital, 
         priceA: priceA, 
         qualityA: qualityA,
         quantityA: quantityA,
@@ -39,7 +39,9 @@ async function formCreate (playerID,
         finantialFixedRentability: finantialFixedRentability
     })
 
-    if (newForm) return newForm
+    await player.addActionData(newForm);
+
+    if (newForm) return (newForm)
 
     } catch (e) {
         throw new Error("Cannot create the form")
@@ -51,7 +53,7 @@ async function getForms () {
 
     try {
 
-    const forms = await ActionData.findAll({})
+    const forms = await ActionData.findAll()
 
     if (forms[0].dataValues.id > 0) return forms
     else return "No forms found"
