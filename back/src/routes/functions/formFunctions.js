@@ -15,6 +15,7 @@ async function formCreate (playerID,
         quantityC,
         qualityInvestment,
         finantialFixedInvestment,
+        finantialFixedRentability
     }
     ) {
 
@@ -35,6 +36,7 @@ async function formCreate (playerID,
         quantityC: quantityC,
         qualityInvestment: qualityInvestment,
         finantialFixedInvestment: finantialFixedInvestment,
+        finantialFixedRentability: finantialFixedRentability
     })
 
     if (newForm) return newForm

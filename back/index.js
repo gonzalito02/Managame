@@ -31,11 +31,11 @@ function gameControlInit () {
       "costProdA": 20000,
       "costProdB": 10000,
       "costProdC": 5000,
-      "minProductCapacity": 0.5,
+      "minProductCapacity": 50,
       "minRateLoan": 0.20,
       "maxLoanAmount": 150000,
-      "maxRateFinDinInvest": 0.50,
-      "maxRateFinFixedInvest": 0.30,
+      "maxRateFinDinInvest": 0.4,
+      "maxRateFinFixedInvest": 0.3,
       "maxTotalFinInvestAmount": 200000
     }
   )
