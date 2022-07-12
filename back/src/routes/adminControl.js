@@ -53,17 +53,19 @@ router.put("/",  async (req, res) => {
 
 router.put("/form",  async (req, res) => {
 
-    console.log("aca")
-    let { period, id } = req.body
-    if ( !period || !id ) res.send({error:true, message: "missing data"})
+    
+    let { period, playerId } = req.body
+    if ( !period || !playerId ) res.send({error:true, message: "missing data"})
 
     try {
+
+        console.log("aca")
 
         const validate = await validateActionForms(req.body)
         if (validate) return res.send({message: "form validated succesfully"})
 
     } catch (e) {
-
+        
         res.status(400).send(e.message)
     
     }
