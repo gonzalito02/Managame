@@ -76,7 +76,7 @@ async function getForm (id) {
     else return "No forms found"
 
     } catch (e) {
-        throw new Error("No forms found")
+        throw new Error(`No forms found, playerID: ${id}`)
     }
 
 }
@@ -92,7 +92,7 @@ async function deleteForm (id) {
     if (form) return {response: "form destroyed", deletedData: form}
 
     } catch (e) {
-        throw new Error("No form found")
+        throw new Error("No form found to delete")
     }
 
 }

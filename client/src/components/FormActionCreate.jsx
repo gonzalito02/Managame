@@ -118,7 +118,7 @@ export default function FormActionCreate () {
                         Observación / Detalle
                     </th>
                     <th>
-                        Input
+                        Valor
                     </th>
                     <th>
                         % de planta
@@ -151,7 +151,7 @@ export default function FormActionCreate () {
                         Producción de A.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto A. Recuerde que es por porcentajes múltiplos de 0,10.
+                        Indicar la cantidad a generar del producto A. Cada producto consumo 2% de uso de planta.
                     </td>
                     <td>
                         <span>$ {form.quantityA * costProdA}</span>
@@ -204,7 +204,7 @@ export default function FormActionCreate () {
                         Producción de B.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto B. Recuerde que es por porcentajes múltiplos de 0,10.
+                        Indicar la cantidad a generar del producto B. Cada producto consumo 1% de uso de planta.
                     </td>
                     <td>
                         <span>$ {form.quantityB * costProdB}</span>
@@ -257,7 +257,7 @@ export default function FormActionCreate () {
                         Producción de C.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto C. Recuerde que es por porcentajes múltiplos de 0,10.
+                        Indicar la cantidad a generar del producto C. Cada producto consumo 0,5% de uso de planta.
                     </td>
                     <td>
                         <span>$ {form.quantityC * costProdC}</span>

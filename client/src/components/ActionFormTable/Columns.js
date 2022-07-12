@@ -13,7 +13,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Fecha de creación',
-        accessor: row => { return row.createdAt.slice(0,10)}
+        accessor: row => { return row.createdAt? row.createdAt.slice(0,10) : null}
     },
     {
         Header: 'Validado por Admin',

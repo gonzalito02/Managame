@@ -31,7 +31,7 @@ async function getPlayers () {
     if (players) return players
 
     } catch (e) {
-        throw new Error("No player found")
+        throw new Error("No players found")
     }
 
 }
@@ -45,7 +45,7 @@ async function getPlayer (id) {
     if (player) return player
 
     } catch (e) {
-        throw new Error("No player found")
+        throw new Error(`No player found with the playerId: ${id}`)
     }
 
 }
@@ -130,7 +130,7 @@ async function updatePlayer (id, {officialName, fantasyName, group, members, pas
     return {message: "Updated", id: id}
 
     } catch (e) {
-        throw new Error("Cannot update the player")
+        throw new Error(`Cannot update the player with the playerId: ${id}`)
     }
 
 }
