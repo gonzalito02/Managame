@@ -3,3 +3,5 @@ export const GET_GAMECONTROL = "GET_GAMECONTROL";
 export const UPDATE_GAMECONTROL = "UPDATE_GAMECONTROL"
 export const SET_ERRORS = "SET_ERRORS";
 export const CREATE_FORM = "CREATE_FORM";
+export const GET_FORMS = "GET_FORMS";
+export const GET_FORM_ID = "GET_FORM_ID";

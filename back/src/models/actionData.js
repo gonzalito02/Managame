@@ -64,6 +64,10 @@ module.exports = (sequelize) => {
     finantialFixedRentability: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    validateByAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     timestamps: true,

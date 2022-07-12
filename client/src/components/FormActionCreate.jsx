@@ -94,7 +94,7 @@ export default function FormActionCreate () {
             finantialFixedRentability: form.finantialFixedRentability
         }
         console.log(formul)
-        dispatch(createActionForm(1004, formul))
+        dispatch(createActionForm(1002, formul))
         console.log("form enviado")
     }
 

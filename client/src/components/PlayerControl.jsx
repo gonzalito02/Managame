@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import FormActionCreate from "./FormActionCreate";
 import { useSelector, useDispatch } from "react-redux";
 import NavBar from "./NavBar";
-import { getGameControl } from "../redux/actions/actions";
+import { getAllForms, getFormById, getGameControl } from "../redux/actions/actions";
+import ActionFormTable from "./ActionFormTable/ActionFormTable";
 
 // aca van los formularios de creación de plan de acción, form de inversiones, prestamos y demas.
 
@@ -12,7 +13,9 @@ export default function PlayerControl () {
     var gameControl = useSelector(state => state.gameControl)
 
     useEffect(() => {
-        dispatch(getGameControl())
+        dispatch(getGameControl());
+        dispatch(getFormById(1002));
+        dispatch(getAllForms())
     }, [dispatch])
 
 
@@ -23,16 +26,12 @@ export default function PlayerControl () {
         </div>
         <NavBar gameControl={gameControl}></NavBar>
         <h3>
-            RESULTADOS
+            Planes de acción presentados
         </h3>
-
-        <h3>
-            FORMULARIOS ENVIADOS
-        </h3>
-
-        <h3>
-            FORMULARIO DE PLAN DE ACCIÓN
-        </h3>
+        <ActionFormTable />
+        <h2>
+            Formulario - Plan de acción
+        </h2>
         <FormActionCreate />
         </>
     )

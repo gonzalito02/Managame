@@ -69,7 +69,7 @@ async function getForm (id) {
     try {
 
     const form = await ActionData.findAll({
-        where: {playerID: id}
+        where: {playerId: id}
     })
 
     if (form[0].dataValues.id > 0) return form
