@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function NavBar ({gameControl}) {
+
+    var errors = useSelector(state => state.errors)
 
     var {
         period,
@@ -21,11 +24,9 @@ export default function NavBar ({gameControl}) {
     return (
     <>
         <div>
-            <div>
-                <h4>
-                    Ingresar
-                </h4>
-            </div>
+            <h4>
+                Ingresar
+            </h4>
             <div>
             <Link to="/player">
             <button>Go to player</button>
@@ -162,6 +163,11 @@ export default function NavBar ({gameControl}) {
                     </tbody>
                 </table>
             </div>
+
+            <div>
+                Acciones: <span>{errors}</span>
+            </div>
+
         </div>
         </>
     )
