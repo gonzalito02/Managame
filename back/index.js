@@ -35,7 +35,8 @@ function gameControlInit () {
       "maxLoanAmount": 150000,
       "maxRateFinDinInvest": 0.4,
       "maxRateFinFixedInvest": 0.3,
-      "maxTotalFinInvestAmount": 200000
+      "maxTotalFinInvestAmount": 200000,
+      "actionGame": "Production" // change to "market" for indicate the step of sales 
     }
   )
   console.log("gameControlInit executed")
@@ -45,7 +46,7 @@ function gameControlInit () {
 conn.sync({ force: true }).then(() => {
   server.listen(3002, () => {
 
-    // funciones a ejecutarse al inicio ------------
+    // first functions to execute ------------
 
     initial();
     gameControlInit()

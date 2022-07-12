@@ -23,5 +23,13 @@ export const COLUMNS = [
         :
         "none"
         }
+    },
+    {
+        Header: 'Capital Inicial',
+        accessor: row => { return `$ ${row.initialCapital}`}
+    },
+    {
+        Header: 'Index',
+        accessor: 'index',
     }
 ]

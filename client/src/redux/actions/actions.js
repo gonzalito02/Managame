@@ -3,28 +3,10 @@ import {
   GET_ALLPLAYERS, 
   GET_GAMECONTROL, 
   SET_ERRORS,
-  CREATE_FORM
+  CREATE_FORM,
+  GET_FORMS,
+  GET_FORM_ID
 } from "./types";
-
-// ejemplos:
-
-/* export const getBooks = (dispatch) => {
-    axios
-      .get(`http://localhost:3001/books`)
-      .then((res) => dispatch({ type: GET_BOOKS, payload: res.data }))
-      .catch((e) => console.log(e));
-  };
-
-  export function getDetail(id) {
-    return async function (dispatch) {
-      try {
-        var response = await axios.get(`http://localhost:3001/books/${id}`);
-        return dispatch({ type: GET_DETAIL, payload: response.data });
-      } catch (e) {
-        console.log(e);
-      }
-    };
-  } */
 
 export const getAllPlayers = (dispatch) => {
     return async function (dispatch) {
@@ -68,6 +50,41 @@ export const createActionForm = (id, actionForm) => {
           var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm);
           console.log("Form enviado")
           return dispatch({type: CREATE_FORM, payload: response.data});
+
+      } catch (e) {
+
+          console.log(e);
+          return dispatch({ type: SET_ERRORS });
+
+      }
+  }
+}
+
+export const getAllForms = (dispatch) => {
+  return async function (dispatch) {
+
+      try {
+
+          var response = await axios.get(`http://localhost:3002/form`);
+          return dispatch({ type: GET_FORMS, payload: response.data });
+
+      } catch (e) {
+
+          console.log(e);
+          return dispatch({ type: SET_ERRORS });
+
+      }
+  }
+}
+
+export const getFormById = (id) => {
+  return async function (dispatch) {
+
+      try {
+
+          var response = await axios.get(`http://localhost:3002/form/${id}`);
+          console.log(response.data.response)
+          return dispatch({ type: GET_FORM_ID, payload: response.data.response});
 
       } catch (e) {
 

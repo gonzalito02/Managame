@@ -1,4 +1,4 @@
-const { GameControl } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { GameControl, ActionData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 
 // costo de un punto de calidad.
 // tasa maxima de rendimiento de una inversión financiera.
@@ -53,6 +53,27 @@ async function updateGameControl ({variables}) {
 
 }
 
+async function validateActionForms ({id, period}) {
+    try {
+        
+        const validate = await ActionData.update(
+            {
+                validateByAdmin: true
+            },
+            {
+                where: {
+                    id: id,
+                    period: period
+                }
+            }
+            );
+        
+        return validate
+
+    } catch (e) {
+        throw new Error("Cannot validate the indicated form")
+    }
+}
 
 
-module.exports = { gameControlCreate, getGameControl, updateGameControl }
+module.exports = { gameControlCreate, getGameControl, updateGameControl, validateActionForms }

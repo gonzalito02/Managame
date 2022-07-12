@@ -1,5 +1,8 @@
 import {
-    GET_ALLPLAYERS, GET_GAMECONTROL,
+    GET_ALLPLAYERS, 
+    GET_FORMS, 
+    GET_FORM_ID, 
+    GET_GAMECONTROL,
 } from "../actions/types";
   
 const initialState = {
@@ -7,7 +10,9 @@ const initialState = {
     gameControl: {},
     allForms: [],
     oneForm: [],
-    errors: []
+    errors: [],
+    allForms: [],
+    playerForms: []
 };
   
 export default function rootReducer(state = initialState, action) {
@@ -24,6 +29,18 @@ export default function rootReducer(state = initialState, action) {
         return {
             ...state,
             gameControl: payload,
+        };
+
+        case GET_FORMS:
+        return {
+            ...state,
+            allForms: payload,
+        };
+
+        case GET_FORM_ID:
+        return {
+            ...state,
+            playerForms: payload,
         };
 
         default:
