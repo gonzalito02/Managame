@@ -8,6 +8,8 @@ export default function FormActionCreate () {
 
     var gameControl = useSelector(state => state.gameControl)
 
+    console.log(gameControl)
+
     var {
         period,
         qualityInvCost,
@@ -53,8 +55,8 @@ export default function FormActionCreate () {
     const integerControl = (e) => {
         if (e.target.value > 1000000 || e.target.value < 0) setErrors({...errors, integer: "Debe ser un valor entero menor que 1000000 y mayor que 0"})
         else if (e.target.name.slice(0,7) === "quality" && e.target.value % 1 !== 0) setErrors({...errors, integer: "Deben ser unidades enteras, no decimales"})
-        else if (e.target.name.slice(0,7) === "quality" && e.target.value < 0) setErrors({...errors, integer: "No pueden haber números negativos"})
-        else if (e.target.name.slice(0,8) === "quantity" && e.target.value % 5 !== 0) setErrors({...errors, integer: "Debe ser un multiplo de 5"})
+        // else if (e.target.name.slice(0,7) === "quality" && e.target.value < 0) setErrors({...errors, integer: "No pueden haber números negativos"})
+        // else if (e.target.name.slice(0,8) === "quantity" && e.target.value % 5 !== 0) setErrors({...errors, integer: "Debe ser un multiplo de 5"})
         else setErrors({...errors, integer:"", general: ""})
     }
 

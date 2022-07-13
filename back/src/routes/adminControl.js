@@ -1,5 +1,5 @@
 const express = require("express")
-const { gameControlCreate, getGameControl, updateGameControl, validateActionForms } = require("./functions/adminControlFunctions.js")
+const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
 
 
@@ -20,6 +20,7 @@ router.get("/",  async (req, res) => {
 router.post("/",  async (req, res) => {
 
     let { variables } = req.body
+    
     if ( !variables ) res.send({error:true, message: "missing data"})
 
     try {
@@ -35,9 +36,8 @@ router.post("/",  async (req, res) => {
 })
 
 router.put("/",  async (req, res) => {
-
-    let { variables } = req.body
-    if ( !variables ) res.send({error:true, message: "missing data"})
+    
+    if ( !req.body ) res.send({error:true, message: "missing data"})
 
     try {
 
@@ -50,6 +50,12 @@ router.put("/",  async (req, res) => {
     
     }
 })
+
+
+//la siguiente accion valida un formulario
+//  |
+//  |
+//  V
 
 router.put("/form",  async (req, res) => {
 
@@ -69,6 +75,31 @@ router.put("/form",  async (req, res) => {
         res.status(400).send(e.message)
     
     }
+})
+
+//la siguiente accion elimina un formulario
+//  |
+//  |
+//  V
+
+router.delete("/", async (req, res) => {
+
+    let { period, playerId } = req.body
+    console.log("soy el req.body", req.body)
+    if ( !period || !playerId ) res.send({error:true, message: "missing data"}) 
+
+    try {
+
+        const form = await deleteForm(req.body)
+        if (form) return res.send({message: `form destroyed`})
+        else res.status(400).send({message: `cannot destroy`})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+
 })
 
 module.exports = router

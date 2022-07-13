@@ -24,19 +24,19 @@ function initial () {
 function gameControlInit () {
   gameControlCreate(
     {
-      "period": 1,
-      "qualityInvCost": 25000,
-      "productionCapacity": 1000000,
-      "costProdA": 20000,
-      "costProdB": 10000,
-      "costProdC": 5000,
-      "minProductCapacity": 50,
-      "minRateLoan": 0.20,
-      "maxLoanAmount": 150000,
-      "maxRateFinDinInvest": 0.4,
-      "maxRateFinFixedInvest": 0.3,
-      "maxTotalFinInvestAmount": 200000,
-      "actionGame": "Production" // change to "market" for indicate the step of sales 
+      period: 1,
+      qualityInvCost: 25000,
+      productionCapacity: 1000000,
+      costProdA: 20000,
+      costProdB: 10000,
+      costProdC: 5000,
+      minProductCapacity: 50,
+      minRateLoan: 0.20,
+      maxLoanAmount: 150000,
+      maxRateFinDinInvest: 0.4,
+      maxRateFinFixedInvest: 0.3,
+      maxTotalFinInvestAmount: 200000,
+      actionGame: 0 // 0 = Production phase; 1 = Market phase  
     }
   )
   console.log("gameControlInit executed")

@@ -36,11 +36,15 @@ async function getGameControl () {
 
 }
 
-async function updateGameControl ({variables}) {
+async function updateGameControl (variables) {
 
     try {
 
-        const gameControl = await GameControl.update(
+        console.log("estoy aca en variables", variables)
+
+        await GameControl.destroy({where: {}})
+
+        const gameControl = await GameControl.create(
         {
             variables: variables,
         }
@@ -75,5 +79,26 @@ async function validateActionForms ({playerId, period}) {
     }
 }
 
+async function deleteForm ({playerId, period}) {
 
-module.exports = { gameControlCreate, getGameControl, updateGameControl, validateActionForms }
+    try {
+
+    const form = await ActionData.destroy({
+        where: {
+            playerId: playerId,
+            period: period
+        }
+    })
+
+    console.log("soy el delete", form)
+
+    return form
+
+    } catch (e) {
+        throw new Error("No form found to delete")
+    }
+
+}
+
+
+module.exports = { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm }

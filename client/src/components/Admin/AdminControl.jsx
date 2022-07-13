@@ -4,6 +4,9 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllForms, getGameControl } from "../../redux/actions/actions";
 import NavBar from "../NavBar";
+import AdminActionFormTable from "./AdminActionFormTable/AdminActionFormTable";
+import AdminActionFormTableValidated from "./AdminActionFormTableValidated/AdminActionFormTableValidated";
+import GameControl from "./GameControl";
 
 export default function AdminControl () {
 
@@ -11,7 +14,6 @@ export default function AdminControl () {
     var gameControl = useSelector(state => state.gameControl)
 
     useEffect(() => {
-        dispatch(getGameControl());
         dispatch(getAllForms())
     }, [dispatch])
 
@@ -20,16 +22,19 @@ export default function AdminControl () {
         <div>
             Esto es el control del administrador
         </div>
-        <NavBar gameControl={gameControl}></NavBar>
+            <NavBar gameControl={gameControl}></NavBar>
         <h2>
             Controles de juego
         </h2>
+            <GameControl />
         <h2>
-            Formulario pendientes de aprobación.
+            Formularios presentados.
         </h2>
+            <AdminActionFormTable />
         <h2>
             Formularios evaluados
         </h2>
+            <AdminActionFormTableValidated />
         </>
     )
 

@@ -1,10 +1,11 @@
 import {
     GET_ALLPLAYERS, 
-    GET_FORMS, 
-    GET_FORM_ID, 
+    GET_ACTIONFORMS, 
+    GET_ACTIONFORM_ID, 
     GET_GAMECONTROL,
     GET_PLAYER_ID,
     SET_ERRORS,
+    GET_PENDDINGACTIONFORMS,
 } from "../actions/types";
   
 const initialState = {
@@ -12,9 +13,9 @@ const initialState = {
     dataPlayerId: {},
     gameControl: {},
     allForms: [],
+    penddingActionForm: [],
     oneForm: [],
     errors: [],
-    allForms: [],
     playerForms: [],
     errors: ""
 };
@@ -50,14 +51,21 @@ export default function rootReducer(state = initialState, action) {
             errors: "gameControl setted"
         };
 
-        case GET_FORMS:
+        case GET_ACTIONFORMS:
         return {
             ...state,
             allForms: payload,
             errors: "All forms obtained"
         };
 
-        case GET_FORM_ID:
+        case GET_PENDDINGACTIONFORMS:
+        return {
+            ...state,
+            penddingActionForm: payload,
+            errors: "All pendding forms obtained"
+        };
+
+        case GET_ACTIONFORM_ID:
         return {
             ...state,
             playerForms: payload,
