@@ -1,10 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getGameControl } from "../redux/actions/actions";
 
-export default function NavBar ({gameControl}) {
+export default function NavBar () {
 
+    const dispatch = useDispatch()
     var errors = useSelector(state => state.errors)
+
+    const gameControl = useSelector(state => state.gameControl)
+
+    useEffect(() => {
+        dispatch(getGameControl())
+    }, [dispatch])
 
     var {
         period,
@@ -29,15 +37,18 @@ export default function NavBar ({gameControl}) {
                 Ingresar
             </h4>
             <div>
-            <Link to="/player">
-            <button>Go to player</button>
-            </Link>
-            <Link to="/admin">
-            <button>Admin Control</button>
-            </Link>
-            <Link to="/market">
-            <button>Market</button>
-            </Link>
+                <Link to="/player">
+                <button>Go to player</button>
+                </Link>
+                <Link to="/admin">
+                <button>Admin Control</button>
+                </Link>
+                <Link to="/market">
+                <button>Market</button>
+                </Link>
+                <Link to="/home">
+                <button>Home</button>
+                </Link>
             </div>
             <div>
                 <span>Game Control</span>

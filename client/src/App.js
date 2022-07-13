@@ -1,9 +1,8 @@
-import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Home from './components/Home';
 import PlayerControl from './components/PlayerControl';
 import AdminControl from './components/Admin/AdminControl';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import Market from './components/Market/Market';
 
 function App() {
   return (
@@ -13,6 +12,7 @@ function App() {
           <Route path="/home" element = {<Home/>}/>
           <Route path="/player" element = {<PlayerControl/>}/>
           <Route path="/admin" element = {<AdminControl />}/>
+          <Route path="/market" element = {<Market />}/>
         </Routes>
       </div>
     </BrowserRouter>
