@@ -7,6 +7,7 @@ import {
   GET_ACTIONFORM_ID,
   GET_PLAYER_ID,
   GET_PENDDINGACTIONFORMS,
+  GET_MARKETLIVE,
 } from "./types";
 
 export const getAllPlayers = (dispatch) => {
@@ -192,3 +193,20 @@ export const deleteActionForm = (data) => {
         }
     }
 }
+
+
+export const getMarketLive = () => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.get(`http://localhost:3002/market`);
+            return dispatch({ type: GET_MARKETLIVE, payload: response.data.response });
+  
+        } catch (e) {
+  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getMarketLive; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+  }

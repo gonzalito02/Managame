@@ -6,6 +6,7 @@ import {
     GET_PLAYER_ID,
     SET_ERRORS,
     GET_PENDDINGACTIONFORMS,
+    GET_MARKETLIVE,
 } from "../actions/types";
   
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     oneForm: [],
     errors: [],
     playerForms: [],
+    marketLive: [],
     errors: ""
 };
   
@@ -70,6 +72,13 @@ export default function rootReducer(state = initialState, action) {
             ...state,
             playerForms: payload,
             errors: "Forms by ID obtained"
+        };
+
+        case GET_MARKETLIVE:
+        return {
+            ...state,
+            marketLive: payload,
+            errors: "Market live obtained"
         };
 
         default:
