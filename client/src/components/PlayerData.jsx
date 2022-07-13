@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getPlayerById, updateDataPlayer } from "../redux/actions/actions"
 
@@ -8,16 +8,11 @@ export default function PlayerData ({playerID}) {
 
     var dataPlayer = useSelector(state => state.dataPlayerId)
 
-    if (dataPlayer.length === 0) var data = ["none"]  
-    else var data = {...dataPlayer}
-
     var [submit, setSubmit] = useState(true)
 
     useEffect(() => {
         dispatch(getPlayerById(playerID))
     }, [dispatch, submit])
-
-    const dataP = useMemo(() => data, [dataPlayer])
 
     var { id, fantasyName, members, officialName, resultsAcc, group } = dataPlayer
 

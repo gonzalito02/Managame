@@ -3,7 +3,7 @@
 
 const express = require("express")
 const router = express.Router()
-const { formCreate, getForms, getForm, deleteForm} = require("./functions/formFunctions.js")
+const { formCreate, getForms, getForm, deleteForm, getPenddingForms} = require("./functions/formFunctions.js")
 
 // aca se construyen las rutas sobre router:
 
@@ -13,6 +13,20 @@ router.get("/",  async (req, res) => {
 
         const forms = await getForms()
         if (forms) return res.send({message: "forms getted", response: forms})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.get("/pendding",  async (req, res) => {
+
+    try {
+
+        const forms = await getPenddingForms()
+        if (forms) return res.send({message: "pendding forms getted", response: forms})
 
     } catch (e) {
 
@@ -57,19 +71,10 @@ router.post("/:id",  async (req, res) => {
     //validation
 
     if (!id ||
-        !period || 
-        !priceA || 
-        !qualityA ||
-        !quantityA ||
-        !priceB || 
-        !qualityB ||
-        !quantityB ||
-        !priceC || 
-        !qualityC ||
-        !quantityC
+        !period
         ) {
         
-    res.send({error:true, message: "missing data"})
+            throw new Error("missing data")
 
     }
 
@@ -84,23 +89,5 @@ router.post("/:id",  async (req, res) => {
     
     }
 })
-
-router.delete("/", async (req, res) => {
-
-    const { id } = req.body 
-
-    try {
-
-        const form = await deleteForm(id)
-        if (form) return res.send({message: `form id:${id} destroyed`, response: form})
-
-    } catch (e) {
-
-        res.status(400).send(e.message)
-    
-    }
-
-})
-
 
 module.exports = router

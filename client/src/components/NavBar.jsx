@@ -18,7 +18,8 @@ export default function NavBar ({gameControl}) {
         maxLoanAmount,
         maxRateFinDinInvest,
         maxRateFinFixedInvest,
-        maxTotalFinInvestAmount
+        maxTotalFinInvestAmount,
+        actionGame
     } = gameControl
 
     return (
@@ -157,6 +158,15 @@ export default function NavBar ({gameControl}) {
                             </td>
                             <td>
                                 {maxTotalFinInvestAmount}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                            actionGame
+                            </td>
+                            <td>
+                                {actionGame}
                             </td>
                         </tr>
 

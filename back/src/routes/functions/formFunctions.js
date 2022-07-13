@@ -64,6 +64,25 @@ async function getForms () {
 
 }
 
+async function getPenddingForms () {
+
+    try {
+
+    const forms = await ActionData.findAll({
+        where:{
+            validateByAdmin: false
+        }
+    })
+
+    if (forms[0].dataValues.id > 0) return forms
+    else return "No forms found"
+
+    } catch (e) {
+        throw new Error("No pedding for validate forms found")
+    }
+
+}
+
 async function getForm (id) {
 
     try {
@@ -81,20 +100,4 @@ async function getForm (id) {
 
 }
 
-async function deleteForm (id) {
-
-    try {
-
-    const form = await ActionData.destroy({
-        where: {id: id}
-    })
-
-    if (form) return {response: "form destroyed", deletedData: form}
-
-    } catch (e) {
-        throw new Error("No form found to delete")
-    }
-
-}
-
-module.exports = { formCreate, getForms, getForm, deleteForm }
+module.exports = { formCreate, getForms, getForm, getPenddingForms }

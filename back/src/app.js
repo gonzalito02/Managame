@@ -55,6 +55,20 @@ server.use(express.json()) // con esto le indico como interpretar un json => tra
 
 // middleware para evitar los cors: 
 
+server.use((req, res, next) => {
+
+    // Dominio que tengan acceso (ej. 'http://example.com')
+       res.setHeader('Access-Control-Allow-Origin', '*');
+    
+    // Metodos de solicitud que deseas permitir
+       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    
+    // Encabecedados que permites (ej. 'X-Requested-With,content-type')
+       res.setHeader('Access-Control-Allow-Headers', '*');
+    
+    next();
+})
+
 server.use(cors())
 
 // para configurar el routeo ( y poder trabajar con modulos ), se debe realizar lo siguiente:
