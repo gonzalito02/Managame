@@ -11,7 +11,6 @@ import GameControl from "./GameControl";
 export default function AdminControl () {
 
     const dispatch = useDispatch()
-    var gameControl = useSelector(state => state.gameControl)
 
     useEffect(() => {
         dispatch(getAllForms())
@@ -22,7 +21,7 @@ export default function AdminControl () {
         <div>
             Esto es el control del administrador
         </div>
-            <NavBar gameControl={gameControl}></NavBar>
+            <NavBar />
         <h2>
             Controles de juego
         </h2>
