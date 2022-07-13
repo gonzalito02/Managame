@@ -177,7 +177,7 @@ export default function NavBar () {
                             actionGame
                             </td>
                             <td>
-                                {actionGame}
+                                {(actionGame === 0)? "Production" : ((actionGame === 1)? "Market" : "Clearing")}
                             </td>
                         </tr>
 

@@ -5,37 +5,41 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('marketLive', {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
-    },
-    playerID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
     },
     period: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    officialName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    fantasyName: {
+      type: DataTypes.STRING,
+    },
     typeProduct: {
       type: DataTypes.ENUM,
-      values: ['A', 'B', 'C']
+      values: ["A", "B", "C"],
+      allowNull: false,
     },
     stockProduct: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     qualityProduct: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     priceProduct: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-    totalSoldProduct: {
-      type: DataTypes.INTEGER,
-    }
   }, {
     timestamps: true,
     createdAt: true,
-    updatedAt: false,
+    updatedAt: true,
   });
 };

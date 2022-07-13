@@ -12,7 +12,7 @@ router.get("/",  async (req, res) => {
     try {
 
         const forms = await getForms()
-        if (forms) return res.send({message: "forms getted", response: forms})
+        if (forms) return res.send({message: "forms obtained", response: forms})
 
     } catch (e) {
 
@@ -26,7 +26,7 @@ router.get("/pendding",  async (req, res) => {
     try {
 
         const forms = await getPenddingForms()
-        if (forms) return res.send({message: "pendding forms getted", response: forms})
+        if (forms) return res.send({message: "pendding forms obtained", response: forms})
 
     } catch (e) {
 
@@ -42,7 +42,7 @@ router.get("/:id", async (req, res) => {
     try {
 
         const form = await getForm(id)
-        if (form) return res.send({message: `forms id:${id} getted`, response: form})
+        if (form) return res.send({message: `forms id:${id} obtained`, response: form})
 
     } catch (e) {
         

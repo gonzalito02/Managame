@@ -28,6 +28,7 @@ io.on("connection", (socket) => {
 const forms = require("./routes/form.js")
 const player = require("./routes/player.js")
 const adminControl = require("./routes/adminControl.js")
+const marketLive = require("./routes/marketLive.js")
 
 // esto nos devuelve un funcion.
 // sin invoco a express, le doy inicio al servidor:
@@ -101,6 +102,7 @@ app.use(express.json()) // con esto le indico como interpretar un json => traduc
 app.use("/form", forms)
 app.use("/player", player)
 app.use("/adminControl", adminControl)
+app.use("/market", marketLive)
 
 // EL ORDEN DE LOS MIDDLEWARES SI IMPORTAN, seguir con el que está planteado aca.
 
