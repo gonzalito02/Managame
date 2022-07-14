@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createActionForm } from "../redux/actions/actions";
+import { createActionForm, insertMarketLive } from "../redux/actions/actions";
 
 export default function FormActionCreate () {
 
@@ -95,9 +95,30 @@ export default function FormActionCreate () {
             finantialFixedInvestment: form.finantialFixedInvestment,
             finantialFixedRentability: form.finantialFixedRentability
         }
-        console.log(formul)
-        dispatch(createActionForm(1002, formul))
-        console.log("form enviado")
+        const stock = []
+        if (form.quantityA > 0) stock.push({id: 1002, insert: {
+            period: period,
+            typeProduct: "A",
+            stockProduct: form.quantityA,
+            qualityProduct: form.qualityA,
+            priceProduct: form.priceA
+            }})
+        if (form.quantityB > 0) stock.push({id: 1002, insert: {
+            period: period,
+            typeProduct: "B",
+            stockProduct: form.quantityB,
+            qualityProduct: form.qualityB,
+            priceProduct: form.priceB
+            }})
+        if (form.quantityC > 0) stock.push({id: 1002, insert: {
+            period: period,
+            typeProduct: "C",
+            stockProduct: form.quantityC,
+            qualityProduct: form.qualityC,
+            priceProduct: form.priceC
+            }})
+        dispatch(createActionForm(1002, formul)) 
+        dispatch(insertMarketLive(stock))
     }
 
     var disabled = true

@@ -11,6 +11,11 @@ export default function MarketLiveTable () {
     const dispatch = useDispatch()
     const market = useSelector(state => state.marketLive)
     const gameControl = useSelector(state => state.gameControl)
+
+    var [errors, setErrors] = useState({})
+    var [marketForm, setMarketForm] = useState([])
+    var [customer, setCustomer] = useState({})
+
     const [submit, setSubmit] = useState(true)
 
     console.log(gameControl.actionGame)
@@ -26,9 +31,14 @@ export default function MarketLiveTable () {
     const columns = useMemo(() => COLUMNS, [])
 
     const handlePurchase = (e, row) => {
-        // dispatch(validateActionForm({playerId: row.original.playerId, period: row.original.period}))
-        //setSubmit(!submit)
-        console.log("purhcase")
+        console.log(e.target.name)
+        console.log(Object.keys(marketForm))
+        setMarketForm([...marketForm, {[e.target.name]: {id: row.original.playerId, purchase: {
+            period: gameControl.period,
+            typeProduct: row.original.typeProduct,
+            purchase: e.target.value
+        }}}])
+        console.log(marketForm)
     }
 
     // const handleDestroy = (e, row) => {
@@ -43,11 +53,26 @@ export default function MarketLiveTable () {
               id:"Compra",
               Header:"Compra",
               Cell: ({ row }) => ( 
-                (row.original.createdAt && gameControl.actionGame === 1) && <div>
-                  <input onChange={e => handlePurchase(e, row)}></input>
+                //(gameControl.actionGame === 1) && 
+                <div>
+                  <input name={
+                    (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
+                    (row.original.typeProduct === "B")? `${row.original.playerId}2`:
+                    `${row.original.playerId}3`} 
+                  onChange={e => handlePurchase(e, row)}></input>
                 </div>
               )
-            }
+            },
+            {
+                id:"Validación",
+                Header:"Validación",
+                Cell: ({ row }) => ( 
+                  //(gameControl.actionGame === 1) && 
+                  <div>
+                    <span>Errores</span>
+                  </div>
+                )
+              }
           ]
         )
       }
