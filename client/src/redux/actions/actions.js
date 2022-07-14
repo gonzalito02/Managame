@@ -62,6 +62,40 @@ export const createActionForm = (id, actionForm) => {
   }
 }
 
+export const insertMarketLive = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.post(`http://localhost:3002/market/bulk/insert`, data);
+            return dispatch({type: SET_ERRORS, payload: "Stock enviado al mercado"});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+  }
+
+  export const purchaseMarketLive = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.post(`http://localhost:3002/market/bulik/purchase`, data);
+            return dispatch({type: SET_ERRORS, payload: "Stock enviado al mercado"});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action purchaseMarketLive; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+  }
+
 export const getAllForms = () => {
   return async function (dispatch) {
 

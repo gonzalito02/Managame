@@ -24,11 +24,12 @@ async function marketOfferInsert (playerID, {
         }) 
 
         {
-    
+            
         try {
 
         const player = await Player.findOne({ where: { id: playerID } });
 
+        if (!player) return "No player found"
         // console.log(player.dataValues.officialName)
 
         const marketInsert = await MarketLive.create({
@@ -57,23 +58,25 @@ async function marketOfferDecrement (playerID, {
     typeProduct,
     purchase
     }) 
-
     {
+
+        // console.log("soy el marketObject", marketObject)
 
     try {
 
     const marketObject = await MarketLive.findOne({ where: { playerId: playerID, period: period, typeProduct: typeProduct } }); 
-    
-    if (marketObject.dataValues.stockProduct < purchase) return "No stock"
+
+    if (marketObject?.dataValues.stockProduct < purchase) return ("No stock")
 
             try {
 
                 const newMarketObject = await marketObject.decrement({stockProduct: purchase})
+
                 if (newMarketObject) return (newMarketObject)
 
             }   catch (e) {
 
-                throw new Error("An error has ocurred, cannot make the transaction, verify the stock")
+                return ("No product found")
             
             }
 
