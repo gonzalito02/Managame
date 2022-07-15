@@ -1,8 +1,10 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const { playerCreate } = require('./src/routes/functions/playerFunctions.js');
-const { dataPlayer } = require("./initialdata.js");
+const { dataPlayer, roles, students } = require("./initialdata.js");
 const { gameControlCreate } = require('./src/routes/functions/adminControlFunctions.js');
+const { createRole } = require('./src/routes/functions/rolFunctions.js');
+const { createStudent } = require('./src/routes/functions/studentFunction.js');
 
 // Syncing all the models at once.
 
@@ -20,6 +22,21 @@ function initial () {
   }
   console.log("initialPlayers function executed")
 }
+
+function studentCreateInit () {
+  for (data of students) {
+    createStudent(data)
+  }
+  console.log("studentCreateInit function executed")
+}
+
+function rolesCreateInit () {
+  for (data of roles) {
+    createRole(data)
+  }
+  console.log("rolesCreateInit function executed")
+}
+
 
 function gameControlInit () {
   gameControlCreate(
@@ -49,7 +66,9 @@ conn.sync({ force: true }).then(() => {
     // first functions to execute ------------
 
     initial();
-    gameControlInit()
+    rolesCreateInit();
+    gameControlInit();
+    studentCreateInit()
     // ------------
     
     console.log('%s listening at 3002'); // eslint-disable-line no-console
