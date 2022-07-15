@@ -248,9 +248,10 @@ export default function MarketLiveTable () {
             </table>
 
         </div>
-        
+        {gameControl.actionGame === 1?
         <button disabled={(errors.validate !== "" || errors.total !== "")}onClick={() => sendPurchase()}>Comprar</button>
-        </>
+        : null}
+    </>
     )
 
 }

@@ -71,4 +71,36 @@ const dataPlayer = [
     }
 ]
 
-module.exports = { dataPlayer }
+const roles = [
+    {
+        name: "admin",
+        description: "administrador"
+    },
+    {
+        name: "player",
+        description: "Player"
+    },
+    {
+        name: "student",
+        description: "Estudiante"
+    }
+]
+
+const students = [
+    {
+        id: 38506528,
+        name: "Gonzalo Rumi",
+        password: "Naranja12",
+        email: "rumigonzalo@gmail.com",
+        rol: "admin"
+    },
+    {
+        id: 12345678,
+        name: "Javier Rumi",
+        password: "Manzana12",
+        email: "gonza0211@gmail.com",
+        rol: "student"
+    }
+]
+
+module.exports = { dataPlayer, students, roles }

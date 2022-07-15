@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getGameControl } from "../redux/actions/actions";
 import Market from "./Market/Market";
+import MarketLiveTable from "./Market/MarketLiveTable/MarketLiveTable";
 import NavBar from "./NavBar";
 import PlayerTable from "./PlayersTable/PlayerTable";
 
@@ -25,8 +26,11 @@ export default function Home () {
         <div>
             <PlayerTable />
         </div>
+        <h3>
+            Mercado actual
+        </h3>
         <div>
-            <Market />
+            <MarketLiveTable />
         </div>
         </>
 
