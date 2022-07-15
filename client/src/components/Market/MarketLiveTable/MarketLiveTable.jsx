@@ -4,47 +4,93 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { getMarketLive } from "../../../redux/actions/actions";
+import { cartControlFunc, decrementMarket, getMarketLive, makeCart } from "../../../redux/actions/actions";
 
 export default function MarketLiveTable () {
 
     const dispatch = useDispatch()
     const market = useSelector(state => state.marketLive)
     const gameControl = useSelector(state => state.gameControl)
+    const cart = useSelector(state => state.cart)
+    const cartControl = useSelector(state => state.cartControl)
 
-    var [errors, setErrors] = useState({})
-    var [marketForm, setMarketForm] = useState([])
-    var [customer, setCustomer] = useState({})
+    var [errors, setErrors] = useState({validate: "", total: ""})
 
-    const [submit, setSubmit] = useState(true)
+    const cartFill = () => {
+        if (cart.length > 0) {
+            var finalCart = {}
+            for (let i = 0; i < cart.length; i++) {
+                let obj = {
+                    "id": cart[i][2].playerId,
+                    "purchase":{   
+                                "period": cart[i][2].period,
+                                "typeProduct": cart[i][2].typeProduct,
+                                "purchase": cart[i][1]
+                                }
+                            }
+                finalCart = {...finalCart, [i]:obj}
+            }
+        }
+        return finalCart
+    }
 
-    console.log(gameControl.actionGame)
+    const totalCart = () => {
+
+        var total = 0
+        if (cart.length > 0) {
+            var total = cart.reduce((a, b) => a + (parseInt(b[1]) * parseInt(b[2].priceProduct)), 0)
+        }
+
+        if (total > 1000000 && errors.total === "") {
+            setErrors({...errors, total: "Se ha superado el límite de compra"})
+        } 
+
+        if (total < 1000000 && errors.total !== "") {
+            setErrors({...errors, total: ""})
+        }
+
+        if (cartControl.length === 0 && errors.validate !== "") {
+            setErrors({...errors, validate: ""})
+        } 
+
+        return total
+    }
     
     if (market.length === 0) var marketLive = ["none"]  
     else var marketLive = market
 
     useEffect(() => {
         dispatch(getMarketLive())
-    }, [dispatch, submit])
+        cartFill()
+    }, [dispatch, cart])
 
     const data = useMemo(() => marketLive, [market])
     const columns = useMemo(() => COLUMNS, [])
-
+    
     const handlePurchase = (e, row) => {
-        console.log(e.target.name)
-        console.log(Object.keys(marketForm))
-        setMarketForm([...marketForm, {[e.target.name]: {id: row.original.playerId, purchase: {
-            period: gameControl.period,
-            typeProduct: row.original.typeProduct,
-            purchase: e.target.value
-        }}}])
-        console.log(marketForm)
+        e.preventDefault()
+        const data = row.original
+        const prod = e.target.name
+        var val = document.getElementById(e.target.name).value
+        if (row.original.stockProduct < val) {
+            setErrors({validate:"Error, no hay suficiente stock"})
+            dispatch(cartControlFunc(prod, "add"))
+        }
+        else {
+            dispatch(makeCart([prod, val, data]))
+            dispatch(cartControlFunc(prod, "rm"))
+        }
     }
 
-    // const handleDestroy = (e, row) => {
-    //     dispatch(deleteActionForm({playerId: row.original.playerId, period: row.original.period}))
-    //     setSubmit(!submit)
-    // }
+    const sendPurchase = () => {
+        const finalCart = cartFill()
+        var purchaseCart = []
+        for (let i = 0; i < cart.length; i++) {
+            purchaseCart.push(finalCart[i])
+        }
+        dispatch(decrementMarket(purchaseCart))
+        console.log("Purchase done")
+    }
 
     const tableHooks = (hooks) => {
         hooks.visibleColumns.push((columns) => [
@@ -53,26 +99,19 @@ export default function MarketLiveTable () {
               id:"Compra",
               Header:"Compra",
               Cell: ({ row }) => ( 
-                //(gameControl.actionGame === 1) && 
                 <div>
                   <input name={
                     (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
                     (row.original.typeProduct === "B")? `${row.original.playerId}2`:
                     `${row.original.playerId}3`} 
-                  onChange={e => handlePurchase(e, row)}></input>
+                  onChange={e => handlePurchase(e, row)} id={
+                    (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
+                    (row.original.typeProduct === "B")? `${row.original.playerId}2`:
+                    `${row.original.playerId}3`} 
+                  ></input>
                 </div>
               )
-            },
-            {
-                id:"Validación",
-                Header:"Validación",
-                Cell: ({ row }) => ( 
-                  //(gameControl.actionGame === 1) && 
-                  <div>
-                    <span>Errores</span>
-                  </div>
-                )
-              }
+            }
           ]
         )
       }
@@ -95,7 +134,6 @@ export default function MarketLiveTable () {
                 columns,
                 data
             } ,tableHooks, useGlobalFilter, usePagination)
-            //}, tableHooks, useGlobalFilter, usePagination)
 
     const { pageIndex, pageSize, globalFilter } = state 
 
@@ -150,6 +188,68 @@ export default function MarketLiveTable () {
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
 
+        {errors.validate? <span>{errors.validate}</span> : null}
+        {errors.total? <span>{errors.total}</span> : null}
+
+        <div>
+            <h2>Orden de Compra</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Empresa
+                        </th>
+                        <th>
+                            Producto
+                        </th>
+                        <th>
+                            Cantidad
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {(cart.length > 0)? cart.map((m) => (
+                        <tr>
+                            <td>
+                            {m[2].fantasyName ? m[2].fantasyName : m[2].officialName}
+                            </td>
+                            <td>
+                            {m[2].typeProduct}
+                            </td>
+                            <td>
+                            {m[1]}
+                            </td>
+                            <td>
+                             $ {m[1] * m[2].priceProduct}
+                            </td>
+                        </tr>
+                    )):
+                    null}
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>
+                            Total
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            $ {totalCart()}
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+        
+        <button disabled={(errors.validate !== "" || errors.total !== "")}onClick={() => sendPurchase()}>Comprar</button>
         </>
     )
 

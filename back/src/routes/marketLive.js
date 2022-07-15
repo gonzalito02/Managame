@@ -77,7 +77,7 @@ router.put("/:id",  async (req, res) => {
     }
 })
 
-router.put("/bulk/purchase",  async (req, res) => {
+router.put("/bulk/decrement",  async (req, res) => {
 
     try {
         var errors = []

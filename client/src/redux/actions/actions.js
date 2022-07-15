@@ -8,6 +8,8 @@ import {
   GET_PLAYER_ID,
   GET_PENDDINGACTIONFORMS,
   GET_MARKETLIVE,
+  MAKE_CART,
+  CART_CONTROL,
 } from "./types";
 
 export const getAllPlayers = (dispatch) => {
@@ -33,7 +35,6 @@ export const getGameControl = () => {
       try {
 
           var response = await axios.get(`http://localhost:3002/adminControl`);
-          console.log("gameGet", response)
           return dispatch({ type: GET_GAMECONTROL, payload: response.data.response[0].variables });
 
       } catch (e) {
@@ -74,23 +75,6 @@ export const insertMarketLive = (data) => {
   
             console.log(e);
             return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`});
-  
-        }
-    }
-  }
-
-  export const purchaseMarketLive = (data) => {
-    return async function (dispatch) {
-  
-        try {
-  
-            var response = await axios.post(`http://localhost:3002/market/bulik/purchase`, data);
-            return dispatch({type: SET_ERRORS, payload: "Stock enviado al mercado"});
-  
-        } catch (e) {
-  
-            console.log(e);
-            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action purchaseMarketLive; status: ${e.response.status}; code: ${e.code}`});
   
         }
     }
@@ -244,3 +228,32 @@ export const getMarketLive = () => {
         }
     }
   }
+
+export const makeCart = (data) => {
+    return function (dispatch) {
+        return dispatch ({ type: MAKE_CART, payload: data})
+    }
+}
+
+export const cartControlFunc = (data, acc) => {
+    return function (dispatch) {
+        return dispatch ({ type: CART_CONTROL, payload: data, ctrl: acc})
+    }
+}
+
+export const decrementMarket = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.put(`http://localhost:3002/market/bulk/decrement`, data);
+            return dispatch({ type: SET_ERRORS, payload: response.data.message});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action decrementMarket; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
