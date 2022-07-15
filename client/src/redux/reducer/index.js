@@ -7,6 +7,8 @@ import {
     SET_ERRORS,
     GET_PENDDINGACTIONFORMS,
     GET_MARKETLIVE,
+    MAKE_CART,
+    CART_CONTROL,
 } from "../actions/types";
   
 const initialState = {
@@ -19,11 +21,13 @@ const initialState = {
     errors: [],
     playerForms: [],
     marketLive: [],
+    cart: [],
+    cartControl: [],
     errors: ""
 };
   
 export default function rootReducer(state = initialState, action) {
-    const { type, payload } = action;
+    const { type, payload, ctrl } = action;
     switch (type) {
 
         case SET_ERRORS:
@@ -80,6 +84,43 @@ export default function rootReducer(state = initialState, action) {
             marketLive: payload,
             errors: "Market live obtained"
         };
+
+        case MAKE_CART:
+
+            var clean = [...state.cart]
+            var test = parseInt(payload[1])
+            test = test || 0
+
+            var newpayload = [payload[0], test, payload[2]]
+
+            if (test === 0) {
+                var filtEqual = clean.filter(m => m[0] !== payload[0])
+            } else {
+                var filtEqual = clean.filter(m => m[0] !== payload[0])
+                filtEqual.push(newpayload)
+            }
+            
+            return {
+                ...state,
+                cart: filtEqual,
+                errors: "Adding to cart"
+        };
+
+        case CART_CONTROL:
+
+            var valuation = [...state.cartControl]
+            
+            if (valuation.includes(payload) && ctrl === "rm") {
+                valuation = valuation.filter(m => m !== payload)
+            } else if (!valuation.includes(payload) && ctrl === "add") {
+                valuation.push(payload)
+            }
+
+            return {
+                ...state,
+                cartControl: valuation,
+                errors: "Market valuation done"
+            };
 
         default:
     return state;
