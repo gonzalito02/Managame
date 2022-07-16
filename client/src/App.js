@@ -1,8 +1,8 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Home from './components/Home';
-import PlayerControl from './components/PlayerControl';
 import AdminControl from './components/Admin/AdminControl';
 import Market from './components/Market/Market';
+import PlayerControl from "./components/Player/PlayerControl";
 
 function App() {
   return (

@@ -25,6 +25,7 @@ io.on("connection", (socket) => {
    })
 })
 
+const login = require("./routes/login.js")
 const forms = require("./routes/form.js")
 const player = require("./routes/player.js")
 const adminControl = require("./routes/adminControl.js")
@@ -99,6 +100,7 @@ app.use(express.json()) // con esto le indico como interpretar un json => traduc
 // en concreto, indicarle donde buscar las rutas en el caso de que la solicitud tenga lo indicado:
 // para ello es importante importar el archivo, realizado mas arriba:
 
+app.use("/login", login)
 app.use("/form", forms)
 app.use("/player", player)
 app.use("/adminControl", adminControl)

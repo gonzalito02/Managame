@@ -45,6 +45,9 @@ MarketLive.belongsTo(Player)
 
 Rol.hasMany(Student) 
 Student.belongsTo(Rol)
+
+Rol.hasMany(Player) 
+Player.belongsTo(Rol)
 //Student.belongsToMany(Rol, { through: "studentRol" })
 //Rol.belongsToMany(Student, { through: "studentRol" })
 

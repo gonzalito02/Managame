@@ -9,10 +9,8 @@ async function createStudent(data) {
         const genSalt = await bcrypt.genSalt(5);
        
         const hash = bcrypt.hashSync(password, genSalt);
-        //? crear usuario y asignar rol user por defecto 
+
         const role = await Rol.findOne({ where: { name: rol }});
-        //const role = await Rol.findAll()
-        
         
         const student = await Student.create({
             id: id,
@@ -21,7 +19,6 @@ async function createStudent(data) {
             password: hash    
         });  
         
-        //? asignar rol a userxrol 
         await role.addStudents(student);
 
         //await student.addRols(role);
@@ -71,7 +68,6 @@ async function createStudent(data) {
     }
 
 }
-
 
 async function getStudentId(id) {
     

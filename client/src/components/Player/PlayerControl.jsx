@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import FormActionCreate from "./FormActionCreate";
 import { useSelector, useDispatch } from "react-redux";
-import NavBar from "./NavBar";
-import { getFormById, getGameControl } from "../redux/actions/actions";
+import { getFormById, getGameControl } from "../../redux/actions/actions";
+import NavBar from "../NavBar";
 import ActionFormTable from "./ActionFormTable/ActionFormTable";
+import FormActionCreate from "./FormActionCreate";
 import PlayerData from "./PlayerData";
 
 // aca van los formularios de creación de plan de acción, form de inversiones, prestamos y demas.
@@ -11,20 +11,19 @@ import PlayerData from "./PlayerData";
 export default function PlayerControl () {
 
     const dispatch = useDispatch()
-    var gameControl = useSelector(state => state.gameControl)
+
+    var loginUser = useSelector(state => state.userLogin)
+
+    const idt = loginUser.id 
 
     useEffect(() => {
-        dispatch(getGameControl());
-        dispatch(getFormById(1002));
-    }, [dispatch])
+        dispatch(getFormById(idt));
+    }, [dispatch, loginUser])
 
 
     return (
         <>
-        <div>
-            Esto es el control de la empresa
-        </div>
-        <NavBar gameControl={gameControl}></NavBar>
+        <NavBar/>
         <h3>
             Planes de acción presentados
         </h3>
@@ -36,7 +35,7 @@ export default function PlayerControl () {
         <h2>
             Player - Modificación de datos
         </h2>
-        <PlayerData playerID={1002}/>
+        <PlayerData playerID={idt}/>
         </>
     )
 

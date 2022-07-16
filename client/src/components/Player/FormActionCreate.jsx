@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createActionForm, insertMarketLive } from "../redux/actions/actions";
+import { createActionForm } from "../../redux/actions/actions";
+
 
 export default function FormActionCreate () {
 
     const dispatch = useDispatch()
 
     var gameControl = useSelector(state => state.gameControl)
-
-    console.log(gameControl)
+    var loginData = useSelector(state => state.userLogin)
 
     var {
         period,
@@ -64,14 +64,12 @@ export default function FormActionCreate () {
                       ((form.quantityB * costProdB) / (productionCapacity / 100)) +
                       ((form.quantityC * costProdC) / (productionCapacity / 100))
 
-    if (controlProd > 100 && errors.general === "") {
-        setErrors({...errors, general: "La capacidad de la planta en general no puede superar el 100%"})
+    if (controlProd > (minProductCapacity*2) && errors.general === "") {
+        setErrors({...errors, general: `La capacidad de la planta en general no puede superar el ${minProductCapacity*2}%`})
     }
-
-    if (controlProd < 50 && errors.general === "") {
-        setErrors({...errors, general: "La capacidad de la planta no puede ser inferior al 50%"})
+    if (controlProd < minProductCapacity && errors.general === "") {
+        setErrors({...errors, general: `La capacidad de la planta no puede ser inferior al ${minProductCapacity}%`})
     }
-
     if (form.finantialFixedInvestment > maxTotalFinInvestAmount && errors.general === "") {
         setErrors({...errors, general: "Monto máximo de inversión financiera superado"})
     }
@@ -117,8 +115,7 @@ export default function FormActionCreate () {
             qualityProduct: form.qualityC,
             priceProduct: form.priceC
             }})
-        dispatch(createActionForm(1002, formul)) 
-        dispatch(insertMarketLive(stock))
+        dispatch(createActionForm(1002, formul, stock)) 
     }
 
     var disabled = true

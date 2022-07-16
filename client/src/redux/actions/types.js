@@ -15,3 +15,6 @@ export const GET_ACTIONFORM_ID = "GET_ACTIONFORM_ID";
 export const MAKE_CART = "MAKE_CART"
 export const CART_CONTROL = "CART_CONTROL"
 export const DECREMENT_MARKET = "DECREMENT_MARKET"
+export const LOGIN = "LOGIN" 
+export const LOGOUT = "LOGOUT" 
+export const SET_USER_LOGGED = "SET_USER_LOGGED"
