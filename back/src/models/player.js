@@ -34,6 +34,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       defaultValue: 1000000
     },
+    loans: {
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      allowNull: true,
+    },
     index: {
       type: DataTypes.FLOAT,
     },

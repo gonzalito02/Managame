@@ -57,12 +57,12 @@ async function updateGameControl (variables) {
 
 }
 
-async function validateActionForms ({playerId, period}) {
+async function validateActionForms ({playerId, period, type}) {
     try {
 
         const validate = await ActionData.update(
             {
-                validateByAdmin: true
+                validateByAdmin: type
             },
             {
                 where: {

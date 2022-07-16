@@ -63,6 +63,9 @@ export const COLUMNS = [
     },
     {
         Header: 'Validado por Admin',
-        accessor: row => { return row.createdAt? (row.validateByAdmin? "Approved": "Pending") : null}
-    }, 
+        accessor: row => { return row.createdAt? (row.validateByAdmin === 1 ? "Passed"
+                                                                            : row.validateByAdmin === 2 ? "Denegated" 
+                                                                            : "Pending") : null
+                        }
+    }
 ]

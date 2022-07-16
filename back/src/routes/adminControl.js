@@ -61,8 +61,8 @@ router.put("/", validationAdmin, async (req, res) => {
 router.put("/form", validationAdmin, async (req, res) => {
 
     
-    let { period, playerId } = req.body
-    if ( !period || !playerId ) res.send({error:true, message: "missing data"})
+    let { period, playerId, type } = req.body
+    if ( !period || !playerId || !type) res.send({error:true, message: "missing data"})
 
     try {
 

@@ -23,13 +23,11 @@ export default function AdminActionFormTable () {
     const columns = useMemo(() => COLUMNS, [])
 
     const handlePass = (e, row) => {
-        dispatch(validateActionForm({playerId: row.original.playerId, period: row.original.period}))
-        setSubmit(!submit)
+        dispatch(validateActionForm({playerId: row.original.playerId, period: row.original.period, type: 1}))
     }
 
-    const handleDestroy = (e, row) => {
-        dispatch(deleteActionForm({playerId: row.original.playerId, period: row.original.period}))
-        setSubmit(!submit)
+    const handleDenegate = (e, row) => {
+        dispatch(validateActionForm({playerId: row.original.playerId, period: row.original.period, type: 2}))
     }
 
     const tableHooks = (hooks) => {
@@ -41,7 +39,7 @@ export default function AdminActionFormTable () {
               Cell: ({ row }) => ( 
                 (row.original.createdAt && !row.original.validateByAdmin) && <div>
                   <button onClick={e => handlePass(e, row)}>Validate</button>
-                  <button onClick={e => handleDestroy(e, row)}>Denegate</button>
+                  <button onClick={e => handleDenegate(e, row)}>Denegate</button>
                 </div>
               )
             }

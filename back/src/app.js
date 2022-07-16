@@ -27,6 +27,7 @@ io.on("connection", (socket) => {
 
 const login = require("./routes/login.js")
 const forms = require("./routes/form.js")
+const dinamicForms = require("./routes/dinamicForm.js")
 const player = require("./routes/player.js")
 const adminControl = require("./routes/adminControl.js")
 const marketLive = require("./routes/marketLive.js")
@@ -102,9 +103,12 @@ app.use(express.json()) // con esto le indico como interpretar un json => traduc
 
 app.use("/login", login)
 app.use("/form", forms)
+app.use("/dinamicForm", dinamicForms)
 app.use("/player", player)
 app.use("/adminControl", adminControl)
 app.use("/market", marketLive)
+
+
 
 // EL ORDEN DE LOS MIDDLEWARES SI IMPORTAN, seguir con el que está planteado aca.
 

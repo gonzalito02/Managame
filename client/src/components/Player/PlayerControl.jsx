@@ -6,8 +6,6 @@ import ActionFormTable from "./ActionFormTable/ActionFormTable";
 import FormActionCreate from "./FormActionCreate";
 import PlayerData from "./PlayerData";
 
-// aca van los formularios de creación de plan de acción, form de inversiones, prestamos y demas.
-
 export default function PlayerControl () {
 
     const dispatch = useDispatch()
