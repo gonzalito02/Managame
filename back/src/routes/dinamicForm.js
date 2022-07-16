@@ -6,7 +6,7 @@ const router = express.Router()
 
 // aca se construyen las rutas sobre router:
 
-router.get("/",  async (req, res) => {
+router.get("/", async (req, res) => {
 
     try {
 
@@ -20,7 +20,7 @@ router.get("/",  async (req, res) => {
     }
 })
 
-router.get("/:id",  async (req, res) => {
+router.get("/:id", async (req, res) => {
 
     const { id } = req.params
 

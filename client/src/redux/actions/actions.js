@@ -16,8 +16,9 @@ import {
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
-var tokenSet = JSON.parse(tokenjson).token
-//var tokenSet = localStorage.getItem("token")
+if (tokenjson) {
+    var tokenSet = JSON.parse(tokenjson).token
+}//var tokenSet = localStorage.getItem("token")
 
 export const setToken = (token) => {
     return tokenSet = token
@@ -117,17 +118,17 @@ export const getAllForms = () => {
   }
 }
 
-export const getPenddingActionForms = () => {
+export const getPenddingForms = (data) => {
     return async function (dispatch) {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/form/pendding`);
+            var response = await axios.get(`http://localhost:3002/adminControl/getFormsValidate`, data);
             return dispatch({ type: GET_PENDDINGACTIONFORMS, payload: response.data.response });
   
-        } catch (e) {
+        } catch (e) {   
   
-            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getPenddingActionForms; status: ${e.response.status}; code: ${e.code}`});
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getPenddingForms; status: ${e.response.status}; code: ${e.code}`});
   
         }
     }
@@ -222,6 +223,18 @@ export const validateActionForm = (data) => {
         }
     }
 }
+
+
+export const validateDinamicForm = (data) => {
+
+
+
+
+}
+
+
+
+
 
 export const deleteActionForm = (data) => {
     return async function (dispatch) {

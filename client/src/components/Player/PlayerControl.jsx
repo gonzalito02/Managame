@@ -15,25 +15,26 @@ export default function PlayerControl () {
     const idt = loginUser.id 
 
     useEffect(() => {
-        dispatch(getFormById(idt));
-    }, [dispatch, loginUser])
+        if (loginUser.rol === "player") dispatch(getFormById(idt))
+        if (!idt && loginUser.rol === "player") dispatch(getFormById(idt));
+    }, [dispatch, loginUser, idt])
 
 
     return (
         <>
-        <NavBar/>
+            <NavBar/>
         <h3>
             Planes de acción presentados
         </h3>
-        <ActionFormTable />
+            <ActionFormTable />
         <h2>
             Formulario - Plan de acción
         </h2>
-        <FormActionCreate />
+            <FormActionCreate />
         <h2>
             Player - Modificación de datos
         </h2>
-        <PlayerData playerID={idt}/>
+            <PlayerData playerID={idt}/>
         </>
     )
 

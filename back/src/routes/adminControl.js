@@ -1,6 +1,6 @@
 const express = require("express")
 const validationAdmin = require("../controllers/validationAdmin.js")
-const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm } = require("./functions/adminControlFunctions.js")
+const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm, getAdminForms } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
 
 
@@ -36,7 +36,7 @@ router.post("/",  async (req, res) => {
     }
 })
 
-router.put("/", validationAdmin, async (req, res) => {
+router.put("/", async (req, res) => {
     
     if ( !req.body ) res.send({error:true, message: "missing data"})
 
@@ -58,15 +58,13 @@ router.put("/", validationAdmin, async (req, res) => {
 //  |
 //  V
 
-router.put("/form", validationAdmin, async (req, res) => {
+router.put("/form", async (req, res) => {
 
     
     let { period, playerId, type } = req.body
     if ( !period || !playerId || !type) res.send({error:true, message: "missing data"})
 
     try {
-
-        console.log("aca")
 
         const validate = await validateActionForms(req.body)
         if (validate) return res.send({message: "form validated succesfully"})
@@ -83,7 +81,7 @@ router.put("/form", validationAdmin, async (req, res) => {
 //  |
 //  V
 
-router.delete("/", validationAdmin, async (req, res) => {
+router.delete("/", async (req, res) => {
 
     let { period, playerId } = req.body
 
@@ -101,6 +99,20 @@ router.delete("/", validationAdmin, async (req, res) => {
     
     }
 
+})
+
+router.get("/getFormsValidate",  async (req, res) => {
+
+    try {
+
+        const forms = await getAdminForms(req.body)
+        if (forms) return res.send({message: "pendding forms obtained", response: forms})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
 })
 
 module.exports = router

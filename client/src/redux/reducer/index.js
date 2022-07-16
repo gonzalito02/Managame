@@ -20,7 +20,7 @@ const initialState = {
     dataPlayerId: {},
     gameControl: {},
     allForms: [],
-    penddingActionForm: [],
+    penddingForms: [],
     oneForm: [],
     errors: [],
     playerForms: [],
@@ -92,7 +92,7 @@ export default function rootReducer(state = initialState, action) {
         case GET_PENDDINGACTIONFORMS:
         return {
             ...state,
-            penddingActionForm: payload,
+            penddingForms: payload,
             errors: "All pendding forms obtained"
         };
 

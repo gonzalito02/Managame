@@ -1,5 +1,5 @@
-const { Player, Rol } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
-const bcrypt = require("bcrypt")
+const { Player, Rol, DinamicForm, ActionData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const bcrypt = require("bcrypt");
 
 async function playerCreate ({id, officialName, fantasyName, group, members, password}) {
 
@@ -35,7 +35,9 @@ async function getPlayers () {
 
     try {
 
-    const players = await Player.findAll({})
+    const players = await Player.findAll({
+//        include: [{model: DinamicForm}]
+    })
 
     if (players) return players
 
@@ -49,7 +51,9 @@ async function getPlayer (id) {
 
     try {
 
-    const player = await Player.findByPk(id)
+    const player = await Player.findByPk(id, {
+                include: [{model: DinamicForm}, {model: ActionData}]
+    })
 
     if (player) return player
 

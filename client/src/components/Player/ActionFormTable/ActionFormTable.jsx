@@ -4,18 +4,22 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
+import { getFormById } from "../../../redux/actions/actions";
 
 export default function ActionFormTable () {
 
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const forms = useSelector(state => state.playerForms)
+    var loginData = useSelector(state => state.userLogin)
     
     if (forms.length === 0) var formul = ["none"]  
     else var formul = forms
 
-    // useEffect(() => {
-    //     dispatch(getFormById(1002))
-    // }, [dispatch])
+    console.log("soy el player forms", forms)
+
+    useEffect(() => {
+        dispatch(getFormById(loginData.id))
+    }, [dispatch])
 
     const data = useMemo(() => formul, [forms])
     const columns = useMemo(() => COLUMNS, [])

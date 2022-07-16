@@ -1,4 +1,4 @@
-const { GameControl, ActionData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { GameControl, ActionData, DinamicForm } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 
 // costo de un punto de calidad.
 // tasa maxima de rendimiento de una inversión financiera.
@@ -100,5 +100,52 @@ async function deleteForm ({playerId, period}) {
 
 }
 
+// incluye formularios 
+async function getAdminForms ({type, period}) {
 
-module.exports = { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm }
+    try {
+
+    if (!type && !period) {
+
+        const forms = await ActionData.findAll({})
+        const dinamicforms = await DinamicForm.findAll({})
+        if (forms || dinamicforms) return forms.concat(dinamicforms)
+
+    } 
+    
+    if (type && !period) {
+
+        const forms = await ActionData.findAll({ where: {validateByAdmin: type}})
+        const dinamicforms = await DinamicForm.findAll({ where: {validateByAdmin: type}})
+        if (forms || dinamicforms) return forms.concat(dinamicforms)
+
+    }
+
+    if (!type && period) {
+
+        const forms = await ActionData.findAll({ where: {period: period}})
+        const dinamicforms = await DinamicForm.findAll({ where: {period: period}})
+        if (forms || dinamicforms) return forms.concat(dinamicforms)
+
+    }
+
+    if (type && period) {
+
+        const forms = await ActionData.findAll({ where: {period: period, validateByAdmin: type}})
+        const dinamicforms = await DinamicForm.findAll({ where: {period: period, validateByAdmin: type}})
+        if (forms || dinamicforms) return forms.concat(dinamicforms)
+
+    }
+
+    else {
+        return "nothing found"
+    }
+
+    } catch (e) {
+        throw new Error("An error has ocurred, no forms found")
+    }
+
+}
+
+
+module.exports = { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm, getAdminForms }

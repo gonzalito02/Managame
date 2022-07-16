@@ -13,7 +13,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Prices',
-        accessor: row => { return row.createdAt? 
+        accessor: row => { return row.qualityInvestment? 
             <ul>
                 <li>A: {row.priceA}</li>
                 <li>B: {row.priceB}</li>
@@ -22,7 +22,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Quantities',
-        accessor: row => { return row.createdAt? 
+        accessor: row => { return row.qualityInvestment? 
             <ul>
                 <li>A: {row.quantityA}</li>
                 <li>B: {row.quantityB}</li>
@@ -31,7 +31,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Quality',
-        accessor: row => { return row.createdAt? 
+        accessor: row => { return row.qualityInvestment? 
             <ul>
                 <li>A: {row.qualityA}</li>
                 <li>B: {row.qualityB}</li>
@@ -41,26 +41,41 @@ export const COLUMNS = [
     },
     {
         Header: 'FinantialFixedInvestment',
-        accessor: row => { return row.createdAt? 
+        accessor: row => { return row.qualityInvestment? 
             <ul>
                 <li>finFixedInvestment: {row.finantialFixedInvestment}</li>
                 <li>finFixedRentability: {row.finantialFixedRentability}</li>
             </ul> : null}
     },
     {
-        Header: 'FinantialDinInvestment',
-        accessor: row => { return row.createdAt? 
+        Header: 'Dinamic Form',
+        accessor: row => { return row.type? 
             <ul>
-                <li>Por ahora nada</li>
+                <li>Type: {row.type}</li>
+                <li>Amoung: {row.amount}</li>
+                <li>Rate: {row.rate}</li>
             </ul> : null}
     },
     {
-        Header: 'Loans',
-        accessor: row => { return row.createdAt? 
-            <ul>
-                <li>Por ahora nada</li>
-            </ul> : null}
+        Header: 'Description',
+        accessor: row => { return row.description? 
+                <span>Type: {row.description}</span>: 
+            null}
     },
+    // {
+    //     Header: 'FinantialDinInvestment',
+    //     accessor: row => { return row.createdAt? 
+    //         <ul>
+    //             <li>Por ahora nada</li>
+    //         </ul> : null}
+    // },
+    // {
+    //     Header: 'Loans',
+    //     accessor: row => { return row.createdAt? 
+    //         <ul>
+    //             <li>Por ahora nada</li>
+    //         </ul> : null}
+    // },
     {
         Header: 'Validado por Admin',
         accessor: row => { return row.createdAt? (row.validateByAdmin === 1 ? "Passed"
