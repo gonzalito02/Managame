@@ -66,8 +66,8 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     validateByAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+      type: DataTypes.INTEGER, // 0 pendiente, 1 validado, 2 rechazado
+      defaultValue: 0
     }
   }, {
     timestamps: true,
