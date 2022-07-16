@@ -10,7 +10,6 @@ import PlayerTable from "./PlayersTable/PlayerTable";
 export default function Home () {
 
     const dispatch = useDispatch()
-    var gameControl = useSelector(state => state.gameControl)
 
     useEffect(() => {
         dispatch(getGameControl());
@@ -18,20 +17,12 @@ export default function Home () {
 
     return (
         <>
-        <h1>
-            Welcome to Managame!
-        </h1>
-            <NavBar />
-
-        <div>
+            <NavBar />     
             <PlayerTable />
-        </div>
         <h3>
             Mercado actual
         </h3>
-        <div>
             <MarketLiveTable />
-        </div>
         </>
 
     )

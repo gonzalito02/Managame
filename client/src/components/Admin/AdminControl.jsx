@@ -18,9 +18,6 @@ export default function AdminControl () {
 
     return (
         <>
-        <div>
-            Esto es el control del administrador
-        </div>
             <NavBar />
         <h2>
             Controles de juego

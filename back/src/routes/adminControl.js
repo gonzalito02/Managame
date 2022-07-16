@@ -1,4 +1,5 @@
 const express = require("express")
+const validationAdmin = require("../controllers/validationAdmin.js")
 const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
 
@@ -35,7 +36,7 @@ router.post("/",  async (req, res) => {
     }
 })
 
-router.put("/",  async (req, res) => {
+router.put("/", validationAdmin, async (req, res) => {
     
     if ( !req.body ) res.send({error:true, message: "missing data"})
 
@@ -57,7 +58,7 @@ router.put("/",  async (req, res) => {
 //  |
 //  V
 
-router.put("/form",  async (req, res) => {
+router.put("/form", validationAdmin, async (req, res) => {
 
     
     let { period, playerId } = req.body
@@ -82,10 +83,10 @@ router.put("/form",  async (req, res) => {
 //  |
 //  V
 
-router.delete("/", async (req, res) => {
+router.delete("/", validationAdmin, async (req, res) => {
 
     let { period, playerId } = req.body
-    console.log("soy el req.body", req.body)
+
     if ( !period || !playerId ) res.send({error:true, message: "missing data"}) 
 
     try {

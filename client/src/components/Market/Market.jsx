@@ -20,9 +20,6 @@ export default function Market () {
     return (
 
         <div>
-            <h2>
-                Esto es el mercado
-            </h2>
             <NavBar />
             <input></input>
             <button onClick={() => sendMessage()}>Send the message</button>

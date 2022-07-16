@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getPlayerById, updateDataPlayer } from "../redux/actions/actions"
+import { getPlayerById, updateDataPlayer } from "../../redux/actions/actions"
+
 
 export default function PlayerData ({playerID}) {
 
@@ -12,7 +13,7 @@ export default function PlayerData ({playerID}) {
 
     useEffect(() => {
         dispatch(getPlayerById(playerID))
-    }, [dispatch, submit])
+    }, [dispatch, playerID, submit])
 
     var { id, fantasyName, members, officialName, resultsAcc, group } = dataPlayer
 

@@ -1,8 +1,13 @@
-const { Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { Player, Rol } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const bcrypt = require("bcrypt")
 
 async function playerCreate ({id, officialName, fantasyName, group, members, password}) {
 
     try {
+
+    const genSalt = await bcrypt.genSalt(5);
+    
+    const hash = bcrypt.hashSync(password, genSalt);
 
     const newPlayer = await Player.create({
         id: id,
@@ -10,9 +15,13 @@ async function playerCreate ({id, officialName, fantasyName, group, members, pas
         fantasyName: fantasyName,
         group: group,
         members: members,
-        password: password,
+        password: hash,
         index: 100
     })
+
+    const role = await Rol.findOne({ where: { name: "player" }});
+
+    await role.addPlayer(newPlayer);
 
     if (newPlayer) return newPlayer
 

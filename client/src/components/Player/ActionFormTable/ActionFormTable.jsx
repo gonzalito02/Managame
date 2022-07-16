@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
-import { GlobalFilter } from "../GlobalFilter";
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
+import { GlobalFilter } from "../../GlobalFilter";
 
 export default function ActionFormTable () {
 

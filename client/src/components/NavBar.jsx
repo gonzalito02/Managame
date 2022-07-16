@@ -1,18 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getGameControl } from "../redux/actions/actions";
+import { getGameControl, loginFunction, logoutFunction, setUserLogged } from "../redux/actions/actions";
 
 export default function NavBar () {
 
     const dispatch = useDispatch()
     var errors = useSelector(state => state.errors)
-
+    var loginUser = useSelector(state => state.userLogin)
     const gameControl = useSelector(state => state.gameControl)
+
+    const [login, setLogin] = useState({
+        id: "",
+        password: "",
+        type: false
+    })
+
+    const [error, setError] = useState("")
 
     useEffect(() => {
         dispatch(getGameControl())
-    }, [dispatch])
+    }, [])
+
+    useEffect(() => {
+        const loggedUser = localStorage.getItem("loggedUser")
+        if (loggedUser) {
+            let rec = JSON.parse(loggedUser);
+            dispatch(setUserLogged(rec))
+        }
+    }, [])
+
+    const handleLogin = (e) => {
+        if (e.target.name === "type") setLogin({...login, type: e.target.checked})
+        else (setLogin({...login, [e.target.name]: e.target.value}))
+    }
+
+    const submitLogin = () => {
+        dispatch(loginFunction(login))
+        setLogin({
+            id: "",
+            password: "",
+            type: false
+        })
+    }
+
+    const submitLogout = () => {
+        dispatch(logoutFunction())
+    }
 
     var {
         period,
@@ -33,33 +67,65 @@ export default function NavBar () {
     return (
     <>
         <div>
-            <h4>
-                Ingresar
-            </h4>
+            <h1>Welcome to Managame!</h1>
+
+            {loginUser.id?
+                <div>
+                    <h3>{`Login ${loginUser.name}, role ${loginUser.rol}`}</h3>
+                    <button onClick={() => {submitLogout()}}>Logout</button>
+                </div>
+            :
+                <div>
+                    <input name="id" type="number" value={login.id} onChange={(e) => handleLogin(e)}></input>
+                    <input name="password" type="password" value={login.password} onChange={(e) => handleLogin(e)}></input>
+                    <input name="type" type="checkbox" value={login.aos} onChange={(e) => handleLogin(e)}></input><span>Empresa </span>
+                    <button onClick={() => {submitLogin()}}>Login</button>
+                    {(error !== "")? <span>{error}</span> : null}
+                </div>
+            }
+            
             <div>
-                <Link to="/player">
-                <button>Go to player</button>
-                </Link>
-                <Link to="/admin">
-                <button>Admin Control</button>
-                </Link>
-                <Link to="/market">
-                <button>Market</button>
-                </Link>
                 <Link to="/home">
                 <button>Home</button>
                 </Link>
+                {(loginUser.rol === "student" || loginUser.rol === "admin")?
+                <Link to="/market">
+                <button>Market</button>
+                </Link>
+                : null}
+                {(loginUser.rol === "player" || loginUser.rol === "admin")?
+                <Link to="/player">
+                <button>Player</button>
+                </Link>
+                : null}
+                {(loginUser.rol === "admin")?
+                <Link to="/admin">
+                <button>Admin</button>
+                </Link>
+                : null}
             </div>
+
             <div>
-                <span>Game Control</span>
                 <table>
                     <thead>
                         <tr>
                             <th>
-                                Concepto
+                                Controladores del juego
                             </th>
                             <th>
-                                Valor
+                                
+                            </th>
+                            <th>
+                                
+                            </th>
+                            <th>
+                                
+                            </th>
+                            <th>
+                                
+                            </th>
+                            <th>
+                                
                             </th>
                         </tr>
                     </thead>
@@ -71,18 +137,14 @@ export default function NavBar () {
                             <td>
                                 {period}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                                 qualityInvCost
                             </td>
                             <td>
                                 {qualityInvCost}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                                 productionCapacity
                             </td>
@@ -98,18 +160,14 @@ export default function NavBar () {
                             <td>
                                 {costProdA}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             costProdB
                             </td>
                             <td>
                                 {costProdB}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             costProdC
                             </td>
@@ -125,18 +183,14 @@ export default function NavBar () {
                             <td>
                                 {minProductCapacity}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             minRateLoan
                             </td>
                             <td>
                                 {minRateLoan}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             maxLoanAmount
                             </td>
@@ -152,18 +206,14 @@ export default function NavBar () {
                             <td>
                                 {maxRateFinDinInvest}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             maxRateFinFixedInvest
                             </td>
                             <td>
                                 {maxRateFinFixedInvest}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             maxTotalFinInvestAmount
                             </td>

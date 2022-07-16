@@ -9,9 +9,13 @@ import {
     GET_MARKETLIVE,
     MAKE_CART,
     CART_CONTROL,
+    LOGIN,
+    LOGOUT,
+    SET_USER_LOGGED,
 } from "../actions/types";
   
 const initialState = {
+    userLogin: [],
     allPlayers: [],
     dataPlayerId: {},
     gameControl: {},
@@ -34,6 +38,27 @@ export default function rootReducer(state = initialState, action) {
         return {
             ...state,
             errors: payload,
+        };
+
+        case LOGIN:
+        return {
+            ...state,
+            userLogin: payload,
+            errors: "Login done"
+        };
+
+        case SET_USER_LOGGED:
+        return {
+            ...state,
+            userLogin: payload,
+            errors: "Session recovery"
+        };
+
+        case LOGOUT:
+        return {
+            ...state,
+            userLogin: [],
+            errors: "Logout done"
         };
 
         case GET_ALLPLAYERS:

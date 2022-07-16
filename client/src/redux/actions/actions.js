@@ -10,7 +10,18 @@ import {
   GET_MARKETLIVE,
   MAKE_CART,
   CART_CONTROL,
+  LOGIN,
+  LOGOUT,
+  SET_USER_LOGGED,
 } from "./types";
+
+var tokenjson = localStorage.getItem("loggedUser")
+var tokenSet = JSON.parse(tokenjson).token
+//var tokenSet = localStorage.getItem("token")
+
+export const setToken = (token) => {
+    return tokenSet = token
+}
 
 export const getAllPlayers = (dispatch) => {
     return async function (dispatch) {
@@ -35,6 +46,7 @@ export const getGameControl = () => {
       try {
 
           var response = await axios.get(`http://localhost:3002/adminControl`);
+          if (response.data.response.length === 0) var response = await axios.get(`http://localhost:3002/adminControl`)
           return dispatch({ type: GET_GAMECONTROL, payload: response.data.response[0].variables });
 
       } catch (e) {
@@ -46,18 +58,27 @@ export const getGameControl = () => {
   }
 }
 
-export const createActionForm = (id, actionForm) => {
+export const createActionForm = (id, actionForm, data) => {
   return async function (dispatch) {
 
       try {
 
-          var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm);
-          return dispatch({type: SET_ERRORS, payload: "formulario creado"});
+          var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+          }
 
-      } catch (e) {
-
+          var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm, config);
+          var responseMarket = await axios.post(`http://localhost:3002/market/bulk/insert`, data);
+          return dispatch({type: SET_ERRORS, payload: "Form and Market done"});
+          
+        } catch (e) {
+            
           console.log(e);
-          return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action createActionForm; status: ${e.response.status}; code: ${e.code}`});
+          return setTimeout(() => {
+            dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action createActionForm; status: ${e.response.status}; code: ${e.code}`})
+          }, 3000); 
 
       }
   }
@@ -74,8 +95,8 @@ export const insertMarketLive = (data) => {
         } catch (e) {
   
             console.log(e);
-            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`});
-  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`})
+            
         }
     }
   }
@@ -166,8 +187,14 @@ export const updateGameControl = (data) => {
     return async function (dispatch) {
   
         try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+              }
   
-            var response = await axios.put(`http://localhost:3002/adminControl`, data);
+            var response = await axios.put(`http://localhost:3002/adminControl`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -255,5 +282,39 @@ export const decrementMarket = (data) => {
             return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action decrementMarket; status: ${e.response.status}; code: ${e.code}`});
   
         }
+    }
+}
+
+export const loginFunction = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.post(`http://localhost:3002/login`, data);
+            const logged = response.data.response
+            localStorage.setItem("loggedUser", JSON.stringify(logged))
+            setToken(logged.token)
+            return dispatch({ type: LOGIN, payload: response.data.response});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action login; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const logoutFunction = () => {
+    return function (dispatch) {
+        localStorage.removeItem("loggedUser")
+        setToken("")
+        return dispatch ({ type: LOGOUT })
+    }
+}
+
+export const setUserLogged = (data) => {
+    return function (dispatch) {
+        return dispatch ({ type: SET_USER_LOGGED, payload: data })
     }
 }

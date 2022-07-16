@@ -23,6 +23,8 @@ async function formCreate (playerID,
 
     const player = await Player.findOne({ where: { id: playerID } });
 
+    console.log("aca estoy")
+
     const newForm = await ActionData.create({
         period: period,  
         priceA: priceA, 
