@@ -4,7 +4,7 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { getAllForms } from "../../../redux/actions/actions";
+import { getPenddingForms } from "../../../redux/actions/actions";
 
 export default function AdminActionFormTableValidated () {
 
@@ -12,10 +12,10 @@ export default function AdminActionFormTableValidated () {
     const forms = useSelector(state => state.allForms)
     
     if (forms.length === 0) var formul = ["none"]  
-    else var formul = forms.filter(m => m.validateByAdmin)
+    else var formul = forms.filter(m => m.validateByAdmin !== 0)
 
     useEffect(() => {
-        dispatch(getAllForms())
+        dispatch(getPenddingForms())
     }, [dispatch])
 
     const data = useMemo(() => formul, [forms])

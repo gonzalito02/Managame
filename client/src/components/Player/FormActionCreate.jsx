@@ -9,6 +9,9 @@ export default function FormActionCreate () {
 
     var gameControl = useSelector(state => state.gameControl)
     var loginData = useSelector(state => state.userLogin)
+    var dataPlayer = useSelector(state => state.dataPlayerId)
+
+    const { initialCapital, loans} = dataPlayer
 
     var {
         period,
@@ -128,6 +131,12 @@ export default function FormActionCreate () {
 
     return (
         <>
+        <div>
+            <h4>
+                Datos de la empresa
+            </h4>
+            <span>Capital inicial: {initialCapital}</span>
+        </div>
         <table>
             <thead>
                 <tr>

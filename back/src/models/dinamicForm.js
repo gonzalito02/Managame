@@ -26,6 +26,12 @@ module.exports = (sequelize) => {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
+    description: {
+      type: DataTypes.TEXT,
+    },
+    clearingPeriod: {
+      type: DataTypes.INTEGER,
+    },
     validateByAdmin: {
       type: DataTypes.INTEGER, // 0 pendiente, 1 validado, 2 rechazado
         defaultValue: 0

@@ -3,20 +3,20 @@ import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteActionForm, getAllForms, getPenddingActionForms, validateActionForm } from "../../../redux/actions/actions";
+import { deleteActionForm, getAllForms, getPenddingForms, validateActionForm } from "../../../redux/actions/actions";
 import { GlobalFilter } from "../../GlobalFilter";
 
 export default function AdminActionFormTable () {
 
     const dispatch = useDispatch()
-    const forms = useSelector(state => state.penddingActionForm)
+    const forms = useSelector(state => state.penddingForms)
     const [submit, setSubmit] = useState(true)
     
     if (forms.length === 0) var formul = ["none"]  
     else var formul = forms
 
     useEffect(() => {
-        dispatch(getPenddingActionForms())
+        dispatch(getPenddingForms())
     }, [dispatch, submit])
 
     const data = useMemo(() => formul, [forms])

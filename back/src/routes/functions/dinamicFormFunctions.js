@@ -41,13 +41,15 @@ async function dinamicFormCreate (playerID,
         period, 
         type,
         amount, 
-        rate
+        rate,
+        description,
+        clearingPeriod
     }
     ) {
 
     if (!period || !type || !amount || !rate) return "missing data"
 
-    console.log(period, type, amount, rate)
+    if (type === "loan" && !clearingPeriod) return "missing clearing period"
 
     try {
 
@@ -57,10 +59,10 @@ async function dinamicFormCreate (playerID,
         period: period,  
         type: type,
         amount: amount, 
-        rate: rate
+        rate: rate,
+        description: description,
+        clearingPeriod: clearingPeriod
     })
-
-    console.log(newDinamicForm)
 
         await player.addDinamicForm(newDinamicForm);
 

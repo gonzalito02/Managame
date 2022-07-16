@@ -5,7 +5,7 @@ const express = require("express")
 const validateJwt = require("../controllers/validationJWT.js")
 const validationPlayer = require("../controllers/validationPlayer.js")
 const router = express.Router()
-const { formCreate, getForms, getForm, deleteForm, getPenddingForms} = require("./functions/formFunctions.js")
+const { formCreate, getForms, getForm} = require("./functions/formFunctions.js")
 
 // aca se construyen las rutas sobre router:
 
@@ -23,27 +23,16 @@ router.get("/",  async (req, res) => {
     }
 })
 
-router.get("/pendding",  async (req, res) => {
-
-    try {
-
-        const forms = await getPenddingForms()
-        if (forms) return res.send({message: "pendding forms obtained", response: forms})
-
-    } catch (e) {
-
-        res.status(400).send(e.message)
-    
-    }
-})
-
 router.get("/:id", async (req, res) => {
 
     const { id } = req.params 
 
     try {
+        console.log("hola")
 
         const form = await getForm(id)
+
+
         if (form) return res.send({message: `forms id:${id} obtained`, response: form})
 
     } catch (e) {
@@ -54,7 +43,7 @@ router.get("/:id", async (req, res) => {
 
 })
 
-router.post("/:id", validateJwt, validationPlayer, async (req, res) => {
+router.post("/:id", async (req, res) => {
 
     // let tok = validateJwt(req.headers.authorization) 
     // if (!tok) res.send({message: "Invalid token"}) 
