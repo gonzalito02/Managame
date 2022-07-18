@@ -15,8 +15,6 @@ export default function ActionFormTable () {
     if (forms.length === 0) var formul = ["none"]  
     else var formul = forms
 
-    console.log("soy el player forms", forms)
-
     useEffect(() => {
         dispatch(getFormById(loginData.id))
     }, [dispatch])
