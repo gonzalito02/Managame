@@ -11,7 +11,13 @@ export default function FormActionCreate () {
     var loginData = useSelector(state => state.userLogin)
     var dataPlayer = useSelector(state => state.dataPlayerId)
 
-    const { initialCapital, loans} = dataPlayer
+    if (dataPlayer.dinamicForms) {var loans = dataPlayer.dinamicForms.filter(m => m.type === "loan" &&
+    m.clearingPeriod === gameControl.period)}
+    else var loans = null
+
+    const { initialCapital } = dataPlayer
+
+    const capitalGame = initialCapital //- (loans? loans[0].amount : 0)
 
     var {
         period,
@@ -136,6 +142,8 @@ export default function FormActionCreate () {
                 Datos de la empresa
             </h4>
             <span>Capital inicial: {initialCapital}</span>
+            {/* <span>Préstamos: {loans? loans[0].amount : 0}</span> */}
+            <span>Capital neto: {capitalGame}</span>
         </div>
         <table>
             <thead>

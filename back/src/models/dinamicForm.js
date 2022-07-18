@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
     clearingPeriod: {
       type: DataTypes.INTEGER,
     },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     validateByAdmin: {
       type: DataTypes.INTEGER, // 0 pendiente, 1 validado, 2 rechazado
         defaultValue: 0

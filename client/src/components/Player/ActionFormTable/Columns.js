@@ -1,3 +1,5 @@
+import InvestmentCloser from "./InvestmentCloser"
+
 export const COLUMNS = [
     {
         Header: 'PlayerID',
@@ -20,8 +22,12 @@ export const COLUMNS = [
         accessor: row => { return row.clearingPeriod? row.clearingPeriod : null}
     },
     {
+        Header: 'Status',
+        accessor: row => { return row.type === "investment" ? (row.type === true ? "Cerrada" : "Abierta") : "Cerrada"}
+    },
+    {
         Header: 'Acciones',
-        accessor: row => { return row.type === "investment"? "aca va un input" : null}
+        accessor: row => { return row.type === "investment"? <InvestmentCloser data={row}/> : null}
     },
     {
         Header: 'Validado por Admin',
