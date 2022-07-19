@@ -59,10 +59,12 @@ export const getGameControl = () => {
   }
 }
 
-export const createActionForm = (id, actionForm, data) => {
+export const createActionForm = (id, actionForm, loan, investment) => {
   return async function (dispatch) {
 
       try {
+
+        console.log(loan, investment)
 
           var config = {
             headers: {
@@ -71,8 +73,10 @@ export const createActionForm = (id, actionForm, data) => {
           }
 
           var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm, config);
-          var responseMarket = await axios.post(`http://localhost:3002/market/bulk/insert`, data);
-          return dispatch({type: SET_ERRORS, payload: "Form and Market done"});
+          if (loan) if (loan.amount > 0) var responseLoan = await axios.post(`http://localhost:3002/dinamicForm/${id}`, loan, config);
+          if (investment) if (investment.amount > 0) var responseInvestment = await axios.post(`http://localhost:3002/dinamicForm/${id}`, investment, config);  
+          console.log("aca", response, responseInvestment, responseLoan)
+          return dispatch({type: SET_ERRORS, payload: "Form sent"});
           
         } catch (e) {
             
