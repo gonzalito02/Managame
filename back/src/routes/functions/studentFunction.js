@@ -74,13 +74,9 @@ async function getStudentId(id) {
     try {
         const student = await Student.findByPk(id,{
             attributes: { exclude: ['password'] },
-            include: {
-                model: Rol,
-                attributes: ['name']
-            }
         });
         
-        if (student) res.json(student);
+        if (student) return (student);
         
     } catch (e) {
         throw new Error("Cannot find the student whit that id.")
@@ -91,54 +87,44 @@ async function getStudents() {
 
     try {
 
-        const count = await Student.count();
-
         const students = await Student.findAll({
-            attributes: { exclude: ['password'] },
-            include: {
-                model: Rol,
-                attributes: ['name']
-            },
+            attributes: { exclude: ['password'] }
         })
-        
-        if (students) res.send({message:"Students obtained", total: count})
-    
+
+        if (students) return (students)
+  
     } catch (e) {
 
-        throw new Error("Cannot find the students")
+        throw new Error("An error has ocurred, cannot find the students")
     
     }
 }
 
-async function updateStudent(id, {name, password, email}) {
+async function updateStudent(id, {name, password, email, wallet}) {
     
     try {
         const student = await Student.findOne({ where: { id: id } });
         
-        if (!student) res.send("El usuario no existe")
-
-        if (req.body.email) {
-            delete req.body.email;
-        }
+        if (!student) return("No student found")
 
         if (password) {
             const genSalt = await bcrypt.genSalt(5);
-            const hash = bcrypt.hashSync(password, genSalt);
+            var hash = bcrypt.hashSync(password, genSalt);
         }
 
-
-        const change = await Student.update({
-                                where: { id: id }
-                            },
+        const change = await Student.update(
                             {
                                 name: name,
+                                email: email,
+                                password: hash,
+                                wallet: wallet
                             },
                             {
-                                email: email,
-                            },
+                                where: { id: id }
+                            }
         );
         
-        if (change) res.send(change)
+        if (change) return ("Update done")
    
     } catch (e) {
 
@@ -153,11 +139,11 @@ async function deleteStudent(id) {
         
         const student = await Student.findOne({ where: { id: id } });
 
-        if (!student) res.send("No student found")
+        if (!student) return("No student found")
 
         const destroy = await Student.destroy({ where: { id: id } });
         
-        if (destroy) res.send(destroy)
+        if (destroy) return(destroy)
     } 
     catch (e) {
 
@@ -166,5 +152,30 @@ async function deleteStudent(id) {
     }
 }
 
-module.exports = { createStudent, getStudents, getStudentId, updateStudent, deleteStudent };
+async function walletDecrement({
+    id,
+    wallet
+    }) 
+    {
+
+    try {
+
+        var student = await Student.findByPk(id); 
+
+        if(!student) return "No student found"
+        if(student.wallet < wallet) {student.update({wallet: 0}); return "Wallet in 0"}
+
+        var newWallet = await student.decrement({wallet: wallet})
+
+        if (newWallet) return (newWallet)
+
+    } catch (e) {
+
+        console.log(e)
+        throw new Error("An error has ocurred, cannot decrement the wallet")
+    }
+
+}
+
+module.exports = { createStudent, getStudents, getStudentId, updateStudent, deleteStudent, walletDecrement };
 

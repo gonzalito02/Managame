@@ -7,8 +7,8 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('resultsData', {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     period: {
@@ -17,17 +17,17 @@ module.exports = (sequelize) => {
     },
     totalSales: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: 0
     },
     finantialInvestmentResults: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    qualityInvestmentResults: {
+    qualityInvestment: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    loanResults: {
+    loanInterest: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
@@ -37,6 +37,15 @@ module.exports = (sequelize) => {
     },
     observations: {
       type: DataTypes.STRING,
+    },
+    totalPeriod: {
+      type: DataTypes.INTEGER,
+      get() {
+        return this.totalSales + this.finantialInvestmentResults - this.loanInterest + this.extraResults  
+      },
+      set () {
+        throw new Error('Do not try to set the totalPeriod value!');
+      }
     }
   }, {
     timestamps: true,

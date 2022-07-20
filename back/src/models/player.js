@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
     },
     index: {
       type: DataTypes.INTEGER,
-      defaultValue: 100
+      defaultValue: 1000
     },
     password:{
       type: DataTypes.STRING,

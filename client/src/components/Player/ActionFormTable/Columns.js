@@ -23,11 +23,11 @@ export const COLUMNS = [
     },
     {
         Header: 'Status',
-        accessor: row => { return row.type === "investment" ? (row.type === true ? "Cerrada" : "Abierta") : "Cerrada"}
+        accessor: row => { return (row.status === false)? "Abierta" : "Cerrada"}
     },
     {
         Header: 'Acciones',
-        accessor: row => { return row.type === "investment"? <InvestmentCloser data={row}/> : null}
+        accessor: row => { return row.type === "investment" && !row.status? <InvestmentCloser data={row}/> : null}
     },
     {
         Header: 'Validado por Admin',

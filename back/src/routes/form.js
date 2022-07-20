@@ -28,7 +28,7 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params 
 
     try {
-        console.log("hola")
+        
 
         const form = await getForm(id)
 

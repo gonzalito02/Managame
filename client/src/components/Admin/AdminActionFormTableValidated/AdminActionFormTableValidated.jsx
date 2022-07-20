@@ -9,7 +9,7 @@ import { getPenddingForms } from "../../../redux/actions/actions";
 export default function AdminActionFormTableValidated () {
 
     const dispatch = useDispatch()
-    const forms = useSelector(state => state.allForms)
+    const forms = useSelector(state => state.penddingForms)
     
     if (forms.length === 0) var formul = ["none"]  
     else var formul = forms.filter(m => m.validateByAdmin !== 0)

@@ -1,3 +1,5 @@
+import ValidateButtons from "./ValidateButtons"
+
 export const COLUMNS = [
     {
         Header: 'PlayerID',
@@ -49,38 +51,35 @@ export const COLUMNS = [
     },
     {
         Header: 'Dinamic Form',
-        accessor: row => { return row.type? 
+        accessor: row => { return (row.type === "investment" || row.type === "loan")? 
             <ul>
                 <li>Type: {row.type}</li>
-                <li>Amoung: {row.amount}</li>
+                <li>Amount: {row.amount}</li>
                 <li>Rate: {row.rate}</li>
+                <li>{(row.type === "loan")? `Clearing ${row.clearingPeriod}`: ""}</li>
             </ul> : null}
     },
     {
         Header: 'Description',
         accessor: row => { return row.description? 
-                <span>Type: {row.description}</span>: 
+                <span>Description: {row.description}</span>: 
             null}
     },
-    // {
-    //     Header: 'FinantialDinInvestment',
-    //     accessor: row => { return row.createdAt? 
-    //         <ul>
-    //             <li>Por ahora nada</li>
-    //         </ul> : null}
-    // },
-    // {
-    //     Header: 'Loans',
-    //     accessor: row => { return row.createdAt? 
-    //         <ul>
-    //             <li>Por ahora nada</li>
-    //         </ul> : null}
-    // },
+    {
+        Header: 'Status',
+        accessor: row => { return (row.status === false)? 
+                <span>Abierta</span>
+             : <span>Cerrada</span>}
+    },
     {
         Header: 'Validado por Admin',
         accessor: row => { return row.createdAt? (row.validateByAdmin === 1 ? "Passed"
                                                                             : row.validateByAdmin === 2 ? "Denegated" 
                                                                             : "Pending") : null
                         }
-    }
+    },
+    {
+        Header: 'Actions',
+        accessor: row => { return (row.validateByAdmin === 0)? <ValidateButtons data={row}/> : null}
+    },
 ]

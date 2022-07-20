@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getGameControl, loginFunction, logoutFunction, setUserLogged } from "../redux/actions/actions";
+import { getGameControl, getStudentById, loginFunction, logoutFunction, setUserLogged } from "../redux/actions/actions";
 
 export default function NavBar () {
 
     const dispatch = useDispatch()
     var errors = useSelector(state => state.errors)
     var loginUser = useSelector(state => state.userLogin)
+    var studentData = useSelector(state => state.dataStudentId)
     const gameControl = useSelector(state => state.gameControl)
 
     const [login, setLogin] = useState({
@@ -20,7 +21,8 @@ export default function NavBar () {
 
     useEffect(() => {
         dispatch(getGameControl())
-    }, [])
+        if(loginUser.rol === "student") dispatch(getStudentById(loginUser.id))
+    }, [loginUser])
 
     useEffect(() => {
         const loggedUser = localStorage.getItem("loggedUser")
@@ -234,6 +236,13 @@ export default function NavBar () {
                     </tbody>
                 </table>
             </div>
+
+            {(loginUser.rol === "student")? 
+            <div>
+                <h3>Wallet</h3>
+                <h3>$ {studentData.wallet}</h3>
+            </div> :
+            null }
 
             <div>
                 Acciones: <span>{errors}</span>

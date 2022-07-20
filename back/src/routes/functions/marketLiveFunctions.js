@@ -60,8 +60,6 @@ async function marketOfferDecrement (playerID, {
     }) 
     {
 
-        // console.log("soy el marketObject", marketObject)
-
     try {
 
     const marketObject = await MarketLive.findOne({ where: { playerId: playerID, period: period, typeProduct: typeProduct } }); 

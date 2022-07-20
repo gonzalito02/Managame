@@ -29,8 +29,10 @@ const login = require("./routes/login.js")
 const forms = require("./routes/form.js")
 const dinamicForms = require("./routes/dinamicForm.js")
 const player = require("./routes/player.js")
+const student = require("./routes/student.js")
 const adminControl = require("./routes/adminControl.js")
 const marketLive = require("./routes/marketLive.js")
+const resultsData = require("./routes/resultsData.js")
 
 // esto nos devuelve un funcion.
 // sin invoco a express, le doy inicio al servidor:
@@ -105,9 +107,10 @@ app.use("/login", login)
 app.use("/form", forms)
 app.use("/dinamicForm", dinamicForms)
 app.use("/player", player)
+app.use("/student", student)
 app.use("/adminControl", adminControl)
 app.use("/market", marketLive)
-
+app.use("/resultsData", resultsData)
 
 
 // EL ORDEN DE LOS MIDDLEWARES SI IMPORTAN, seguir con el que está planteado aca.

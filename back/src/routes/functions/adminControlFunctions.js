@@ -1,4 +1,4 @@
-const { GameControl, ActionData, DinamicForm } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { GameControl, ActionData, DinamicForm, Student } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 
 // costo de un punto de calidad.
 // tasa maxima de rendimiento de una inversión financiera.
@@ -57,12 +57,12 @@ async function updateGameControl (variables) {
 
 }
 
-async function validateActionForms ({playerId, period, type}) {
+async function validateActionForms ({playerId, period, validate, type}) {
     try {
 
-        const validate = await ActionData.update(
+        const form = await ActionData.update(
             {
-                validateByAdmin: type
+                validateByAdmin: validate
             },
             {
                 where: {
@@ -72,7 +72,31 @@ async function validateActionForms ({playerId, period, type}) {
             }
             );
         
-        return validate
+        return form
+
+    } catch (e) {
+        throw new Error("Cannot validate the indicated form")
+    }
+}
+
+async function validateDinamicForms ({playerId, period, validate, type}) {
+    try {
+
+        const form = await DinamicForm.update(
+            {
+                validateByAdmin: validate,
+                status: true
+            },
+            {
+                where: {
+                    playerId: playerId,
+                    period: period,
+                    type: type,
+                }
+            }
+            );
+
+        return form
 
     } catch (e) {
         throw new Error("Cannot validate the indicated form")
@@ -146,6 +170,47 @@ async function getAdminForms ({type, period}) {
     }
 
 }
+//esta funcion se usa abajo, en walletSet
+async function updateWallet(id, value) {
+
+    console.log("aca toy", id, value)
+    try {
+        await Student.update(
+            {
+                wallet: value
+            },
+            {
+                where: {
+                    id: id
+                }
+            }
+         )
+     } 
+     catch (e) {
+         console.log(e)
+     }
+
+}
 
 
-module.exports = { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm, getAdminForms }
+async function walletSet({value}) {
+
+    try {
+
+        const wallets = await Student.findAll()
+
+        wallets.forEach(w => {
+            updateWallet(w.id, value)
+        })
+
+        return `Set wallets whit $ ${value}`
+        
+
+    } catch (e) {
+        throw new Error("Cannot set the wallets")
+    }
+}
+
+module.exports = { gameControlCreate, getGameControl, updateGameControl, 
+    validateActionForms, deleteForm, getAdminForms, validateDinamicForms,
+    walletSet }

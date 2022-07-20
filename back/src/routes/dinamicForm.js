@@ -1,7 +1,7 @@
 const express = require("express")
 const validateJwt = require("../controllers/validationJWT.js")
 const validationPlayer = require("../controllers/validationPlayer.js")
-const { getDinamicForms, dinamicFormCreate, getDinamicFormId } = require("./functions/dinamicFormFunctions.js")
+const { getDinamicForms, dinamicFormCreate, getDinamicFormId, closeDinamicForm } = require("./functions/dinamicFormFunctions.js")
 const router = express.Router()
 
 // aca se construyen las rutas sobre router:
@@ -56,5 +56,24 @@ router.post("/:id", async (req, res) => {
 
     // }
 })
+
+router.put("/closeDinamicForm", async (req, res) => {
+
+    let { period, playerId, amount, rate } = req.body
+    if ( !period || !playerId || !amount || !rate ) res.send({error:true, message: "missing data"})
+
+    try {
+
+        const closer = await closeDinamicForm(req.body)
+
+        if (closer) return res.send({message: "position closed"})
+
+    } catch (e) {
+        
+        res.status(400).send(e.message)
+    
+    }
+})
+
 
 module.exports = router
