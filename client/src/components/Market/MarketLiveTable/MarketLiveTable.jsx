@@ -11,10 +11,12 @@ export default function MarketLiveTable () {
     const dispatch = useDispatch()
     const market = useSelector(state => state.marketLive)
     const gameControl = useSelector(state => state.gameControl)
+    const studentData = useSelector(state => state.dataStudentId)
+    const userLogin = useSelector(state => state.userLogin)
     const cart = useSelector(state => state.cart)
     const cartControl = useSelector(state => state.cartControl)
 
-    var [errors, setErrors] = useState({validate: "", total: ""})
+    var [errors, setErrors] = useState({validate: "existo", total: ""})
 
     const cartFill = () => {
         if (cart.length > 0) {
@@ -40,19 +42,15 @@ export default function MarketLiveTable () {
         if (cart.length > 0) {
             var total = cart.reduce((a, b) => a + (parseInt(b[1]) * parseInt(b[2].priceProduct)), 0)
         }
-
-        if (total > 1000000 && errors.total === "") {
-            setErrors({...errors, total: "Se ha superado el límite de compra"})
+        if (total > studentData.wallet && errors.total === "") {
+            setErrors({...errors, total: "Disponibilidades insuficientes"}) 
         } 
-
-        if (total < 1000000 && errors.total !== "") {
-            setErrors({...errors, total: ""})
+        else if (total < 0 && errors.total === "") {
+            setErrors({...errors, total: "No puede existir compra negativa"})
         }
-
-        if (cartControl.length === 0 && errors.validate !== "") {
-            setErrors({...errors, validate: ""})
+        else if (cartControl.length === 0 && errors.validate !== "" && total <= studentData.wallet) {
+            setErrors({...errors, validate: "", total: ""})
         } 
-
         return total
     }
     
@@ -62,7 +60,7 @@ export default function MarketLiveTable () {
     useEffect(() => {
         dispatch(getMarketLive())
         cartFill()
-    }, [dispatch, cart])
+    }, [])
 
     const data = useMemo(() => marketLive, [market])
     const columns = useMemo(() => COLUMNS, [])
@@ -91,26 +89,29 @@ export default function MarketLiveTable () {
         dispatch(decrementMarket(purchaseCart))
         console.log("Purchase done")
     }
-
+ 
     const tableHooks = (hooks) => {
+
         hooks.visibleColumns.push((columns) => [
           ...columns,
             {
               id:"Compra",
               Header:"Compra",
-              Cell: ({ row }) => ( 
-                <div>
-                  <input name={
-                    (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
-                    (row.original.typeProduct === "B")? `${row.original.playerId}2`:
-                    `${row.original.playerId}3`} 
-                  onChange={e => handlePurchase(e, row)} id={
-                    (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
-                    (row.original.typeProduct === "B")? `${row.original.playerId}2`:
-                    `${row.original.playerId}3`} 
-                  ></input>
-                </div>
-              )
+              Cell: ({ row }) => {return (
+
+                    <div>
+                        <input name={
+                            (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
+                            (row.original.typeProduct === "B")? `${row.original.playerId}2`:
+                            `${row.original.playerId}3`} 
+                        onChange={e => handlePurchase(e, row)} id={
+                            (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
+                            (row.original.typeProduct === "B")? `${row.original.playerId}2`:
+                            `${row.original.playerId}3`} 
+                        ></input>
+                    </div>
+
+                )}
             }
           ]
         )
@@ -188,8 +189,8 @@ export default function MarketLiveTable () {
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
 
-        {errors.validate? <span>{errors.validate}</span> : null}
-        {errors.total? <span>{errors.total}</span> : null}
+        {errors.validate !== ""? <span>{errors.validate}</span> : null}
+        {errors.total !== ""? <span>{errors.total}</span> : null}
 
         <div>
             <h2>Orden de Compra</h2>
@@ -249,7 +250,7 @@ export default function MarketLiveTable () {
 
         </div>
         {gameControl.actionGame === 1?
-        <button disabled={(errors.validate !== "" || errors.total !== "")}onClick={() => sendPurchase()}>Comprar</button>
+        <button disabled={(errors.validate !== "" || errors.total !== "")} onClick={() => sendPurchase()}>Comprar</button>
         : null}
     </>
     )

@@ -13,6 +13,7 @@ import {
   LOGIN,
   LOGOUT,
   SET_USER_LOGGED,
+  GET_STUDENT_ID,
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
@@ -75,7 +76,7 @@ export const createActionForm = (id, actionForm, loan, investment) => {
           var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm, config);
           if (loan) if (loan.amount > 0) var responseLoan = await axios.post(`http://localhost:3002/dinamicForm/${id}`, loan, config);
           if (investment) if (investment.amount > 0) var responseInvestment = await axios.post(`http://localhost:3002/dinamicForm/${id}`, investment, config);  
-          console.log("aca", response, responseInvestment, responseLoan)
+          console.log(response, responseLoan, responseInvestment)
           return dispatch({type: SET_ERRORS, payload: "Form sent"});
           
         } catch (e) {
@@ -106,6 +107,23 @@ export const insertMarketLive = (data) => {
     }
   }
 
+export const createResultsData = (id, data) => {
+    return async function (dispatch) {
+
+        try {
+
+            var response = await axios.post(`http://localhost:3002/resultsData/${id}`, data);
+            return dispatch({type: SET_ERRORS, payload: "Formulario de resultados creado"});
+
+        } catch (e) {
+
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action createResultsData; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
 export const getAllForms = () => {
   return async function (dispatch) {
 
@@ -122,12 +140,12 @@ export const getAllForms = () => {
   }
 }
 
-export const getPenddingForms = (data) => {
+export const getPenddingForms = () => {
     return async function (dispatch) {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/adminControl/getFormsValidate`, data);
+            var response = await axios.get(`http://localhost:3002/adminControl/getFormsValidate`);
             return dispatch({ type: GET_PENDDINGACTIONFORMS, payload: response.data.response });
   
         } catch (e) {   
@@ -161,6 +179,23 @@ export const getPlayerById = (id) => {
   
             var response = await axios.get(`http://localhost:3002/player/${id}`);
             return dispatch({ type: GET_PLAYER_ID, payload: response.data.response});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getPlayerById; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const getStudentById = (id) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.get(`http://localhost:3002/student/${id}`);
+            return dispatch({ type: GET_STUDENT_ID, payload: response.data.response});
   
         } catch (e) {
   
@@ -211,12 +246,12 @@ export const updateGameControl = (data) => {
     }
 }
 
-export const validateActionForm = (data) => {
+export const validateForm = (data) => {
     return async function (dispatch) {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/adminControl/form`, data);
+            var response = await axios.put(`http://localhost:3002/adminControl/validate`, data);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -229,10 +264,23 @@ export const validateActionForm = (data) => {
 }
 
 
-export const validateDinamicForm = (data) => {
+export const closeDinamicForm = (data) => {
 
-
-
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.put(`http://localhost:3002/dinamicForm/closeDinamicForm`, data);
+            return dispatch({ type: SET_ERRORS, payload: response.data.message});
+            console.log(response)
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action validateActionForm; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
 
 }
 

@@ -147,4 +147,8 @@ async function updatePlayer (id, {officialName, fantasyName, group, members, pas
     }
 
 }
+
+
+
+
 module.exports = { playerCreate, getPlayers, getPlayer, updatePlayer }

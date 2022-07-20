@@ -9,10 +9,10 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
-/*     playerID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    }, */
+    type: {
+      type: DataTypes.TEXT,
+      defaultValue: "actionForm"
+    },
     period: {
       type: DataTypes.INTEGER,
       allowNull: false,

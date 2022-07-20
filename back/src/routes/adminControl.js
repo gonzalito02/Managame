@@ -1,6 +1,7 @@
 const express = require("express")
 const validationAdmin = require("../controllers/validationAdmin.js")
-const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, deleteForm, getAdminForms } = require("./functions/adminControlFunctions.js")
+const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, validateDinamicForms,
+     deleteForm, getAdminForms, walletSet } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
 
 
@@ -58,15 +59,20 @@ router.put("/", async (req, res) => {
 //  |
 //  V
 
-router.put("/form", async (req, res) => {
+router.put("/validate", async (req, res) => {
 
     
-    let { period, playerId, type } = req.body
-    if ( !period || !playerId || !type) res.send({error:true, message: "missing data"})
+    let { period, playerId, validate, type } = req.body
+    if ( !period || !playerId || !validate) res.send({error:true, message: "missing data"})
 
     try {
 
-        const validate = await validateActionForms(req.body)
+        if (type === "loan" || type === "investment") {
+            const validate = await validateDinamicForms(req.body)
+        } else {
+            const validate = await validateActionForms(req.body)
+        }
+
         if (validate) return res.send({message: "form validated succesfully"})
 
     } catch (e) {
@@ -107,6 +113,21 @@ router.get("/getFormsValidate",  async (req, res) => {
 
         const forms = await getAdminForms(req.body)
         if (forms) return res.send({message: "pendding forms obtained", response: forms})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.put("/wallet/set",  async (req, res) => {
+
+    try {
+
+        const wallets = await walletSet(req.body)
+
+        if ( wallets ) return res.send(wallets)
 
     } catch (e) {
 

@@ -12,12 +12,14 @@ import {
     LOGIN,
     LOGOUT,
     SET_USER_LOGGED,
+    GET_STUDENT_ID,
 } from "../actions/types";
   
 const initialState = {
     userLogin: [],
     allPlayers: [],
     dataPlayerId: {},
+    dataStudentId: {},
     gameControl: {},
     allForms: [],
     penddingForms: [],
@@ -73,6 +75,13 @@ export default function rootReducer(state = initialState, action) {
             ...state,
             dataPlayerId: payload,
             errors: "Player obtained"
+        };
+
+        case GET_STUDENT_ID:
+        return {
+            ...state,
+            dataStudentId: payload,
+            errors: "Student obtained"
         };
 
         case GET_GAMECONTROL:

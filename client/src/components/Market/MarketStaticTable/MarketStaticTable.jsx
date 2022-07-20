@@ -3,23 +3,23 @@ import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
-import { getPenddingForms, validateForm } from "../../../redux/actions/actions";
 import { GlobalFilter } from "../../GlobalFilter";
+import { cartControlFunc, decrementMarket, getMarketLive, makeCart } from "../../../redux/actions/actions";
 
-export default function AdminActionFormTable () {
+export default function MarketStaticTable () {
 
     const dispatch = useDispatch()
-    const forms = useSelector(state => state.penddingForms)
-    const [submit, setSubmit] = useState(true)
+    const market = useSelector(state => state.marketLive)
+    const gameControl = useSelector(state => state.gameControl)
     
-    if (forms.length === 0) var formul = ["none"]  
-    else var formul = forms.filter(m => m.validateByAdmin === 0)
+    if (market.length === 0) var marketLive = ["none"]  
+    else var marketLive = market
 
     useEffect(() => {
-        dispatch(getPenddingForms())
-    }, [dispatch, submit])
+        dispatch(getMarketLive())
+    }, [dispatch])
 
-    const data = useMemo(() => formul, [forms])
+    const data = useMemo(() => marketLive, [market])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,
@@ -39,8 +39,7 @@ export default function AdminActionFormTable () {
             prepareRow } = useTable({
                 columns,
                 data
-            }, useGlobalFilter, usePagination)
-
+            } , useGlobalFilter, usePagination)
 
     const { pageIndex, pageSize, globalFilter } = state 
 
@@ -94,8 +93,7 @@ export default function AdminActionFormTable () {
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
-
-        </>
+     </>
     )
 
 }

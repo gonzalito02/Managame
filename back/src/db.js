@@ -40,6 +40,10 @@ const { Player, GameControl, ActionData, ResultsData, MarketLive, Student, Rol, 
 
 Player.hasMany(ActionData) 
 ActionData.belongsTo(Player)
+
+Player.hasMany(ResultsData) 
+ResultsData.belongsTo(Player)
+
 Player.hasMany(MarketLive) 
 MarketLive.belongsTo(Player)
 

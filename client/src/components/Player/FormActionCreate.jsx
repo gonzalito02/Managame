@@ -11,9 +11,6 @@ export default function FormActionCreate () {
     var loginData = useSelector(state => state.userLogin)
     var dataPlayer = useSelector(state => state.dataPlayerId)
 
-
-    var { initialCapital } = dataPlayer
-
     if (dataPlayer.dinamicForms) {
         if (dataPlayer.dinamicForms.length > 1) {
             var loans = dataPlayer.dinamicForms.filter(m => m.type === "loan" &&
@@ -24,6 +21,8 @@ export default function FormActionCreate () {
         else var loans = null
     } 
     else var loans = null
+
+    var { initialCapital } = dataPlayer
 
     const {
         period,
@@ -83,7 +82,7 @@ export default function FormActionCreate () {
         if (gameControl) if (gameControl.period) {setInvestmentForm({...investmentForm, period: gameControl.period}); 
         setLoanForm({...loanForm, period: gameControl.period, clearingPeriod: gameControl.period + 1})
         }
-    }, [gameControl])
+    }, [gameControl, dataPlayer])
 
     const changeValue = (e) => {
         var value = parseInt(e.target.value)
@@ -197,7 +196,6 @@ export default function FormActionCreate () {
         form.finantialFixedInvestment + investmentForm.amount - loanForm.amount)
     
     const capitalGame = (parseInt(initialCapital) - (loans? netLoan : 0) + loanForm.amount) || 0
-    console.log(netLoan)
 
     var disabled = true
 

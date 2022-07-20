@@ -46,7 +46,7 @@ router.get("/:id", async (req, res) => {
     try {
 
         const player = await getPlayer(id)
-        if (player) return res.send({message: "player getted", response: player})
+        if (player) return res.send({message: "player obtained", response: player})
 
     } catch (e) {
 
@@ -58,7 +58,6 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id",  async (req, res) => {
 
-    //const { officialName, fantasyName, group, members, password } = req.body
     const { id } = req.params
 
     try {

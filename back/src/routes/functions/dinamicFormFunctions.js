@@ -74,4 +74,38 @@ async function dinamicFormCreate (playerID,
 
 }
 
-module.exports = { getDinamicForms, dinamicFormCreate, getDinamicFormId }
+async function closeDinamicForm ({ 
+    period, 
+    playerId, 
+    amount, 
+    rate, 
+    description }
+) {
+
+    try {
+
+        const closer = await DinamicForm.update(
+            {
+                amount: amount,
+                rate: rate,
+                description: description,
+                status: true
+            },
+            {
+                where: {
+                    playerId: playerId,
+                    period: period,
+                    type: "investment",
+                }
+            }
+            );
+
+        return closer
+
+    } catch (e) {
+        throw new Error("Cannot validate the indicated form")
+    }
+
+}
+
+module.exports = { getDinamicForms, dinamicFormCreate, getDinamicFormId, closeDinamicForm }
