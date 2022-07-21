@@ -1,22 +1,24 @@
 import React, { useEffect } from "react";
 import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
-import { getAllPlayers, getAllStudents } from "../../redux/actions/actions";
-import { GlobalFilter } from "../GlobalFilter";
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
+import { GlobalFilter } from "../../GlobalFilter";
+import { getResultsPlayerById } from "../../../redux/actions/actions";
 
-export default function PlayerTable () {
+export default function PlayerResultsTable () {
 
     const dispatch = useDispatch()
-    const players = useSelector(state => state.allPlayers)
+    var results = useSelector(state => state.resultsPlayerId)
+    var loginUser = useSelector(state => state.userLogin)
+
+    console.log(results)
 
     useEffect(() => {
-        dispatch(getAllPlayers())
-        dispatch(getAllStudents())
+        if (loginUser) dispatch(getResultsPlayerById(loginUser.id))
     }, [dispatch])
 
-    const data = useMemo(() => players, [players])
+    const data = useMemo(() => results, [results])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,

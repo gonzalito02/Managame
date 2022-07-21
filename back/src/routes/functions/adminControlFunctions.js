@@ -205,7 +205,6 @@ async function walletSet({value}) {
 
         return `Set wallets whit $ ${value}`
         
-
     } catch (e) {
         throw new Error("Cannot set the wallets")
     }

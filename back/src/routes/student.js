@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { Student } = require('../db.js')
-const { getStudents, createStudent, getStudentId, updateStudent, walletDecrement } = require("./functions/studentFunction.js")
+const { getStudents, createStudent, getStudentId, updateStudent, walletDecrement, deleteStudent } = require("./functions/studentFunction.js")
 
 // aca se construyen las rutas sobre router:
 
@@ -83,6 +83,23 @@ router.put("/wallet/decrement",  async (req, res) => {
     } catch (e) {
 
         res.status(400).send(e.message)
+    
+    }
+})
+
+router.delete("/:id",  async (req, res) => {
+
+    const { id } = req.params
+
+    try {
+
+        const student = await deleteStudent(id)
+
+        if ( student ) return res.send("student deleted")
+
+    } catch (e) {
+
+        res.send(e.message)
     
     }
 })

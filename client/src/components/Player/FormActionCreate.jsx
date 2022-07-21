@@ -15,7 +15,7 @@ export default function FormActionCreate () {
         if (dataPlayer.dinamicForms.length > 1) {
             var loans = dataPlayer.dinamicForms.filter(m => m.type === "loan" &&
             m.clearingPeriod === gameControl.period)
-            if (loans.length > 0) var netLoan = (loans[0].amount * (loans[0].rate + 1))
+            if (loans.length > 0) var netLoan = loans.reduce((a, b) => a + b.amount, 0)
             else netLoan = 0
         }
         else var loans = null
@@ -111,38 +111,12 @@ export default function FormActionCreate () {
         else if (e.target.name.slice(0,7) === "quality" && e.target.value % 1 !== 0) setErrors({...errors, integer: "Deben ser unidades enteras, no decimales"})
         // else if (e.target.name.slice(0,7) === "quality" && e.target.value < 0) setErrors({...errors, integer: "No pueden haber números negativos"})
         // else if (e.target.name.slice(0,8) === "quantity" && e.target.value % 5 !== 0) setErrors({...errors, integer: "Debe ser un multiplo de 5"})
-        else setErrors({...errors, integer:"", general: ""})
+        else setErrors({...errors, integer:"", general: "", dinform:""})
     }
 
     const floatControl = (e) => {
         if (e.target.value < 0 || e.target.value >= 1) setErrors({...errors, dinform: "Debe ser un valor entre 0 y 1"})
         else setErrors({...errors, dinform:""})
-    }
-
-    var controlProd = ((form.quantityA * costProdA) / (productionCapacity / 100)) +
-                      ((form.quantityB * costProdB) / (productionCapacity / 100)) +
-                      ((form.quantityC * costProdC) / (productionCapacity / 100))
-
-    if (controlProd > (minProductCapacity*2) && errors.general === "") {
-        setErrors({...errors, general: `La capacidad de la planta en general no puede superar el ${minProductCapacity*2}%`})
-    }
-    if (controlProd < minProductCapacity && errors.general === "") {
-        setErrors({...errors, general: `La capacidad de la planta no puede ser inferior al ${minProductCapacity}%`})
-    }
-    if ((form.finantialFixedInvestment + investmentForm.amount) > maxTotalFinInvestAmount && errors.general === "") {
-        setErrors({...errors, general: `Monto máximo de inversión financiera superado (${maxTotalFinInvestAmount})`})
-    }
-    if ( (form.finantialFixedRentability / form.finantialFixedInvestment) > maxRateFinFixedInvest && errors.general === "") {
-        setErrors({...errors, general: `La tasa de rentabilidad para inversiones fijas es superior a la permitida (${maxRateFinFixedInvest})`})
-    }
-    if ( loanForm.amount > maxLoanAmount && errors.dinform === "") {
-        setErrors({...errors, dinform: `El monto del préstamo supera al permitido (${maxLoanAmount})`})
-    }
-    if ( loanForm.rate < minRateLoan && loanForm.amount > 0 && errors.dinform === "") {
-        setErrors({...errors, dinform: `La tasa del préstamo no puede ser inferior a ${minRateLoan}`})
-    }
-    if ( investmentForm.rate > maxRateFinDinInvest && investmentForm.amount > 0 && errors.dinform === "") {
-        setErrors({...errors, dinform: `La tasa de rentabilidad de la inversión dinámica no puede ser superior a ${maxRateFinDinInvest}`})
     }
 
     const submitForm = () => {
@@ -161,28 +135,6 @@ export default function FormActionCreate () {
             finantialFixedInvestment: form.finantialFixedInvestment,
             finantialFixedRentability: form.finantialFixedRentability
         }
-        const stock = []
-        if (form.quantityA > 0) stock.push({id: loginData.id, insert: {
-            period: period,
-            typeProduct: "A",
-            stockProduct: form.quantityA,
-            qualityProduct: form.qualityA,
-            priceProduct: form.priceA
-            }})
-        if (form.quantityB > 0) stock.push({id: loginData.id, insert: {
-            period: period,
-            typeProduct: "B",
-            stockProduct: form.quantityB,
-            qualityProduct: form.qualityB,
-            priceProduct: form.priceB
-            }})
-        if (form.quantityC > 0) stock.push({id: loginData.id, insert: {
-            period: period,
-            typeProduct: "C",
-            stockProduct: form.quantityC,
-            qualityProduct: form.qualityC,
-            priceProduct: form.priceC
-            }})
         dispatch(createActionForm(loginData.id, formul, loanForm, investmentForm)) 
     }
 
@@ -196,6 +148,40 @@ export default function FormActionCreate () {
         form.finantialFixedInvestment + investmentForm.amount - loanForm.amount)
     
     const capitalGame = (parseInt(initialCapital) - (loans? netLoan : 0) + loanForm.amount) || 0
+
+    var controlProd = ((form.quantityA * costProdA) / (productionCapacity / 100)) +
+                      ((form.quantityB * costProdB) / (productionCapacity / 100)) +
+                      ((form.quantityC * costProdC) / (productionCapacity / 100))
+
+    if (controlProd > (minProductCapacity*2) && errors.general === "") {
+        setErrors({...errors, general: `La capacidad de la planta en general no puede superar el ${minProductCapacity*2}%`})
+    }
+    if (controlProd < minProductCapacity && errors.general === "") {
+        setErrors({...errors, general: `La capacidad de la planta no puede ser inferior al ${minProductCapacity}%`})
+    }
+    if ((form.finantialFixedInvestment + investmentForm.amount) > maxTotalFinInvestAmount && errors.general === "") {
+        setErrors({...errors, general: `Monto máximo de inversión financiera superado (${maxTotalFinInvestAmount})`})
+    }
+    if ( totalAcc > capitalGame && errors.general === "") {
+        setErrors({...errors, general: `Capital insuficiente`})
+    }
+    if ( (loanForm.clearingPeriod < (period + 1) || loanForm.clearingPeriod > 5) && errors.dinform === "") {
+        setErrors({...errors, dinform: `El período de liquidación del préstamo no puede ser anterior al período en juego ni mayor a 5`})
+    }
+    if ( (form.finantialFixedRentability / form.finantialFixedInvestment) > maxRateFinFixedInvest && errors.general === "") {
+        setErrors({...errors, general: `La tasa de rentabilidad para inversiones fijas es superior a la permitida (${maxRateFinFixedInvest})`})
+    }
+    if ( loanForm.amount > maxLoanAmount && errors.dinform === "") {
+        setErrors({...errors, dinform: `El monto del préstamo supera al permitido (${maxLoanAmount})`})
+    }
+    if ( loanForm.rate < minRateLoan && loanForm.amount > 0 && errors.dinform === "") {
+        setErrors({...errors, dinform: `La tasa del préstamo no puede ser inferior a ${minRateLoan}`})
+    }
+    if ( investmentForm.rate > maxRateFinDinInvest && investmentForm.amount > 0 && errors.dinform === "") {
+        setErrors({...errors, dinform: `La tasa de rentabilidad de la inversión dinámica no puede ser superior a ${maxRateFinDinInvest}`})
+    }
+
+
 
     var disabled = true
 
@@ -232,7 +218,7 @@ export default function FormActionCreate () {
                     </tr>
                     <tr>
                         <td>
-                            Pago de préstamos (i + k):
+                            Pago de préstamos (k):
                         </td>
                         <td>
                             {loans? netLoan : 0}
@@ -598,8 +584,8 @@ export default function FormActionCreate () {
         </h4>
             <ul>
             <li>Control general: {(errors.general !== "") ? errors.general : "OK"}</li>
-            <li>Control enteros: {(errors.integer !== "") ? errors.integer : "OK"}</li>
-            <li>Control totales: {(errors.dinform !== "") ? errors.dinform : "OK"}</li>
+            <li>Control valores: {(errors.integer !== "") ? errors.integer : "OK"}</li>
+            <li>Control financiero: {(errors.dinform !== "") ? errors.dinform : "OK"}</li>
             <li>Control totales: {(errors.total !== "") ? errors.total : "OK"}</li>
             </ul>
         <button type="submit" disabled={disabled} onClick={() => submitForm()}>Enviar</button>

@@ -53,6 +53,7 @@ function gameControlInit () {
       maxRateFinDinInvest: 0.4,
       maxRateFinFixedInvest: 0.3,
       maxTotalFinInvestAmount: 200000,
+      wallet: 0,
       actionGame: 1 // 0 = Production phase; 1 = Market phase; 2 = Clean phase  
     }
   )
