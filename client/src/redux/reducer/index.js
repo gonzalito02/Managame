@@ -13,23 +13,27 @@ import {
     LOGOUT,
     SET_USER_LOGGED,
     GET_STUDENT_ID,
+    GET_STUDENTS,
+    GET_RESULTSPLAYER_ID,
+    GET_ALLRESULTSPLAYER,
 } from "../actions/types";
   
 const initialState = {
     userLogin: [],
+    gameControl: {},
+    errors: [],
     allPlayers: [],
+    allStudents: [],
     dataPlayerId: {},
     dataStudentId: {},
-    gameControl: {},
+    resultsPlayerId: [],
+    allResultsPlayer: [],
     allForms: [],
     penddingForms: [],
-    oneForm: [],
-    errors: [],
     playerForms: [],
     marketLive: [],
     cart: [],
     cartControl: [],
-    errors: ""
 };
   
 export default function rootReducer(state = initialState, action) {
@@ -66,8 +70,15 @@ export default function rootReducer(state = initialState, action) {
         case GET_ALLPLAYERS:
         return {
             ...state,
-            allPlayers: payload,
+            allPlayers: payload.response,
             errors: "All players obtained"
+        };
+
+        case GET_STUDENTS:
+        return {
+            ...state,
+            allStudents: payload.response,
+            errors: "All students obtained"
         };
 
         case GET_PLAYER_ID:
@@ -98,6 +109,13 @@ export default function rootReducer(state = initialState, action) {
             errors: "All forms obtained"
         };
 
+        case GET_ALLRESULTSPLAYER:
+            return {
+            ...state,
+            allResultsPlayer: payload,
+            errors: "All results obtained"
+        };
+
         case GET_PENDDINGACTIONFORMS:
         return {
             ...state,
@@ -111,6 +129,13 @@ export default function rootReducer(state = initialState, action) {
             playerForms: payload,
             errors: "Forms by ID obtained"
         };
+
+        case GET_RESULTSPLAYER_ID:
+            return {
+                ...state,
+                resultsPlayerId: payload,
+                errors: "Results by ID obtained"
+            };
 
         case GET_MARKETLIVE:
         return {

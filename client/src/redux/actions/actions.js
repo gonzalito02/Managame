@@ -14,15 +14,26 @@ import {
   LOGOUT,
   SET_USER_LOGGED,
   GET_STUDENT_ID,
+  GET_STUDENTS,
+  GET_RESULTSPLAYER_ID,
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
-if (tokenjson) {
-    var tokenSet = JSON.parse(tokenjson).token
-}//var tokenSet = localStorage.getItem("token")
+
+console.log(tokenjson)
 
 export const setToken = (token) => {
     return tokenSet = token
+}
+
+if (tokenjson) {
+    try {
+        var tokenSet = JSON.parse(tokenjson).token
+    } catch (e) {
+        console.log("error en token", e)
+        localStorage.removeItem("loggedUser")
+        setToken("")
+    }
 }
 
 export const getAllPlayers = (dispatch) => {
@@ -37,6 +48,23 @@ export const getAllPlayers = (dispatch) => {
 
             console.log(e);
             return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getAllPlayers; status: ${e.response.status}; code: ${e.code}`});
+
+        }
+    }
+}
+
+export const getAllStudents = (dispatch) => {
+    return async function (dispatch) {
+
+        try {
+
+            var response = await axios.get(`http://localhost:3002/student`);
+            return dispatch({ type: GET_STUDENTS, payload: response.data });
+
+        } catch (e) {
+
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getAllStudents; status: ${e.response.status}; code: ${e.code}`});
 
         }
     }
@@ -140,6 +168,22 @@ export const getAllForms = () => {
   }
 }
 
+export const getAllResultsData = () => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.get(`http://localhost:3002/resultsData`);
+            return dispatch({ type: GET_ACTIONFORMS, payload: response.data.response });
+  
+        } catch (e) {
+  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getAllForms; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+  }
+
 export const getPenddingForms = () => {
     return async function (dispatch) {
   
@@ -172,6 +216,23 @@ export const getFormById = (id) => {
   }
 }
 
+export const getResultsPlayerById = (id) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.get(`http://localhost:3002/resultsData/${id}`);
+            console.log("aca", response)
+            return dispatch({ type: GET_RESULTSPLAYER_ID, payload: response.data.response});
+  
+        } catch (e) {
+  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getFormById; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+  }
+
 export const getPlayerById = (id) => {
     return async function (dispatch) {
   
@@ -196,6 +257,23 @@ export const getStudentById = (id) => {
   
             var response = await axios.get(`http://localhost:3002/student/${id}`);
             return dispatch({ type: GET_STUDENT_ID, payload: response.data.response});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getPlayerById; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const deleteStudent = (id) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.delete(`http://localhost:3002/student/${id}`);
+            return dispatch({ type: SET_ERRORS, payload: `student ${id} deleted`});
   
         } catch (e) {
   
@@ -241,6 +319,23 @@ export const updateGameControl = (data) => {
   
             console.log(e);
             return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action updateGameControl; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const setWallet = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.put(`http://localhost:3002/adminControl/wallet/set`, data);
+            return dispatch({ type: SET_ERRORS, payload: "wallet set succesfully"});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action setWallet; status: ${e.response.status}; code: ${e.code}`});
   
         }
     }

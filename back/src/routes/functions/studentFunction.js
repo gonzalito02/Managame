@@ -137,9 +137,9 @@ async function deleteStudent(id) {
 
     try {
         
-        const student = await Student.findOne({ where: { id: id } });
+        // const student = await Student.findOne({ where: { id: id } });
 
-        if (!student) return("No student found")
+        // if (!student) return("No student found")
 
         const destroy = await Student.destroy({ where: { id: id } });
         

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getGameControl, getStudentById, loginFunction, logoutFunction, setUserLogged } from "../redux/actions/actions";
+import { getAllForms, getAllPlayers, getGameControl, getStudentById, loginFunction, logoutFunction, setUserLogged } from "../redux/actions/actions";
 
 export default function NavBar () {
 
@@ -17,10 +17,9 @@ export default function NavBar () {
         type: false
     })
 
-    const [error, setError] = useState("")
-
     useEffect(() => {
         dispatch(getGameControl())
+        dispatch(getAllPlayers())
         if(loginUser.rol === "student") dispatch(getStudentById(loginUser.id))
     }, [loginUser])
 
@@ -63,7 +62,8 @@ export default function NavBar () {
         maxRateFinDinInvest,
         maxRateFinFixedInvest,
         maxTotalFinInvestAmount,
-        actionGame
+        actionGame,
+        wallet
     } = gameControl
 
     return (
@@ -82,28 +82,37 @@ export default function NavBar () {
                     <input name="password" type="password" value={login.password} onChange={(e) => handleLogin(e)}></input>
                     <input name="type" type="checkbox" value={login.aos} onChange={(e) => handleLogin(e)}></input><span>Empresa </span>
                     <button onClick={() => {submitLogin()}}>Login</button>
-                    {(error !== "")? <span>{error}</span> : null}
                 </div>
             }
             
             <div>
-                <Link to="/home">
-                <button>Home</button>
-                </Link>
+                    <Link to="/home">
+                    <button>Home</button>
+                    </Link>
                 {(loginUser.rol === "student" || loginUser.rol === "admin")?
-                <Link to="/market">
-                <button>Market</button>
-                </Link>
+                    <Link to="/market">
+                    <button>Market</button>
+                    </Link>
                 : null}
                 {(loginUser.rol === "player" || loginUser.rol === "admin")?
-                <Link to="/player">
-                <button>Player</button>
-                </Link>
+                    <div>
+                        <Link to="/player">
+                        <button>Player</button>
+                        </Link>
+                        <Link to="/playerResults">
+                        <button>Results</button>
+                        </Link>
+                    </div>
                 : null}
                 {(loginUser.rol === "admin")?
-                <Link to="/admin">
-                <button>Admin</button>
-                </Link>
+                    <div>
+                        <Link to="/adminControl">
+                        <button>Admin</button>
+                        </Link>
+                        <Link to="/adminPlayerAndStudents">
+                        <button>Players and Students</button>
+                        </Link>
+                    </div>
                 : null}
             </div>
 
@@ -230,6 +239,12 @@ export default function NavBar () {
                             </td>
                             <td>
                                 {(actionGame === 0)? "Production" : ((actionGame === 1)? "Market" : "Clearing")}
+                            </td>
+                            <td>
+                            wallet
+                            </td>
+                            <td>
+                                {wallet}
                             </td>
                         </tr>
 

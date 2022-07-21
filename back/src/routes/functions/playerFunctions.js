@@ -16,7 +16,6 @@ async function playerCreate ({id, officialName, fantasyName, group, members, pas
         group: group,
         members: members,
         password: hash,
-        index: 100
     })
 
     const role = await Rol.findOne({ where: { name: "player" }});
@@ -63,7 +62,7 @@ async function getPlayer (id) {
 
 }
 
-async function updatePlayer (id, {officialName, fantasyName, group, members, password, resultAcc, index}) {
+async function updatePlayer (id, {officialName, fantasyName, group, members, password, resultAcc, index, initialCapital}) {
 
     try {
 
@@ -133,6 +132,16 @@ async function updatePlayer (id, {officialName, fantasyName, group, members, pas
             await Player.update(
             {
                 index: index,
+            },
+            {
+                where: { id: id },
+            }
+            );
+        }
+        if (initialCapital) {
+            await Player.update(
+            {
+                initialCapital: initialCapital,
             },
             {
                 where: { id: id },

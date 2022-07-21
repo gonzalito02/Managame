@@ -28,7 +28,8 @@ export default function GameControl () {
         maxRateFinDinInvest,
         maxRateFinFixedInvest,
         maxTotalFinInvestAmount,
-        actionGame } = gameControl
+        actionGame,
+        wallet } = gameControl
 
     const [form, setForm] = useState({
         period,
@@ -43,7 +44,8 @@ export default function GameControl () {
         maxRateFinDinInvest,
         maxRateFinFixedInvest,
         maxTotalFinInvestAmount,
-        actionGame
+        actionGame,
+        wallet
     })
 
     const [input, setInput] = useState(true)
@@ -64,7 +66,8 @@ export default function GameControl () {
             maxRateFinDinInvest: maxRateFinDinInvest,
             maxRateFinFixedInvest: maxRateFinFixedInvest,
             maxTotalFinInvestAmount: maxTotalFinInvestAmount,
-            actionGame: actionGame
+            actionGame: actionGame,
+            wallet: wallet
         });
         }
         setInput(!input)
@@ -260,6 +263,19 @@ export default function GameControl () {
                             {input? 
                             <td> {actionGame} </td> :
                             <input name="actionGame" type="number" value={form.actionGame} onChange={(e) => handleChange(e)}></input>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            
+                            <td>
+                                Wallet
+                            </td>
+                            
+                            {input? 
+                            <td> {wallet} </td> :
+                            <input name="wallet" type="number" value={form.wallet} onChange={(e) => handleChange(e)}></input>
                             }
 
                         </tr>

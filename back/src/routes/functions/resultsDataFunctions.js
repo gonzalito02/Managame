@@ -15,8 +15,6 @@ async function resultsDataCreate (playerID,
 
     const player = await Player.findOne({ where: { id: playerID } });
 
-    console.log(player)
-
     const resultsData = await ResultsData.create({
         period: period,  
         totalSales: 0,

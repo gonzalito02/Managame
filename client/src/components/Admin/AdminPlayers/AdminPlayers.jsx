@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
 import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
-import { getAllPlayers, getAllStudents } from "../../redux/actions/actions";
-import { GlobalFilter } from "../GlobalFilter";
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
+import { getAllPlayers } from "../../../redux/actions/actions";
+import { GlobalFilter } from "../../GlobalFilter";
 
-export default function PlayerTable () {
+export default function AdminPlayers () {
 
     const dispatch = useDispatch()
     const players = useSelector(state => state.allPlayers)
+    
+    // if (!players) var totalPlayers = []  
+    // else var totalPlayers = players.response
 
     useEffect(() => {
         dispatch(getAllPlayers())
-        dispatch(getAllStudents())
     }, [dispatch])
 
     const data = useMemo(() => players, [players])

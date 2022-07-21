@@ -6,6 +6,7 @@ import { getAllForms, getGameControl } from "../../redux/actions/actions";
 import NavBar from "../NavBar";
 import AdminActionFormTable from "./AdminActionFormTable/AdminActionFormTable";
 import AdminActionFormTableValidated from "./AdminActionFormTableValidated/AdminActionFormTableValidated";
+import SetWallet from "./AdminStudents/SetWallet";
 import GameControl from "./GameControl";
 
 export default function AdminControl () {
@@ -23,6 +24,10 @@ export default function AdminControl () {
             Controles de juego
         </h2>
             <GameControl />
+        <h2>
+            Billetera
+        </h2>
+            <SetWallet />
         <h2>
             Formularios presentados.
         </h2>
