@@ -4,7 +4,11 @@ import AdminControl from './components/Admin/AdminControl';
 import Market from './components/Market/Market';
 import PlayerControl from "./components/Player/PlayerControl";
 import AdminPlayersAndStudents from "./components/Admin/AdminPlayersAndStudents";
-import PlayerResults from "./components/Player/PlayerResults/PlayerControl";
+import AdminPlayersResults from "./components/Admin/AdminPlayersResults";
+import PlayerResults from "./components/Player/PlayerResults/PlayerResults";
+import StudentControl from "./components/Student/StudentControl";
+import StudentResults from "./components/Student/StudentShopping/StudentResults";
+import PlayerSales from "./components/Player/PlayerSales/PlayerSales";
 
 function App() {
   return (
@@ -13,9 +17,13 @@ function App() {
         <Routes>
           <Route path="/home" element = {<Home/>}/>
           <Route path="/player" element = {<PlayerControl/>}/>
+          <Route path="/student" element = {<StudentControl/>}/>
           <Route path="/playerResults" element = {<PlayerResults/>}/>
+          <Route path="/studentResults" element = {<StudentResults/>}/>
+          <Route path="/playerSales" element = {<PlayerSales/>}/>
           <Route path="/adminControl" element = {<AdminControl />}/>
           <Route path="/adminPlayerAndStudents" element = {<AdminPlayersAndStudents />}/>
+          <Route path="/adminPlayersResults" element = {<AdminPlayersResults />}/>
           <Route path="/market" element = {<Market />}/>
         </Routes>
       </div>

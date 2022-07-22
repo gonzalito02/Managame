@@ -1,5 +1,5 @@
 const { Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
-const { ActionData, DinamicForm } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { ActionData, DinamicForm, QualityRegister} = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 
 async function formCreate (playerID,
     {
@@ -23,8 +23,6 @@ async function formCreate (playerID,
 
     const player = await Player.findOne({ where: { id: playerID } });
 
-    console.log("aca estoy")
-
     const newForm = await ActionData.create({
         period: period,  
         priceA: priceA, 
@@ -41,8 +39,17 @@ async function formCreate (playerID,
         finantialFixedRentability: finantialFixedRentability
     })
 
-    await player.addActionData(newForm);
+    const newQualityRegister = await QualityRegister.create({
+        period: period,
+        qualityA: qualityA,
+        qualityB: qualityB,
+        qualityC: qualityC
+        }
+    )
 
+    await player.addActionData(newForm);
+    const a = await player.addQualityRegister(newQualityRegister);
+    console.log(a)
     if (newForm) return (newForm)
 
     } catch (e) {

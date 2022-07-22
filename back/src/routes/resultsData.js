@@ -1,7 +1,7 @@
 const express = require("express")
 const validateJwt = require("../controllers/validationJWT.js")
 const validationPlayer = require("../controllers/validationPlayer.js")
-const { resultsDataCreate, getResultsDataById, getResultsData } = require("./functions/resultsDataFunctions.js")
+const { resultsDataCreate, getResultsDataById, getResultsData, updateResultsData } = require("./functions/resultsDataFunctions.js")
 const router = express.Router()
 
 router.post("/:id", async (req, res) => {
@@ -29,8 +29,8 @@ router.put("/:id",  async (req, res) => {
 
     try {
 
-        const marketOffer = await updateResultsData(id, req.body)
-        return res.send({message: "Results data updated"})
+        const resultsData = await updateResultsData(id, req.body)
+        if (resultsData) return res.send({message: "Results data updated"})
 
     } catch (e) {
 

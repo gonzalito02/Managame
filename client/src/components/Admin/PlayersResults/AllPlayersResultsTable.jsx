@@ -3,19 +3,21 @@ import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllPlayers } from "../../../redux/actions/actions";
 import { GlobalFilter } from "../../GlobalFilter";
+import { getAllResultsData } from "../../../redux/actions/actions";
 
-export default function AdminPlayers () {
+export default function AllPlayersResultsTable () {
 
     const dispatch = useDispatch()
-    const players = useSelector(state => state.allPlayers)
+    var results = useSelector(state => state.allResultsPlayer)
+
+    console.log(results)
 
     useEffect(() => {
-        dispatch(getAllPlayers())
+        dispatch(getAllResultsData())
     }, [dispatch])
 
-    const data = useMemo(() => players, [players])
+    const data = useMemo(() => results, [results])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,

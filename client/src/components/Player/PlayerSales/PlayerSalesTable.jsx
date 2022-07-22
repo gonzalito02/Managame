@@ -3,19 +3,22 @@ import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllPlayers } from "../../../redux/actions/actions";
 import { GlobalFilter } from "../../GlobalFilter";
+import { getShopRegPlayerById } from "../../../redux/actions/actions";
 
-export default function AdminPlayers () {
+export default function PlayerSalesTable () {
 
     const dispatch = useDispatch()
-    const players = useSelector(state => state.allPlayers)
+    var results = useSelector(state => state.shoppingRegister)
+    var loginUser = useSelector(state => state.userLogin)
+
+    const idt = loginUser.id
 
     useEffect(() => {
-        dispatch(getAllPlayers())
-    }, [dispatch])
+        if (loginUser) dispatch(getShopRegPlayerById(idt))
+    }, [dispatch, loginUser])
 
-    const data = useMemo(() => players, [players])
+    const data = useMemo(() => results, [results])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,
@@ -40,7 +43,7 @@ export default function AdminPlayers () {
 
     const { pageIndex, pageSize, globalFilter } = state 
 
-    if (pageSize === 10) setPageSize(12)
+    if (pageSize === 10) setPageSize(20)
 
     return (
         <>
