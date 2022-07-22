@@ -1,4 +1,4 @@
-const { Player, Rol, DinamicForm, ActionData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { Player, Rol, DinamicForm, ActionData, QualityRegister } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 const bcrypt = require("bcrypt");
 
 async function playerCreate ({id, officialName, fantasyName, group, members, password}) {
@@ -51,7 +51,7 @@ async function getPlayer (id) {
     try {
 
     const player = await Player.findByPk(id, {
-                include: [{model: DinamicForm}, {model: ActionData}]
+                include: [{model: DinamicForm}, {model: ActionData}, {model: QualityRegister}]
     })
 
     if (player) return player

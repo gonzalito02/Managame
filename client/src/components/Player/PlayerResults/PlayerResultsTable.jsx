@@ -12,11 +12,9 @@ export default function PlayerResultsTable () {
     var results = useSelector(state => state.resultsPlayerId)
     var loginUser = useSelector(state => state.userLogin)
 
-    console.log(results)
-
     useEffect(() => {
         if (loginUser) dispatch(getResultsPlayerById(loginUser.id))
-    }, [dispatch])
+    }, [dispatch, loginUser])
 
     const data = useMemo(() => results, [results])
     const columns = useMemo(() => COLUMNS, [])

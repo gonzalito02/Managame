@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { Student, Rol } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js");
+const { Student, Rol, Player} = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js");
 
 async function createStudent(data) {
 
@@ -137,10 +137,6 @@ async function deleteStudent(id) {
 
     try {
         
-        // const student = await Student.findOne({ where: { id: id } });
-
-        // if (!student) return("No student found")
-
         const destroy = await Student.destroy({ where: { id: id } });
         
         if (destroy) return(destroy)
@@ -177,5 +173,54 @@ async function walletDecrement({
 
 }
 
-module.exports = { createStudent, getStudents, getStudentId, updateStudent, deleteStudent, walletDecrement };
+async function playerAdd({
+    id,
+    playerId
+    }) 
+    {
+
+    try {
+
+        const player = await Player.findByPk(playerId);
+
+        const student = await Student.findByPk(id); 
+
+        if(!student) return "No student found"
+        if(!player) return "No player found"
+
+        const add = await player.addStudent(student);
+
+        console.log(add)
+        
+        if (add) return (add)
+
+    } catch (e) {
+
+        console.log(e)
+        throw new Error("An error has ocurred, cannot decrement the wallet")
+    }
+
+}
+
+async function playerRemove({id}) 
+    {
+
+    try {
+
+        const student = await Student.findByPk(id); 
+
+        if(!student) return "No student found"
+
+        const add = await student.setPlayer(null);
+        
+        if (add) return (add)
+
+    } catch (e) {
+
+        throw new Error("An error has ocurred, cannot remove the player")
+    }
+
+}
+
+module.exports = { createStudent, getStudents, getStudentId, updateStudent, deleteStudent, walletDecrement, playerAdd, playerRemove};
 

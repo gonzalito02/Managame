@@ -15,7 +15,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Tipo',
-        accessor: row => { return row.type? row.type : "action plan"}
+        accessor: row => { return row.type}
     },
     {
         Header: 'Período de venc.',
@@ -23,7 +23,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Status',
-        accessor: row => { return (row.status === false)? "Abierta" : "Cerrada"}
+        accessor: row => { return (row.status === false)? "Abierta" : (row.status === true)? "Cerrada" : null}
     },
     {
         Header: 'Acciones',

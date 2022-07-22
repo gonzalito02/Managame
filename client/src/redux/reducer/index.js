@@ -16,6 +16,9 @@ import {
     GET_STUDENTS,
     GET_RESULTSPLAYER_ID,
     GET_ALLRESULTSPLAYER,
+    GET_QUALITYREGISTER_ID,
+    GET_STUDENTSHOPREG_ID,
+    GET_PLAYERSHOPREG_ID,
 } from "../actions/types";
   
 const initialState = {
@@ -30,8 +33,10 @@ const initialState = {
     allResultsPlayer: [],
     allForms: [],
     penddingForms: [],
+    qualityRegister: [],
     playerForms: [],
     marketLive: [],
+    shoppingRegister: [],
     cart: [],
     cartControl: [],
 };
@@ -128,6 +133,27 @@ export default function rootReducer(state = initialState, action) {
             ...state,
             playerForms: payload,
             errors: "Forms by ID obtained"
+        };
+
+        case GET_QUALITYREGISTER_ID:
+        return {
+            ...state,
+            qualityRegister: payload,
+            errors: "Quality register by ID obtained"
+        };
+
+        case GET_STUDENTSHOPREG_ID:
+        return {
+            ...state,
+            shoppingRegister: payload,
+            errors: "Student shopping register by ID obtained"
+        };
+
+        case GET_PLAYERSHOPREG_ID:
+        return {
+            ...state,
+            shoppingRegister: payload,
+            errors: "Player shopping register by ID obtained"
         };
 
         case GET_RESULTSPLAYER_ID:

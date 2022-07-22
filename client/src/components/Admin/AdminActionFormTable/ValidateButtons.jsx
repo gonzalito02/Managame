@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createResultsData, getFormById, getGameControl, insertMarketLive, validateForm } from "../../../redux/actions/actions";
+import { createResultsData, getFormById, getGameControl, insertMarketLive, updateDataPlayer, validateForm } from "../../../redux/actions/actions";
 
 export default function ValidateButtons ({data}) {
 
@@ -51,6 +51,18 @@ export default function ValidateButtons ({data}) {
                 qualityInvestment: data.qualityInvestment,
                 finantialFixedInvestment: (data.finantialFixedInvestment)? (data.finantialFixedInvestment + data.finantialFixedRentability) : 0
             }))
+        if(data.type === "investment") {
+            dispatch(updateDataPlayer(data.playerId,{
+                period: data.period,
+                finantialInvestmentResults: (data.amount * (1 + data.rate))
+            }))
+        }
+        if(data.type === "loan") {
+            dispatch(updateDataPlayer(data.playerId,{
+                period: data.period,
+                loanInterest: (data.amount * data.rate)
+            }))
+        }
         }
         setSubmit(!submit)
     }
@@ -58,6 +70,12 @@ export default function ValidateButtons ({data}) {
     const handleDenegate = (e) => {
         if(data.type === "loan" || data.type === "investment") {var typo = data.type} else {var typo = ""}
         dispatch(validateForm({playerId: data.playerId, period: data.period, validate: 2, type: typo}))
+        if(data.type === "loan") {
+            dispatch(updateDataPlayer(data.playerId,{
+                period: data.period,
+                loanInterest: data.amount
+            }))
+        }
         setSubmit(!submit)
     }
 

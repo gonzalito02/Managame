@@ -16,6 +16,10 @@ import {
   GET_STUDENT_ID,
   GET_STUDENTS,
   GET_RESULTSPLAYER_ID,
+  GET_ALLRESULTSPLAYER,
+  GET_QUALITYREGISTER_ID,
+  GET_STUDENTSHOPREG_ID,
+  GET_PLAYERSHOPREG_ID,
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
@@ -174,7 +178,7 @@ export const getAllResultsData = () => {
         try {
   
             var response = await axios.get(`http://localhost:3002/resultsData`);
-            return dispatch({ type: GET_ACTIONFORMS, payload: response.data.response });
+            return dispatch({ type: GET_ALLRESULTSPLAYER, payload: response.data.response });
   
         } catch (e) {
   
@@ -222,7 +226,6 @@ export const getResultsPlayerById = (id) => {
         try {
   
             var response = await axios.get(`http://localhost:3002/resultsData/${id}`);
-            console.log("aca", response)
             return dispatch({ type: GET_RESULTSPLAYER_ID, payload: response.data.response});
   
         } catch (e) {
@@ -231,7 +234,55 @@ export const getResultsPlayerById = (id) => {
   
         }
     }
-  }
+}
+
+export const getQualityRegisterById = (id) => {
+    return async function (dispatch) {
+
+    try {
+
+        var response = await axios.get(`http://localhost:3002/qualityRegister/${id}`);
+        return dispatch({ type: GET_QUALITYREGISTER_ID, payload: response.data.response});
+
+    } catch (e) {
+
+        return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getFormById; status: ${e.response.status}; code: ${e.code}`});
+
+    }
+}
+}
+
+export const getShopRegStudentById = (id) => {
+    return async function (dispatch) {
+
+    try {
+
+        var response = await axios.get(`http://localhost:3002/shoppingRegister/student/${id}`);
+        return dispatch({ type: GET_STUDENTSHOPREG_ID, payload: response.data.response});
+
+    } catch (e) {
+
+        return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getShopRegStudentById; status: ${e.response.status}; code: ${e.code}`});
+
+    }
+}
+}
+
+export const getShopRegPlayerById = (id) => {
+    return async function (dispatch) {
+
+    try {
+
+        var response = await axios.get(`http://localhost:3002/shoppingRegister/player/${id}`);
+        return dispatch({ type: GET_PLAYERSHOPREG_ID, payload: response.data.response});
+
+    } catch (e) {
+
+        return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getShopRegPlayerById; status: ${e.response.status}; code: ${e.code}`});
+
+    }
+}
+}
 
 export const getPlayerById = (id) => {
     return async function (dispatch) {
@@ -296,6 +347,40 @@ export const updateDataPlayer = (id, data) => {
   
             console.log(e);
             return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action updateDataPlayer; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const updateDataStudent = (id, data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.put(`http://localhost:3002/student/${id}`, data);
+            return dispatch({ type: SET_ERRORS, payload: response.data.message});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action updateDataStudent; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const updateResultsData = (id, data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.put(`http://localhost:3002/resultsData/${id}`, data);
+            return dispatch({ type: SET_ERRORS, payload: response.data.message});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action updateResultsData; status: ${e.response.status}; code: ${e.code}`});
   
         }
     }
@@ -378,10 +463,6 @@ export const closeDinamicForm = (data) => {
     }
 
 }
-
-
-
-
 
 export const deleteActionForm = (data) => {
     return async function (dispatch) {

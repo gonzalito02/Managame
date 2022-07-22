@@ -90,9 +90,17 @@ export default function NavBar () {
                     <button>Home</button>
                     </Link>
                 {(loginUser.rol === "student" || loginUser.rol === "admin")?
-                    <Link to="/market">
-                    <button>Market</button>
-                    </Link>
+                    <div>
+                        <Link to="/market">
+                        <button>Market</button>
+                        </Link>
+                        <Link to="/student">
+                        <button>Student</button>
+                        </Link>
+                        <Link to="/studentResults">
+                        <button>Shopping</button>
+                        </Link>
+                    </div>
                 : null}
                 {(loginUser.rol === "player" || loginUser.rol === "admin")?
                     <div>
@@ -101,6 +109,9 @@ export default function NavBar () {
                         </Link>
                         <Link to="/playerResults">
                         <button>Results</button>
+                        </Link>
+                        <Link to="/playerSales">
+                        <button>Sales</button>
                         </Link>
                     </div>
                 : null}
@@ -111,6 +122,9 @@ export default function NavBar () {
                         </Link>
                         <Link to="/adminPlayerAndStudents">
                         <button>Players and Students</button>
+                        </Link>
+                        <Link to="/adminPlayersResults">
+                        <button>Players Results</button>
                         </Link>
                     </div>
                 : null}

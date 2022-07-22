@@ -33,7 +33,8 @@ console.log("modelos injectados con sequelize: " ,sequelize.models)
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Player, GameControl, ActionData, ResultsData, MarketLive, Student, Rol, DinamicForm } = sequelize.models;
+const { Player, GameControl, ActionData, ResultsData, MarketLive, 
+  Student, Rol, DinamicForm, QualityRegister, ShoppingRegister } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -41,11 +42,20 @@ const { Player, GameControl, ActionData, ResultsData, MarketLive, Student, Rol, 
 Player.hasMany(ActionData) 
 ActionData.belongsTo(Player)
 
+Player.hasMany(Student) 
+Student.belongsTo(Player)
+
 Player.hasMany(ResultsData) 
 ResultsData.belongsTo(Player)
 
 Player.hasMany(MarketLive) 
 MarketLive.belongsTo(Player)
+
+Player.hasMany(ShoppingRegister) 
+ShoppingRegister.belongsTo(Player)
+
+Student.hasMany(ShoppingRegister) 
+ShoppingRegister.belongsTo(Student)
 
 Rol.hasMany(Student) 
 Student.belongsTo(Rol)
@@ -55,15 +65,9 @@ Player.belongsTo(Rol)
 
 Player.hasMany(DinamicForm) 
 DinamicForm.belongsTo(Player)
-//Student.belongsToMany(Rol, { through: "studentRol" })
-//Rol.belongsToMany(Student, { through: "studentRol" })
 
-// User.belongsToMany(Rol, { through: "userxrol" });
-// Rol.belongsToMany(User, { through: "userxrol" });
-
-// Token.belongsToMany(User, {through: "userstokens"}) 
-// User.belongsToMany(Rol, { through: "userxrol" });
-// Rol.belongsToMany(User, { through: "userxrol" });
+Player.hasMany(QualityRegister) 
+QualityRegister.belongsTo(Player)
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

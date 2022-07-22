@@ -72,23 +72,24 @@ async function updateResultsData (playerID, {
     totalSales,
     finantialInvestmentResults,
     loanInterest,
-    extraResults
+    extraResults,
+    observations
     }) 
     {
 
     try {
 
-        const resultsData = await MarketLive.findOne({ where: { playerId: playerID, period: period }}); 
-            
-        const updatedResults = await resultsData.increment({
-            totalSales: totalSales || 0,
-            finantialInvestmentResults: finantialInvestmentResults || 0,
-            loanInterest: loanInterest || 0,
-            extraResults: extraResults || 0
+        const resultsData = await ResultsData.findOne({ where: { playerId: playerID, period: period }}); 
 
-        })
+        if(extraResults) await resultsData.increment("extraResults", {by: extraResults})
+        if(totalSales) await resultsData.increment("totalSales", {by: totalSales})
+        if(finantialInvestmentResults) await resultsData.increment("finantialInvestmentResults", {by: finantialInvestmentResults})
+        if(loanInterest) await resultsData.increment("loanInterest", {by: loanInterest})
+        if(observations) await resultsData.update({observations: observations})
 
-        if (updatedResults) return (updatedResults)
+        const newResultsData = await ResultsData.findOne({ where: { playerId: playerID, period: period }}); 
+
+        if (newResultsData) return (newResultsData)
             
     } catch (e) {
 

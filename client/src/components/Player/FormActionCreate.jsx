@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createActionForm } from "../../redux/actions/actions";
-
+import { createActionForm, getQualityRegisterById } from "../../redux/actions/actions";
 
 export default function FormActionCreate () {
 
@@ -10,6 +9,7 @@ export default function FormActionCreate () {
     var gameControl = useSelector(state => state.gameControl)
     var loginData = useSelector(state => state.userLogin)
     var dataPlayer = useSelector(state => state.dataPlayerId)
+    var qualityRegister = useSelector(state => state.qualityRegister)
 
     if (dataPlayer.dinamicForms) {
         if (dataPlayer.dinamicForms.length > 1) {
@@ -38,6 +38,19 @@ export default function FormActionCreate () {
         maxRateFinFixedInvest,
         maxTotalFinInvestAmount
     } = gameControl
+
+    if (qualityRegister) {
+        var resq = qualityRegister.filter(q => q.period === (period - 1))
+        if (resq.length > 0) {
+            var initQualityA = resq[0].qualityA
+            var initQualityB = resq[0].qualityB
+            var initQualityC = resq[0].qualityC
+        } else {
+            var initQualityA = costProdA / 1000
+            var initQualityB = costProdB / 1000
+            var initQualityC = costProdC / 1000
+        }
+    }
 
     const [errors, setErrors] = useState({
         integer:"",
@@ -80,7 +93,8 @@ export default function FormActionCreate () {
 
     useEffect(() => {
         if (gameControl) if (gameControl.period) {setInvestmentForm({...investmentForm, period: gameControl.period}); 
-        setLoanForm({...loanForm, period: gameControl.period, clearingPeriod: gameControl.period + 1})
+        setLoanForm({...loanForm, period: gameControl.period, clearingPeriod: gameControl.period + 1});
+        dispatch(getQualityRegisterById(loginData.id))
         }
     }, [gameControl, dataPlayer])
 
@@ -123,13 +137,13 @@ export default function FormActionCreate () {
         const formul = {
             period: period,
             priceA: form.priceA,
-            qualityA: form.qualityA,
+            qualityA: form.qualityA + initQualityA,
             quantityA: form.quantityA,
             priceB: form.priceB,     
-            qualityB: form.qualityB, 
+            qualityB: form.qualityB + initQualityB, 
             quantityB: form.quantityB, 
             priceC: form.priceC,
-            qualityC: form.qualityC,
+            qualityC: form.qualityC + initQualityC,
             quantityC: form.quantityC,
             qualityInvestment: (form.qualityA + form.qualityB + form.qualityC) * qualityInvCost, 
             finantialFixedInvestment: form.finantialFixedInvestment,
@@ -145,7 +159,7 @@ export default function FormActionCreate () {
         form.quantityB * costProdB + 
         form.quantityC * costProdC +
         ((form.qualityA + form.qualityB + form.qualityC ) * qualityInvCost) +
-        form.finantialFixedInvestment + investmentForm.amount - loanForm.amount)
+        form.finantialFixedInvestment + investmentForm.amount)
     
     const capitalGame = (parseInt(initialCapital) - (loans? netLoan : 0) + loanForm.amount) || 0
 
@@ -238,6 +252,38 @@ export default function FormActionCreate () {
                         </td>
                         <td>
                             {capitalGame}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Producto
+                        </th>
+                        <th>
+                            Calidad
+                        </th>   
+                    </tr>
+                    <tr>
+                        <td>
+                            Producto A:
+                        </td>
+                        <td>
+                            {initQualityA}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Producto B:
+                        </td>
+                        <td>
+                            {initQualityB}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Producto C:
+                        </td>
+                        <td>
+                            {initQualityC}
                         </td>
                     </tr>
                 </tbody>
