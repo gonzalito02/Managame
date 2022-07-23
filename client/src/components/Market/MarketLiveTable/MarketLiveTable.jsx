@@ -4,7 +4,7 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { cartControlFunc, decrementMarket, getMarketLive, makeCart } from "../../../redux/actions/actions";
+import { decrementMarket, getMarketLive, makeCart } from "../../../redux/actions/actions";
 
 export default function MarketLiveTable () {
 
@@ -25,12 +25,16 @@ export default function MarketLiveTable () {
                 let obj = {
                     "id": cart[i][2].playerId,
                     "purchase":{   
-                                "period": cart[i][2].period,
+                                "period": gameControl.period,
                                 "typeProduct": cart[i][2].typeProduct,
-                                "purchase": cart[i][1]
+                                "stockProduct": cart[i][1],
+                                "qualityProduct": cart[i][2].qualityProduct,
+                                "priceProduct": cart[i][2].priceProduct,
+                                "playerId": cart[i][2].playerId
                                 }
                             }
                 finalCart = {...finalCart, [i]:obj}
+                
             }
         }
         return finalCart
@@ -59,63 +63,68 @@ export default function MarketLiveTable () {
 
     useEffect(() => {
         dispatch(getMarketLive())
-        cartFill()
+        // cartFill()
     }, [])
 
     const data = useMemo(() => marketLive, [market])
     const columns = useMemo(() => COLUMNS, [])
     
-    const handlePurchase = (e, row) => {
-        e.preventDefault()
-        const data = row.original
-        const prod = e.target.name
-        var val = document.getElementById(e.target.name).value
-        if (row.original.stockProduct < val) {
-            setErrors({validate:"Error, no hay suficiente stock"})
-            dispatch(cartControlFunc(prod, "add"))
-        }
-        else {
-            dispatch(makeCart([prod, val, data]))
-            dispatch(cartControlFunc(prod, "rm"))
-        }
-    }
+    // const handlePurchase = (e, row) => {
+    //     e.preventDefault()
+    //     const data = row.original
+    //     const prod = e.target.name
+    //     var val = document.getElementById(e.target.name).value
+    //     if (row.original.stockProduct < val) {
+    //         setErrors({validate:"Error, no hay suficiente stock"})
+    //         dispatch(cartControlFunc(prod, "add"))
+    //     }
+    //     else {
+    //         dispatch(makeCart([prod, val, data]))
+    //         dispatch(cartControlFunc(prod, "rm"))
+    //     }
+    // }
 
     const sendPurchase = () => {
         const finalCart = cartFill()
         var purchaseCart = []
+        console.log(purchaseCart)
         for (let i = 0; i < cart.length; i++) {
             purchaseCart.push(finalCart[i])
         }
         dispatch(decrementMarket(purchaseCart))
+
+        // aca
+
+
         console.log("Purchase done")
     }
  
-    const tableHooks = (hooks) => {
+    // const tableHooks = (hooks) => {
 
-        hooks.visibleColumns.push((columns) => [
-          ...columns,
-            {
-              id:"Compra",
-              Header:"Compra",
-              Cell: ({ row }) => {return (
+    //     hooks.visibleColumns.push((columns) => [
+    //       ...columns,
+    //         {
+    //           id:"Compra",
+    //           Header:"Compra",
+    //           Cell: ({ row }) => {return (
 
-                    <div>
-                        <input name={
-                            (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
-                            (row.original.typeProduct === "B")? `${row.original.playerId}2`:
-                            `${row.original.playerId}3`} 
-                        onChange={e => handlePurchase(e, row)} id={
-                            (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
-                            (row.original.typeProduct === "B")? `${row.original.playerId}2`:
-                            `${row.original.playerId}3`} 
-                        ></input>
-                    </div>
+    //                 <div>
+    //                     <input name={
+    //                         (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
+    //                         (row.original.typeProduct === "B")? `${row.original.playerId}2`:
+    //                         `${row.original.playerId}3`} 
+    //                     onChange={e => handlePurchase(e, row)} id={
+    //                         (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
+    //                         (row.original.typeProduct === "B")? `${row.original.playerId}2`:
+    //                         `${row.original.playerId}3`} 
+    //                     ></input>
+    //                 </div>
 
-                )}
-            }
-          ]
-        )
-      }
+    //             )}
+    //         }
+    //       ]
+    //     )
+    //   }
 
     const { getTableProps,
             getTableBodyProps,
@@ -134,7 +143,7 @@ export default function MarketLiveTable () {
             prepareRow } = useTable({
                 columns,
                 data
-            } ,tableHooks, useGlobalFilter, usePagination)
+            }, useGlobalFilter, usePagination)
 
     const { pageIndex, pageSize, globalFilter } = state 
 

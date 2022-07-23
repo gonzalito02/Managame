@@ -1,3 +1,5 @@
+import ShoppingSet from "./ShoppingSet"
+
 export const COLUMNS = [
     {
         Header: 'PlayerID',
@@ -22,5 +24,9 @@ export const COLUMNS = [
     {
         Header: 'Stock',
         accessor: 'stockProduct'
+    },
+    {
+        Header: 'Action',
+        accessor: row => { return <ShoppingSet data={row}/>}
     },
 ]
