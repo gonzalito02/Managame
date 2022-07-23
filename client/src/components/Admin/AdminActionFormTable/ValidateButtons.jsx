@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createResultsData, getFormById, getGameControl, insertMarketLive, updateDataPlayer, validateForm } from "../../../redux/actions/actions";
+import { useDispatch } from "react-redux";
+import { createResultsData, insertMarketLive, updateDataPlayer, validateForm } from "../../../redux/actions/actions";
 
 export default function ValidateButtons ({data}) {
 
