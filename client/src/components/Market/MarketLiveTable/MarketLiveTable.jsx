@@ -5,6 +5,11 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { decrementMarket, getMarketLive, handlePurchase, makeCart } from "../../../redux/actions/actions";
+import Table from "react-bootstrap/esm/Table";
+import Button from "react-bootstrap/esm/Button";
+import Container from "react-bootstrap/esm/Container";
+import Alert from 'react-bootstrap/Alert';
+import { CSVLink } from "react-csv";
 
 export default function MarketLiveTable () {
 
@@ -60,15 +65,15 @@ export default function MarketLiveTable () {
         return total
     }
     
-    if (market.length === 0) var marketLive = ["none"]  
-    else var marketLive = market
+    // if (market.length === 0) var marketLive = ["none"]  
+    // else var marketLive = market
 
     useEffect(() => {
         dispatch(getMarketLive())
         // cartFill()
     }, [])
 
-    const data = useMemo(() => marketLive, [market])
+    const data = useMemo(() => market, [market])
     const columns = useMemo(() => COLUMNS, [])
 
     const sendPurchase = () => {
@@ -83,7 +88,6 @@ export default function MarketLiveTable () {
         dispatch(handlePurchase(global, wallet))
         console.log("Purchase done")
     }
-
 
     const { getTableProps,
             getTableBodyProps,
@@ -110,8 +114,16 @@ export default function MarketLiveTable () {
 
     return (
         <>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Market Live</h2>
+        {(market.length === 0) ?
+        <Container>
+            <Alert variant={"warning"}>No market data yet</Alert>
+        </Container>
+        :
+        <Container>
+        
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table size="sm" {...getTableProps()}>
         
             <thead>
                 {
@@ -147,7 +159,7 @@ export default function MarketLiveTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
@@ -155,14 +167,16 @@ export default function MarketLiveTable () {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
+            <CSVLink  data={market}><button>Download CSV</button></CSVLink>
         </div>
+       
 
         {errors.validate !== ""? <span>{errors.validate}</span> : null}
         {errors.total !== ""? <span>{errors.total}</span> : null}
 
         <div>
-            <h2>Orden de Compra</h2>
-            <table>
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Orden de compra</h2>
+            <Table>
                 <thead>
                     <tr>
                         <th>
@@ -214,13 +228,15 @@ export default function MarketLiveTable () {
                         </th>
                     </tr>
                 </tfoot>
-            </table>
+            </Table>
 
         </div>
         {gameControl.actionGame === 1?
-        <button disabled={(errors.validate !== "" || errors.total !== "")} onClick={() => sendPurchase()}>Comprar</button>
+        <Button disabled={(errors.validate !== "" || errors.total !== "")} onClick={() => sendPurchase()}>Comprar</Button>
         : null}
-    </>
+        </Container>
+        }
+     </>
     )
 
 }

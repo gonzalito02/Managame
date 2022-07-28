@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Container from "react-bootstrap/esm/Container";
 import { useSelector } from "react-redux";
 import io from "socket.io-client"
 import NavBar from "../NavBar";
@@ -22,11 +23,18 @@ export default function Market () {
 
     return (
 
-        <div>
+        <>
+
             <NavBar />
-            <input></input>
-            <button onClick={() => sendMessage()}>Send the message</button>
-            <MarketLiveTable />
-        </div>
+
+            <Container>
+
+                <input></input>
+                <button onClick={() => sendMessage()}>Send the message</button>
+                <MarketLiveTable />
+
+            </Container>
+
+        </>
     )
 }

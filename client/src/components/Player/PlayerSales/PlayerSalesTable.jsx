@@ -5,12 +5,16 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { getShopRegPlayerById } from "../../../redux/actions/actions";
+import Table from "react-bootstrap/esm/Table";
+import Container from "react-bootstrap/esm/Container";
+import Alert from 'react-bootstrap/Alert';
 
 export default function PlayerSalesTable () {
 
     const dispatch = useDispatch()
     var results = useSelector(state => state.shoppingRegister)
     var loginUser = useSelector(state => state.userLogin)
+
 
     const idt = loginUser.id
 
@@ -45,10 +49,18 @@ export default function PlayerSalesTable () {
 
     if (pageSize === 10) setPageSize(20)
 
+
+
     return (
         <>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Sales</h2>
+        <Container> 
+        {(results.length === 0)?
+        <Alert variant={"warning"}>No sales yet</Alert>
+        :
+        <>
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table {...getTableProps()}>
         
             <thead>
                 {
@@ -84,7 +96,7 @@ export default function PlayerSalesTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
@@ -93,7 +105,9 @@ export default function PlayerSalesTable () {
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
-
+        </>
+        }
+        </Container>
         </>
     )
 

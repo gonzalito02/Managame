@@ -6,6 +6,9 @@ import { GlobalFilter } from "../GlobalFilter";
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import Table from "react-bootstrap/Table"
+import { CSVLink } from "react-csv"
+import { Button } from "bootstrap";
+import Container from "react-bootstrap/esm/Container";
 
 export default function PlayerTable () {
 
@@ -42,12 +45,12 @@ export default function PlayerTable () {
 
     const { pageIndex, pageSize, globalFilter } = state 
 
-    if (pageSize === 10) setPageSize(12)
+    if (pageSize === 10) setPageSize(20)
 
     return (
         <>
-        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <Table striped {...getTableProps()}>
+
+            <Table striped responsive {...getTableProps()}>
         
             <thead>
                 {
@@ -83,16 +86,16 @@ export default function PlayerTable () {
 
             </tbody>
 
-        </Table>
+            </Table>
 
-        <div>
-            <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>{"<<"}</button>
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
-            <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
-        </div>
-
+            <Container>
+                <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>{"<<"}</button>
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
+                <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
+                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button> 
+                <CSVLink  data={players}><button>Download CSV</button></CSVLink>
+            </Container>
         </>
     )
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Container from "react-bootstrap/esm/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudentById } from "../../redux/actions/actions";
 import NavBar from "../NavBar";
@@ -17,10 +18,12 @@ export default function StudentControl () {
     return (
         <>
             <NavBar/>
-        <h3>
-            Datos
-        </h3>
+
+            <Container>
+
             <StudentData />
+
+            </Container>
         </>
     )
 

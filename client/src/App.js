@@ -10,6 +10,7 @@ import StudentControl from "./components/Student/StudentControl";
 import StudentResults from "./components/Student/StudentShopping/StudentResults";
 import PlayerSales from "./components/Player/PlayerSales/PlayerSales";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import About from "./components/About/About";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/adminPlayerAndStudents" element = {<AdminPlayersAndStudents />}/>
           <Route path="/adminPlayersResults" element = {<AdminPlayersResults />}/>
           <Route path="/market" element = {<Market />}/>
+          <Route path="/about" element = {<About />}/>
         </Routes>
       </div>
     </BrowserRouter>

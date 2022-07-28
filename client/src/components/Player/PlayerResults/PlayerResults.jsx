@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Container from "react-bootstrap/esm/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { getResultsPlayerById } from "../../../redux/actions/actions";
 import NavBar from "../../NavBar";
@@ -17,10 +18,12 @@ export default function PlayerResults () {
     return (
         <>
             <NavBar/>
-        <h3>
-            Resultados Totales
-        </h3>
+
+            <Container>
+
             <PlayerResultsTable/>
+
+            </Container>
         </>
     )
 

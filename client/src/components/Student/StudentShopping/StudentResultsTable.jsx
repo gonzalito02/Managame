@@ -5,6 +5,9 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { getShopRegStudentById } from "../../../redux/actions/actions";
+import Container from "react-bootstrap/esm/Container";
+import Alert from 'react-bootstrap/Alert';
+import { CSVLink } from "react-csv";
 
 export default function StudentResultsTable () {
 
@@ -47,6 +50,15 @@ export default function StudentResultsTable () {
 
     return (
         <>
+
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Shopping</h2>
+        {(results.length === 0) ?
+        <Container>
+            <Alert variant={"warning"}>No shopping data yet</Alert>
+        </Container>
+        :
+        <Container>
+
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
         <table {...getTableProps()}>
         
@@ -92,8 +104,11 @@ export default function StudentResultsTable () {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
+            <CSVLink  data={results}><button>Download CSV</button></CSVLink>
         </div>
 
+        </Container>
+        }
         </>
     )
 

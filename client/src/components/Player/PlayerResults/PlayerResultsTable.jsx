@@ -5,6 +5,9 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { getResultsPlayerById } from "../../../redux/actions/actions";
+import Container from "react-bootstrap/esm/Container";
+import Table from "react-bootstrap/esm/Table";
+import Alert from 'react-bootstrap/Alert';
 
 export default function PlayerResultsTable () {
 
@@ -45,8 +48,14 @@ export default function PlayerResultsTable () {
 
     return (
         <>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Results</h2>
+        <Container> 
+        {(results.length === 0)?
+        <Alert variant={"warning"}>No results yet</Alert>
+        :
+        <>
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table {...getTableProps()}>
         
             <thead>
                 {
@@ -82,7 +91,7 @@ export default function PlayerResultsTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
@@ -92,6 +101,9 @@ export default function PlayerResultsTable () {
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
 
+        </>
+        }
+        </Container>
         </>
     )
 
