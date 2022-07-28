@@ -5,6 +5,7 @@ import { getAllPlayers, getAllStudents } from "../../redux/actions/actions";
 import { GlobalFilter } from "../GlobalFilter";
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
+import Table from "react-bootstrap/Table"
 
 export default function PlayerTable () {
 
@@ -46,7 +47,7 @@ export default function PlayerTable () {
     return (
         <>
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table striped {...getTableProps()}>
         
             <thead>
                 {
@@ -82,7 +83,7 @@ export default function PlayerTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>

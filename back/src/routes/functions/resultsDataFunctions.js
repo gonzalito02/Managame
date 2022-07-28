@@ -67,7 +67,7 @@ async function getResultsDataById(id) {
 
 }
 
-async function updateResultsData (playerID, {
+async function updateResultsData (playerId, {
     period,
     totalSales,
     finantialInvestmentResults,
@@ -77,17 +77,20 @@ async function updateResultsData (playerID, {
     }) 
     {
 
+    
     try {
 
-        const resultsData = await ResultsData.findOne({ where: { playerId: playerID, period: period }}); 
+        const resultsData = await ResultsData.findOne({ where: { playerId: playerId, period: period }}); 
 
+        if (!resultsData) return "No resultsData found"
+ 
         if(extraResults) await resultsData.increment("extraResults", {by: extraResults})
         if(totalSales) await resultsData.increment("totalSales", {by: totalSales})
         if(finantialInvestmentResults) await resultsData.increment("finantialInvestmentResults", {by: finantialInvestmentResults})
         if(loanInterest) await resultsData.increment("loanInterest", {by: loanInterest})
         if(observations) await resultsData.update({observations: observations})
 
-        const newResultsData = await ResultsData.findOne({ where: { playerId: playerID, period: period }}); 
+        const newResultsData = await ResultsData.findOne({ where: { playerId: playerId, period: period }}); 
 
         if (newResultsData) return (newResultsData)
             
@@ -99,4 +102,18 @@ async function updateResultsData (playerID, {
 
 }
 
-module.exports = { resultsDataCreate, getResultsData, getResultsDataById, updateResultsData }
+async function updateBulkResultsData (data) {
+
+    var log = []
+
+    data.forEach(d => {
+        let {period, playerId, stockProduct, priceProduct } = d.purchase
+        const totalSales = stockProduct * priceProduct
+        var load = updateResultsData(playerId, {period, totalSales})
+        log.push(load)
+    })
+
+    return log
+}
+
+module.exports = { resultsDataCreate, getResultsData, getResultsDataById, updateResultsData, updateBulkResultsData }

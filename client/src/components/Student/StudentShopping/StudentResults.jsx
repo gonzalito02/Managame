@@ -6,14 +6,6 @@ import StudentResultsTable from "./StudentResultsTable";
 
 export default function StudentResults () {
 
-    // const dispatch = useDispatch()
-
-    // var loginUser = useSelector(state => state.loginUser)
-
-    // useEffect(() => {
-    //     if (loginUser && loginUser.rol === "student") dispatch(getResultsPlayerById(loginUser.id))
-    // }, [dispatch, loginUser])
-
     return (
         <>
             <NavBar/>

@@ -9,6 +9,7 @@ import PlayerResults from "./components/Player/PlayerResults/PlayerResults";
 import StudentControl from "./components/Student/StudentControl";
 import StudentResults from "./components/Student/StudentShopping/StudentResults";
 import PlayerSales from "./components/Player/PlayerSales/PlayerSales";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

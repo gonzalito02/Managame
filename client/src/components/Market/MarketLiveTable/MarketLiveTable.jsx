@@ -4,7 +4,7 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { decrementMarket, getMarketLive, makeCart } from "../../../redux/actions/actions";
+import { decrementMarket, getMarketLive, handlePurchase, makeCart } from "../../../redux/actions/actions";
 
 export default function MarketLiveTable () {
 
@@ -16,14 +16,14 @@ export default function MarketLiveTable () {
     const cart = useSelector(state => state.cart)
     const cartControl = useSelector(state => state.cartControl)
 
-    var [errors, setErrors] = useState({validate: "existo", total: ""})
+    var [errors, setErrors] = useState({validate: "", total: ""})
 
     const cartFill = () => {
         if (cart.length > 0) {
             var finalCart = {}
             for (let i = 0; i < cart.length; i++) {
                 let obj = {
-                    "id": cart[i][2].playerId,
+                    "id": studentData.id,
                     "purchase":{   
                                 "period": gameControl.period,
                                 "typeProduct": cart[i][2].typeProduct,
@@ -37,6 +37,7 @@ export default function MarketLiveTable () {
                 
             }
         }
+
         return finalCart
     }
 
@@ -46,13 +47,14 @@ export default function MarketLiveTable () {
         if (cart.length > 0) {
             var total = cart.reduce((a, b) => a + (parseInt(b[1]) * parseInt(b[2].priceProduct)), 0)
         }
+
         if (total > studentData.wallet && errors.total === "") {
             setErrors({...errors, total: "Disponibilidades insuficientes"}) 
         } 
         else if (total < 0 && errors.total === "") {
             setErrors({...errors, total: "No puede existir compra negativa"})
         }
-        else if (cartControl.length === 0 && errors.validate !== "" && total <= studentData.wallet) {
+        else if (cartControl.length === 0 && total <= studentData.wallet && (errors.validate !== "" || errors.total !== "")) {
             setErrors({...errors, validate: "", total: ""})
         } 
         return total
@@ -68,63 +70,20 @@ export default function MarketLiveTable () {
 
     const data = useMemo(() => marketLive, [market])
     const columns = useMemo(() => COLUMNS, [])
-    
-    // const handlePurchase = (e, row) => {
-    //     e.preventDefault()
-    //     const data = row.original
-    //     const prod = e.target.name
-    //     var val = document.getElementById(e.target.name).value
-    //     if (row.original.stockProduct < val) {
-    //         setErrors({validate:"Error, no hay suficiente stock"})
-    //         dispatch(cartControlFunc(prod, "add"))
-    //     }
-    //     else {
-    //         dispatch(makeCart([prod, val, data]))
-    //         dispatch(cartControlFunc(prod, "rm"))
-    //     }
-    // }
 
     const sendPurchase = () => {
         const finalCart = cartFill()
-        var purchaseCart = []
-        console.log(purchaseCart)
+        const wallet = totalCart()
+        var global = []
+
         for (let i = 0; i < cart.length; i++) {
-            purchaseCart.push(finalCart[i])
+            global.push(finalCart[i])
         }
-        dispatch(decrementMarket(purchaseCart))
 
-        // aca
-
-
+        dispatch(handlePurchase(global, wallet))
         console.log("Purchase done")
     }
- 
-    // const tableHooks = (hooks) => {
 
-    //     hooks.visibleColumns.push((columns) => [
-    //       ...columns,
-    //         {
-    //           id:"Compra",
-    //           Header:"Compra",
-    //           Cell: ({ row }) => {return (
-
-    //                 <div>
-    //                     <input name={
-    //                         (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
-    //                         (row.original.typeProduct === "B")? `${row.original.playerId}2`:
-    //                         `${row.original.playerId}3`} 
-    //                     onChange={e => handlePurchase(e, row)} id={
-    //                         (row.original.typeProduct === "A")? `${row.original.playerId}1`: 
-    //                         (row.original.typeProduct === "B")? `${row.original.playerId}2`:
-    //                         `${row.original.playerId}3`} 
-    //                     ></input>
-    //                 </div>
-
-    //             )}
-    //         }
-    //       ]
-    //     )
-    //   }
 
     const { getTableProps,
             getTableBodyProps,

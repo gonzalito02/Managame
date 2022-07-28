@@ -83,10 +83,10 @@ router.put("/bulk/decrement",  async (req, res) => {
         var errors = []
 
         for (var i = 0; i < req.body.length; i++) {
-            const response = await marketOfferDecrement(req.body[i].id, req.body[i].purchase)
-            if (response === "No stock") errors.push({id: req.body[i].id, purchase: req.body[i].purchase})
-            else if (response === "No product found") errors.push({id: req.body[i].id, purchase: req.body[i].purchase})
-            else (console.log(`Purchase ${req.body[i].id}, ${req.body[i].purchase} done`))
+            const response = await marketOfferDecrement(req.body[i].purchase)
+            if (response === "No stock") errors.push({id: req.body[i].purchase.playerId, purchase: req.body[i].purchase})
+            else if (response === "No product found") errors.push({id: req.body[i].purchase.playerId, purchase: req.body[i].purchase})
+            else (console.log(`Purchase ${req.body[i].purchase.playerId}, ${req.body[i].purchase} done`))
         }
 
         if (errors.length > 0) return (res.send({message: "Purchase with errors, check out the log"}), console.log(errors))
