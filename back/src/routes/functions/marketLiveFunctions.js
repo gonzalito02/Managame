@@ -53,22 +53,23 @@ async function marketOfferInsert (playerID, {
     
 }
 
-async function marketOfferDecrement (playerID, {
+async function marketOfferDecrement ({
+    playerId,
     period,
     typeProduct,
-    purchase
+    stockProduct
     }) 
     {
 
     try {
 
-    const marketObject = await MarketLive.findOne({ where: { playerId: playerID, period: period, typeProduct: typeProduct } }); 
+    const marketObject = await MarketLive.findOne({ where: { playerId: playerId, period: period, typeProduct: typeProduct } }); 
 
-    if (marketObject?.dataValues.stockProduct < purchase) return ("No stock")
+    if (marketObject?.dataValues.stockProduct < stockProduct) return ("No stock")
 
             try {
 
-                const newMarketObject = await marketObject.decrement({stockProduct: purchase})
+                const newMarketObject = await marketObject.decrement({stockProduct: stockProduct})
 
                 if (newMarketObject) return (newMarketObject)
 

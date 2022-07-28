@@ -77,8 +77,9 @@ async function shoppingCreate (id, {
 
     const a = await player.addShoppingRegister(shopping);
     const b = await student.addShoppingRegister(shopping);
-    console.log(a, b)
+
     if (shopping) return (shopping)
+    else return "Cannot create shopping register"
 
     } catch (e) {
         throw new Error("Cannot create the shopping")

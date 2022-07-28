@@ -1,7 +1,7 @@
 const express = require("express")
 const validateJwt = require("../controllers/validationJWT.js")
 const validationPlayer = require("../controllers/validationPlayer.js")
-const { resultsDataCreate, getResultsDataById, getResultsData, updateResultsData } = require("./functions/resultsDataFunctions.js")
+const { resultsDataCreate, getResultsDataById, getResultsData, updateResultsData, updateBulkResultsData } = require("./functions/resultsDataFunctions.js")
 const router = express.Router()
 
 router.post("/:id", async (req, res) => {
@@ -63,6 +63,23 @@ router.get("/",  async (req, res) => {
 
         const resultsData = await getResultsData()
         if (resultsData) return res.send({message: "resultsData obtained", response: resultsData})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.put("/bulk/increment",  async (req, res) => {
+
+    try {
+
+        const resultsDatas = await updateBulkResultsData(req.body)
+        if (resultsDatas) {
+            console.log(resultsDatas)
+            return res.send({message: "Results data of more than one player done"})
+        }
 
     } catch (e) {
 

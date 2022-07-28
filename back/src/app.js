@@ -35,6 +35,8 @@ const marketLive = require("./routes/marketLive.js")
 const resultsData = require("./routes/resultsData.js")
 const qualityRegister = require("./routes/qualityRegister.js")
 const shoppingRegister = require("./routes/shoppingRegister.js")
+const manager = require("./routes/manager.js")
+
 
 // esto nos devuelve un funcion.
 // sin invoco a express, le doy inicio al servidor:
@@ -115,6 +117,7 @@ app.use("/market", marketLive)
 app.use("/resultsData", resultsData)
 app.use("/qualityRegister", qualityRegister)
 app.use("/shoppingRegister", shoppingRegister)
+app.use("/manager", manager)
 
 // EL ORDEN DE LOS MIDDLEWARES SI IMPORTAN, seguir con el que está planteado aca.
 

@@ -8,11 +8,8 @@ export default function ShoppingSet ({data}) {
     const dispatch = useDispatch()
 
     const cart = useSelector(state => state.cart)
-    const cartControl = useSelector(state => state.cartControl)
 
-    var [errors, setErrors] = useState({validate: ""})
-
-    console.log(data)
+    var [errors, setErrors] = useState({valid: ""})
 
     const cartFill = () => {
         if (cart.length > 0) {
@@ -32,15 +29,6 @@ export default function ShoppingSet ({data}) {
         return finalCart
     }
 
-    // {
-    //     period: data.period,
-    //     typeProduct: "A",
-    //     stockProduct: data.quantityA,
-    //     qualityProduct: data.qualityA,
-    //     priceProduct: data.priceA,
-    //     playerId: data.playerId
-    // }
-
     useEffect(() => {
         dispatch(getMarketLive())
         cartFill()
@@ -51,11 +39,11 @@ export default function ShoppingSet ({data}) {
         const prod = e.target.name
         var val = document.getElementById(e.target.name).value
         if (data.stockProduct < val) {
-            setErrors({validate:"Error, no hay suficiente stock"})
+            setErrors({valid:"Error, no hay suficiente stock"})
             dispatch(cartControlFunc(prod, "add"))
         }
         else {
-            setErrors({validate:""})
+            setErrors({valid:""})
             dispatch(makeCart([prod, val, data]))
             dispatch(cartControlFunc(prod, "rm"))
         }
@@ -73,7 +61,7 @@ export default function ShoppingSet ({data}) {
                     (data.typeProduct === "B")? `${data.playerId}2`:
                     `${data.playerId}3`} 
             ></input>
-            {errors.validate? <span>{errors.validate}</span> : null}
+            {errors.valid? <span>{errors.valid}</span> : null}
         </>
     )
 }

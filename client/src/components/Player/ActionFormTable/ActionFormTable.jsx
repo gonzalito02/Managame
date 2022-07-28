@@ -44,7 +44,7 @@ export default function ActionFormTable () {
 
     const { pageIndex, pageSize, globalFilter } = state 
 
-    if (pageSize === 10) setPageSize(12)
+    if (pageSize === 10) setPageSize(5)
 
     return (
         <>

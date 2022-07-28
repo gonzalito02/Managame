@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllForms, getAllPlayers, getGameControl, getStudentById, loginFunction, logoutFunction, setUserLogged } from "../redux/actions/actions";
+import Table from "react-bootstrap/Table"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function NavBar () {
 
@@ -67,93 +75,101 @@ export default function NavBar () {
     } = gameControl
 
     return (
-    <>
-        <div>
-            <h1>Welcome to Managame!</h1>
-
-            {loginUser.id?
-                <div>
-                    <h3>{`Login ${loginUser.name}, role ${loginUser.rol}`}</h3>
-                    <button onClick={() => {submitLogout()}}>Logout</button>
-                </div>
-            :
-                <div>
-                    <input name="id" type="number" value={login.id} onChange={(e) => handleLogin(e)}></input>
-                    <input name="password" type="password" value={login.password} onChange={(e) => handleLogin(e)}></input>
-                    <input name="type" type="checkbox" value={login.aos} onChange={(e) => handleLogin(e)}></input><span>Empresa </span>
-                    <button onClick={() => {submitLogin()}}>Login</button>
-                </div>
-            }
+    <>  
+        <Navbar bg="light" expand="lg">
             
-            <div>
-                    <Link to="/home">
-                    <button>Home</button>
-                    </Link>
-                {(loginUser.rol === "student" || loginUser.rol === "admin")?
-                    <div>
-                        <Link to="/market">
-                        <button>Market</button>
-                        </Link>
-                        <Link to="/student">
-                        <button>Student</button>
-                        </Link>
-                        <Link to="/studentResults">
-                        <button>Shopping</button>
-                        </Link>
-                    </div>
-                : null}
-                {(loginUser.rol === "player" || loginUser.rol === "admin")?
-                    <div>
-                        <Link to="/player">
-                        <button>Player</button>
-                        </Link>
-                        <Link to="/playerResults">
-                        <button>Results</button>
-                        </Link>
-                        <Link to="/playerSales">
-                        <button>Sales</button>
-                        </Link>
-                    </div>
-                : null}
-                {(loginUser.rol === "admin")?
-                    <div>
-                        <Link to="/adminControl">
-                        <button>Admin</button>
-                        </Link>
-                        <Link to="/adminPlayerAndStudents">
-                        <button>Players and Students</button>
-                        </Link>
-                        <Link to="/adminPlayersResults">
-                        <button>Players Results</button>
-                        </Link>
-                    </div>
-                : null}
-            </div>
+            <Container>
 
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Controladores del juego
-                            </th>
-                            <th>
-                                
-                            </th>
-                            <th>
-                                
-                            </th>
-                            <th>
-                                
-                            </th>
-                            <th>
-                                
-                            </th>
-                            <th>
-                                
-                            </th>
-                        </tr>
-                    </thead>
+                <Navbar.Brand href="/home">Managame</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="options">
+                    <Nav className="allOptions">
+                    <Nav.Link href="/home">Home</Nav.Link>
+                    <Nav.Link href="/about">About</Nav.Link>
+                        {(loginUser.rol === "student" || loginUser.rol === "admin")?
+                        <Nav>
+                            <NavDropdown title="Student" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/market">
+                                Market
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/student">
+                                Student
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/studentResults">
+                                Shopping
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                            <Navbar.Text>
+                                Wallet $ {studentData.wallet}
+                            </Navbar.Text>
+                        </Nav>
+                        : null}
+                        {(loginUser.rol === "player" || loginUser.rol === "admin")?
+                            <NavDropdown title="Player" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/player">
+                                Player
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/playerResults">
+                                Results
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/playerSales">
+                                Sales
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        : null}
+                        {(loginUser.rol === "admin")?
+                            <NavDropdown title="Admin" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/adminControl">
+                                Admin
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/adminPlayerAndStudents">
+                                Players and Students
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/adminPlayersResults">
+                                Players Results
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        : null}
+
+                        </Nav>
+
+                            {loginUser.id?
+                            
+                            <Navbar.Collapse className="justify-content-end">
+                                <Nav>
+                                    <Navbar.Text>
+                                    {`${loginUser.name} (${loginUser.rol})  `}             
+                                    </Navbar.Text>
+                                    <Button onClick={() => {submitLogout()}}>LogOut</Button>  
+                                </Nav>
+                            </Navbar.Collapse>
+                          
+                            :
+                            <Navbar.Collapse className="justify-content-end">
+                                <NavDropdown title="Login"> 
+                                        <Form className="d-flex">  
+                                            <Form.Group>
+                                                <Form.Control name="id" type="number" value={login.id} onChange={(e) => handleLogin(e)} />
+                                                <NavDropdown.Divider />
+                                                <input name="type" type="checkbox" value={login.aos} onChange={(e) => handleLogin(e)} /><span>Empresa </span>
+                                                <NavDropdown.Divider />
+                                                <Form.Control name="password" type="password" value={login.password} onChange={(e) => handleLogin(e)} />
+                                                <NavDropdown.Divider />
+                                                <Button onClick={() => {submitLogin()}}>Login</Button>
+                                            </Form.Group>
+                                        </Form>
+                                </NavDropdown>
+                            </Navbar.Collapse>
+                        }
+
+                </Navbar.Collapse>
+            </Container>
+
+        </Navbar>
+
+
+        <Table striped responsive>
+                    
                     <tbody>
                         <tr>
                             <td>
@@ -176,9 +192,7 @@ export default function NavBar () {
                             <td>
                                 {productionCapacity}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             costProdA
                             </td>
@@ -198,6 +212,13 @@ export default function NavBar () {
                             </td>
                             <td>
                                 {costProdC}
+                            </td>
+
+                            <td>
+                            actionGame
+                            </td>
+                            <td>
+                                {(actionGame === 0)? "Production" : ((actionGame === 1)? "Market" : "Clearing")}
                             </td>
                         </tr>
 
@@ -222,9 +243,7 @@ export default function NavBar () {
                             <td>
                                 {maxLoanAmount}
                             </td>
-                        </tr>
 
-                        <tr>
                             <td>
                             maxRateFinDinInvest
                             </td>
@@ -245,15 +264,6 @@ export default function NavBar () {
                             <td>
                                 {maxTotalFinInvestAmount}
                             </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                            actionGame
-                            </td>
-                            <td>
-                                {(actionGame === 0)? "Production" : ((actionGame === 1)? "Market" : "Clearing")}
-                            </td>
                             <td>
                             wallet
                             </td>
@@ -263,21 +273,13 @@ export default function NavBar () {
                         </tr>
 
                     </tbody>
-                </table>
-            </div>
+            </Table>
 
-            {(loginUser.rol === "student")? 
-            <div>
-                <h3>Wallet</h3>
-                <h3>$ {studentData.wallet}</h3>
-            </div> :
-            null }
-
-            <div>
-                Acciones: <span>{errors}</span>
-            </div>
-
-        </div>
+            <Container>
+                <ListGroup>
+                    <ListGroup.Item variant="primary">Acciones: {errors}</ListGroup.Item>
+                </ListGroup>
+            </Container>
         </>
     )
 }

@@ -526,6 +526,49 @@ export const decrementMarket = (data) => {
     }
 }
 
+export const handlePurchase = (data, wallet) => {
+    return async function (dispatch) {
+
+        console.log("actions", data)
+
+        var wal = {
+            id: data.id,
+            wallet: wallet
+        } 
+  
+        try {
+  
+            console.log("estoy aca")
+            await axios.put(`http://localhost:3002/market/bulk/decrement`, data);
+            await axios.put(`http://localhost:3002/student/wallet/decrement`, wal);
+            
+            try {
+
+                // {   
+                //     "period": 1,
+                //     "observations": "Aloha",
+                //     "totalSales": 120
+                // }
+                
+                // {
+                //     "id": 12345678,
+                //     "wallet": 1001
+                // }
+
+            } catch {
+
+
+            }
+
+            return dispatch({ type: SET_ERRORS, payload: "Purchase done succesfully"});
+
+        } catch (e) {
+            console.log(e)
+  
+        }
+    }
+}
+
 export const loginFunction = (data) => {
     return async function (dispatch) {
   
