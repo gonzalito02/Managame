@@ -5,6 +5,8 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { getFormById } from "../../../redux/actions/actions";
+import Container from "react-bootstrap/esm/Container";
+import Table from "react-bootstrap/esm/Table";
 
 export default function ActionFormTable () {
 
@@ -48,8 +50,16 @@ export default function ActionFormTable () {
 
     return (
         <>
+
+        {(forms.length === 0) ?
+
+        <h4>No forms submited</h4>
+        
+        :
+        <Container>
+
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table {...getTableProps()}>
         
             <thead>
                 {
@@ -85,7 +95,7 @@ export default function ActionFormTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
@@ -94,7 +104,8 @@ export default function ActionFormTable () {
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
-
+        </Container>
+        }
         </>
     )
 

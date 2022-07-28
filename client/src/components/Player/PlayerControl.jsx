@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Container from "react-bootstrap/esm/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { getFormById, getGameControl } from "../../redux/actions/actions";
 import NavBar from "../NavBar";
@@ -23,18 +24,23 @@ export default function PlayerControl () {
     return (
         <>
             <NavBar/>
-        <h3>
-            Planes de acción presentados
-        </h3>
-            <ActionFormTable />
-        <h2>
-            Formulario - Plan de acción
-        </h2>
-            <FormActionCreate />
-        <h2>
-            Player - Modificación de datos
-        </h2>
+
+            <Container>
+
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Player Data</h2>
+
             <PlayerData playerID={idt}/>
+
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Planes de acción presentados</h2>
+
+            <ActionFormTable />
+
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Formulario</h2>
+
+            <FormActionCreate />
+        
+
+            </Container>
         </>
     )
 

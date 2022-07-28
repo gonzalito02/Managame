@@ -1,5 +1,9 @@
+import Alert from 'react-bootstrap/Alert';
+import Container from 'react-bootstrap/Container'
 import React, { useState } from "react";
 import { useEffect } from "react";
+import Button from "react-bootstrap/esm/Button";
+import Table from "react-bootstrap/esm/Table";
 import { useSelector, useDispatch } from "react-redux";
 import { createActionForm, getQualityRegisterById } from "../../redux/actions/actions";
 
@@ -208,7 +212,7 @@ export default function FormActionCreate () {
             <h4>
                 Datos de la empresa
             </h4>
-            <table>
+            <Table size="sm" hover={true}>
                 <thead>
                     <tr>
                         <th>
@@ -285,11 +289,11 @@ export default function FormActionCreate () {
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </Table>
             <h4>
                 Formulario - Plan de acción
             </h4>
-        <table>
+        <Table>
             <thead>
                 <tr>
                     <th>
@@ -332,7 +336,7 @@ export default function FormActionCreate () {
                         Producción de A.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto A. Cada producto consumo 2% de uso de planta.
+                        Indicar la cantidad a generar del producto A. Cada producto consume 2% de uso de planta.
                     </td>
                     <td>
                         <span>$ {form.quantityA * costProdA}</span>
@@ -385,7 +389,7 @@ export default function FormActionCreate () {
                         Producción de B.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto B. Cada producto consumo 1% de uso de planta.
+                        Indicar la cantidad a generar del producto B. Cada producto consume 1% de uso de planta.
                     </td>
                     <td>
                         <span>$ {form.quantityB * costProdB}</span>
@@ -438,7 +442,7 @@ export default function FormActionCreate () {
                         Producción de C.
                     </td>
                     <td>
-                        Indicar la cantidad a generar del producto C. Cada producto consumo 0,5% de uso de planta.
+                        Indicar la cantidad a generar del producto C. Cada producto consume 0,5% de uso de planta.
                     </td>
                     <td>
                         <span>$ {form.quantityC * costProdC}</span>
@@ -622,17 +626,17 @@ export default function FormActionCreate () {
                 </tr>
 
             </tbody>
-        </table>
+        </Table>
         <h4>
             Control
         </h4>
-            <ul>
-            <li>Control general: {(errors.general !== "") ? errors.general : "OK"}</li>
-            <li>Control valores: {(errors.integer !== "") ? errors.integer : "OK"}</li>
-            <li>Control financiero: {(errors.dinform !== "") ? errors.dinform : "OK"}</li>
-            <li>Control totales: {(errors.total !== "") ? errors.total : "OK"}</li>
-            </ul>
-        <button type="submit" disabled={disabled} onClick={() => submitForm()}>Enviar</button>
+            <Container>
+            {(errors.general !== "") ? <Alert variant={"danger"}>{errors.general}</Alert>: <Alert variant={"success"}>Control General OK</Alert>}
+            {(errors.integer !== "") ? <Alert variant={"danger"}>{errors.integer}</Alert>: <Alert variant={"success"}>Control de enteros OK</Alert>}
+            {(errors.dinform !== "") ? <Alert variant={"danger"}>{errors.dinform}</Alert>: <Alert variant={"success"}>Control de formulario dinámico OK</Alert>}
+            {(errors.total !== "") ? <Alert variant={"danger"}>{errors.total}</Alert>: <Alert variant={"success"}>Control de total OK</Alert>}
+            </Container>
+        <Button type="submit" disabled={disabled} onClick={() => submitForm()}>Enviar</Button>
         </>
     )
 }

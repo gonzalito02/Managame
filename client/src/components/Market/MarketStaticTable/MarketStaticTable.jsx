@@ -4,13 +4,16 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { cartControlFunc, decrementMarket, getMarketLive, makeCart } from "../../../redux/actions/actions";
+import { getMarketLive } from "../../../redux/actions/actions";
+import Container from "react-bootstrap/esm/Container";
+import Table from "react-bootstrap/esm/Table";
+import Alert from 'react-bootstrap/Alert';
+import { CSVLink } from "react-csv";
 
 export default function MarketStaticTable () {
 
     const dispatch = useDispatch()
     const market = useSelector(state => state.marketLive)
-    const gameControl = useSelector(state => state.gameControl)
     
     if (market.length === 0) var marketLive = ["none"]  
     else var marketLive = market
@@ -43,12 +46,19 @@ export default function MarketStaticTable () {
 
     const { pageIndex, pageSize, globalFilter } = state 
 
-    if (pageSize === 10) setPageSize(12)
+    if (pageSize === 10) setPageSize(20)
 
     return (
         <>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Market</h2>
+        {(market.length === 0) ?
+        <Container>
+            <Alert variant={"warning"}>No market data yet</Alert>
+        </Container>
+        :
+        <Container>
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table hover={true} {...getTableProps()}>
         
             <thead>
                 {
@@ -84,7 +94,7 @@ export default function MarketStaticTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>
@@ -92,7 +102,10 @@ export default function MarketStaticTable () {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
+            <CSVLink  data={market}><button>Download CSV</button></CSVLink>
         </div>
+        </Container>
+        }
      </>
     )
 

@@ -10,6 +10,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Alert from 'react-bootstrap/Alert';
 
 export default function NavBar () {
 
@@ -79,8 +80,9 @@ export default function NavBar () {
         <Navbar bg="light" expand="lg">
             
             <Container>
+         
 
-                <Navbar.Brand href="/home">Managame</Navbar.Brand>
+                <Navbar.Brand href="/home">Business Game</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="options">
                     <Nav className="allOptions">
@@ -99,6 +101,10 @@ export default function NavBar () {
                                 Shopping
                                 </NavDropdown.Item>
                             </NavDropdown>
+                            
+                            <Navbar.Text></Navbar.Text>
+                            <div class="vr"></div> 
+                              
                             <Navbar.Text>
                                 Wallet $ {studentData.wallet}
                             </Navbar.Text>
@@ -139,8 +145,9 @@ export default function NavBar () {
                                 <Nav>
                                     <Navbar.Text>
                                     {`${loginUser.name} (${loginUser.rol})  `}             
+                                    <div className="vr" />                                    
                                     </Navbar.Text>
-                                    <Button onClick={() => {submitLogout()}}>LogOut</Button>  
+                                    <Button variant="secondary" onClick={() => {submitLogout()}}>Logout</Button>  
                                 </Nav>
                             </Navbar.Collapse>
                           
@@ -155,7 +162,7 @@ export default function NavBar () {
                                                 <NavDropdown.Divider />
                                                 <Form.Control name="password" type="password" value={login.password} onChange={(e) => handleLogin(e)} />
                                                 <NavDropdown.Divider />
-                                                <Button onClick={() => {submitLogin()}}>Login</Button>
+                                                <Button variant="secondary" onClick={() => {submitLogin()}}>Login</Button>
                                             </Form.Group>
                                         </Form>
                                 </NavDropdown>
@@ -163,110 +170,109 @@ export default function NavBar () {
                         }
 
                 </Navbar.Collapse>
-            </Container>
-
+ 
+                </Container>
         </Navbar>
-
-
-        <Table striped responsive>
+        
+        <Table responsive size="sm" bordered>
                     
                     <tbody>
                         <tr>
-                            <td>
+                            <th>
                                 period
-                            </td>
+                            </th>
                             <td>
                                 {period}
                             </td>
 
-                            <td>
+                            <th>
                                 qualityInvCost
-                            </td>
+                            </th>
                             <td>
                                 {qualityInvCost}
                             </td>
 
-                            <td>
+                            <th>
                                 productionCapacity
-                            </td>
+                            </th>
                             <td>
                                 {productionCapacity}
                             </td>
 
-                            <td>
+                            <th>
                             costProdA
-                            </td>
+                            </th>
                             <td>
                                 {costProdA}
                             </td>
 
-                            <td>
+                            <th>
                             costProdB
-                            </td>
+                            </th>
                             <td>
                                 {costProdB}
                             </td>
 
-                            <td>
+                            <th>
                             costProdC
-                            </td>
+                            </th>
                             <td>
                                 {costProdC}
                             </td>
 
-                            <td>
+                            <th>
                             actionGame
-                            </td>
+                            </th>
                             <td>
                                 {(actionGame === 0)? "Production" : ((actionGame === 1)? "Market" : "Clearing")}
                             </td>
                         </tr>
 
                         <tr>
-                            <td>
+                            <th>
                             minProductCapacity
-                            </td>
+                            </th>
                             <td>
                                 {minProductCapacity}
                             </td>
 
-                            <td>
+                            <th>
                             minRateLoan
-                            </td>
+                            </th>
                             <td>
                                 {minRateLoan}
                             </td>
 
-                            <td>
+                            <th>
                             maxLoanAmount
-                            </td>
+                            </th>
                             <td>
                                 {maxLoanAmount}
                             </td>
 
-                            <td>
+                            <th>
                             maxRateFinDinInvest
-                            </td>
+                            </th>
                             <td>
                                 {maxRateFinDinInvest}
                             </td>
 
-                            <td>
+                            <th>
                             maxRateFinFixedInvest
-                            </td>
+                            </th>
                             <td>
                                 {maxRateFinFixedInvest}
                             </td>
 
-                            <td>
+                            <th>
                             maxTotalFinInvestAmount
-                            </td>
+                            </th>
                             <td>
                                 {maxTotalFinInvestAmount}
                             </td>
-                            <td>
+                            <th>
                             wallet
-                            </td>
+                            </th>
                             <td>
                                 {wallet}
                             </td>
@@ -275,11 +281,8 @@ export default function NavBar () {
                     </tbody>
             </Table>
 
-            <Container>
-                <ListGroup>
-                    <ListGroup.Item variant="primary">Acciones: {errors}</ListGroup.Item>
-                </ListGroup>
-            </Container>
+            <Alert variant={"secondary"}>Acciones: {errors}</Alert>
+
         </>
     )
 }

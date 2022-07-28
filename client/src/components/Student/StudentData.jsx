@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react"
+import Button from "react-bootstrap/esm/Button"
+import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
 import { getStudentById, updateDataStudent } from "../../redux/actions/actions"
 
@@ -14,7 +16,7 @@ export default function StudentData () {
 
     useEffect(() => {
         dispatch(getStudentById(student.id))
-    }, [dispatch, submit])
+    }, [dispatch, submit, student])
 
     var { id, name, wallet, email, rolName } = dataStudent
 
@@ -38,8 +40,8 @@ export default function StudentData () {
 
     return (
         <>
-            <button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</button>
-            <table>
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Student Data</h2>
+            <Table>
                 <thead>
                         <tr>
                             <th>
@@ -109,8 +111,9 @@ export default function StudentData () {
 
                         </tr>
     
-            </tbody>
-            </table>
+                </tbody>
+            </Table>
+            <Button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</Button>
         </>
     )
 }

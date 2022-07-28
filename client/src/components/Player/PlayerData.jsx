@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
+import Button from "react-bootstrap/esm/Button"
+import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
 import { getPlayerById, updateDataPlayer } from "../../redux/actions/actions"
 
@@ -41,8 +43,7 @@ export default function PlayerData ({playerID}) {
 
     return (
         <>
-            <button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</button>
-            <table>
+            <Table>
                 <thead>
                         <tr>
                             <th>
@@ -102,8 +103,9 @@ export default function PlayerData ({playerID}) {
                             </td>
                         </tr>
     
-            </tbody>
-            </table>
+                </tbody>
+            </Table>
+            <Button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</Button>
         </>
     )
 }
