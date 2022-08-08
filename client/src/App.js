@@ -11,6 +11,7 @@ import StudentResults from "./components/Student/StudentShopping/StudentResults"
 import PlayerSales from "./components/Player/PlayerSales/PlayerSales";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import About from "./components/About/About";
+import AdminCreate from "./components/Admin/AdminCreate";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/adminControl" element = {<AdminControl />}/>
           <Route path="/adminPlayerAndStudents" element = {<AdminPlayersAndStudents />}/>
           <Route path="/adminPlayersResults" element = {<AdminPlayersResults />}/>
+          <Route path="/adminCreate" element = {<AdminCreate />}/>
           <Route path="/market" element = {<Market />}/>
           <Route path="/about" element = {<About />}/>
         </Routes>

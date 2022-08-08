@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import Button from "react-bootstrap/esm/Button"
 import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
-import { getPlayerById, updateDataPlayer } from "../../redux/actions/actions"
+import { getPlayerById, setBusinessStudent, updateDataPlayer } from "../../redux/actions/actions"
 
 
 export default function PlayerData ({playerID}) {
@@ -13,8 +13,14 @@ export default function PlayerData ({playerID}) {
 
     var [submit, setSubmit] = useState(true)
 
+    const [formAdd, setFormAdd] = useState({
+        id: "",
+        playerId: playerID,
+    })
+
     useEffect(() => {
         dispatch(getPlayerById(playerID))
+        setFormAdd({...formAdd, playerId: playerID})
     }, [dispatch, playerID, submit])
 
     var { id, fantasyName, members, officialName, resultsAcc, group } = dataPlayer
@@ -39,6 +45,15 @@ export default function PlayerData ({playerID}) {
         if (e.target.name === "fantasyName") var value = e.target.value
         else var value = e.target.value.split(",")
         setForm({...form, [e.target.name]: value})
+    }
+
+    const handleAdd = (e) => {
+        setFormAdd({...formAdd, id: parseInt(e.target.value) || ""})
+    }
+
+    const handleAddSubmit = (e) => {
+        dispatch(setBusinessStudent(formAdd))
+        console.log("setted")
     }
 
     return (
@@ -106,6 +121,45 @@ export default function PlayerData ({playerID}) {
                 </tbody>
             </Table>
             <Button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</Button>
+            
+            <h4 style={{padding:"20px", borderBottom:"solid 1px"}}>Add student/customer</h4>
+
+            <Table>
+                <thead>
+                        <tr>
+                            <th>
+                                Concepto
+                            </th>
+                            <th>
+                                Valor
+                            </th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr>
+
+                            <td>
+                                DNI / ID del alumno
+                            </td> 
+                            <td> 
+                                 <input name="id" value={formAdd.id} onChange={(e) => handleAdd(e)}></input> 
+                            </td> 
+
+                        </tr>
+
+                         <tr>
+
+                            <td>
+                                ID Empresa
+                            </td> 
+                            <td> 
+                                {id} 
+                            </td> 
+
+                        </tr>
+                </tbody>
+            </Table>
+            <Button disabled={formAdd.id.toString().length !== 8} onClick={()=> handleAddSubmit()}>Agregar</Button>
         </>
     )
 }

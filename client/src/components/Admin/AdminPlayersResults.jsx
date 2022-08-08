@@ -7,7 +7,7 @@ export default function AdminPlayersResults () {
     return (
         <>  
                 <NavBar />
-            <h2>
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
                 Players Results.
             </h2>
                 <AllPlayersResultsTable />

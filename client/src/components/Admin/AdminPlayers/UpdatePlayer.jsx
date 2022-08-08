@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import Button from "react-bootstrap/esm/Button";
+import Table from "react-bootstrap/esm/Table";
 import { useDispatch } from "react-redux";
-import { updateDataPlayer } from "../../../redux/actions/actions";
+import { allowToPlay, updateDataPlayer } from "../../../redux/actions/actions";
 
 export default function UpdatePlayer ({data}) {
 
@@ -38,9 +40,13 @@ export default function UpdatePlayer ({data}) {
         setForm({...form, [e.target.name]: e.target.value})
     }
 
+    const handleAllow = (e) => {
+        dispatch(allowToPlay(id))
+    }
+
     return (
         <>        
-            <table>
+            <Table>
                 <tbody>            
                         <tr>    
                             <td>
@@ -71,10 +77,12 @@ export default function UpdatePlayer ({data}) {
                             <td> {initialCapital} </td> :
                             <input name="initialCapital" type="number" value={form.initialCapital} onChange={(e) => handleChange(e)}></input>
                             }
-                        </tr>
+                        </tr>   
                 </tbody>
-            </table>
-            <button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</button>
+            </Table>
+            <Button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</Button>
+            <span>{" "}</span>
+            <Button onClick={()=> handleAllow()}>Change AllowPlay</Button>
         </>
     )
 }

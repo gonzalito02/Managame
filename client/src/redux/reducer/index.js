@@ -73,9 +73,18 @@ export default function rootReducer(state = initialState, action) {
         };
 
         case GET_ALLPLAYERS:
+
+        function SortArray(x, y){
+            if (x.index > y.index) {return -1;}
+            if (x.index < y.index) {return 1;}
+            return 0;
+        }
+        var sorted = payload.response.sort(SortArray);
+        console.log(sorted)
+
         return {
             ...state,
-            allPlayers: payload.response,
+            allPlayers: sorted,
             errors: "All players obtained"
         };
 

@@ -5,6 +5,7 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { getAllResultsData } from "../../../redux/actions/actions";
+import Table from "react-bootstrap/esm/Table";
 
 export default function AllPlayersResultsTable () {
 
@@ -47,7 +48,7 @@ export default function AllPlayersResultsTable () {
     return (
         <>
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table {...getTableProps()}>
         
             <thead>
                 {
@@ -83,7 +84,7 @@ export default function AllPlayersResultsTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>

@@ -90,13 +90,20 @@ const students = [
     {
         id: 38506528,
         name: "Gonzalo Rumi",
-        password: "Naranja12",
+        password: "Chaplin02",
         email: "rumigonzalo@gmail.com",
         rol: "admin"
     },
     {
+        id: 11111111,
+        name: "Admin Game",
+        password: "adminbusy1",
+        email: "gonza0211@gmail.com",
+        rol: "admin"
+    },
+    {
         id: 12345678,
-        name: "Javier Rumi",
+        name: "Random Student",
         password: "Manzana12",
         email: "gonza0211@gmail.com",
         rol: "student"

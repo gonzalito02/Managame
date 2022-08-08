@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateResultsData } from "../../../redux/actions/actions";
+import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/esm/Button";
 
 export default function AddExtraResult ({data}) {
 
@@ -22,14 +24,14 @@ export default function AddExtraResult ({data}) {
     }
 
     return (
-        <div>
-        <input value={amount.extraResults} type="number" onChange={(e) => {handleChange(e)}}>
-        </input>
-        <input value={amount.observations} type="text" onChange={(e) => {handleObs(e)}}>
-        </input>
-        <button onClick={(e) => handleClick()}>
+        <Form>
+        <Form.Control value={amount.extraResults} type="number" onChange={(e) => {handleChange(e)}} placeholder="extraResults">
+        </Form.Control>
+        <Form.Control value={amount.observations} type="text" onChange={(e) => {handleObs(e)}} placeholder="observations">
+        </Form.Control>
+        <Button onClick={(e) => handleClick()}>
             Add
-        </button>
-        </div>
+        </Button>
+        </Form>
     )
 }

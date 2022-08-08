@@ -134,6 +134,9 @@ export default function NavBar () {
                                 <NavDropdown.Item href="/adminPlayersResults">
                                 Players Results
                                 </NavDropdown.Item>
+                                <NavDropdown.Item href="/adminCreate">
+                                Players and Students Create
+                                </NavDropdown.Item>
                             </NavDropdown>
                         : null}
 

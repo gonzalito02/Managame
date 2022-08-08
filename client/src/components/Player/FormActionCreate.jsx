@@ -13,6 +13,8 @@ export default function FormActionCreate () {
     var gameControl = useSelector(state => state.gameControl)
     var loginData = useSelector(state => state.userLogin)
     var dataPlayer = useSelector(state => state.dataPlayerId)
+
+    const allowed = dataPlayer.allowToPlay
     var qualityRegister = useSelector(state => state.qualityRegister)
 
     if (dataPlayer.dinamicForms) {
@@ -208,7 +210,8 @@ export default function FormActionCreate () {
         ) {disabled = false}
 
     return (
-        <>
+        allowed?
+        (<>
             <h4>
                 Datos de la empresa
             </h4>
@@ -637,6 +640,11 @@ export default function FormActionCreate () {
             {(errors.total !== "") ? <Alert variant={"danger"}>{errors.total}</Alert>: <Alert variant={"success"}>Control de total OK</Alert>}
             </Container>
         <Button type="submit" disabled={disabled} onClick={() => submitForm()}>Enviar</Button>
-        </>
+        </>)
+        :
+        (<>
+            <Alert variant={"warning"}>You are not allowed to present a form. Maybe you have already done it for this period.</Alert>
+        </>)
+        
     )
 }
