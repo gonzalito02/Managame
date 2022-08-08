@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { Player } = require('../db.js')
-const { playerCreate, getPlayers, getPlayer, updatePlayer } = require("./functions/playerFunctions.js")
+const { playerCreate, getPlayers, getPlayer, updatePlayer, allowToPlayFunc } = require("./functions/playerFunctions.js")
 
 // aca se construyen las rutas sobre router:
 
@@ -22,8 +22,8 @@ router.get("/",  async (req, res) => {
 
 router.post("/",  async (req, res) => {
 
-    let { playerId, officialName, fantasyName, group, members, password } = req.body
-    if (!playerId || !officialName || !group || !members || !password) res.send({error:true, message: "missing data"})
+    let { id, officialName, group, members, password } = req.body
+    if (!id || !officialName || !group || !members || !password) res.send({error:true, message: "missing data"})
 
     try {
 
@@ -63,7 +63,22 @@ router.put("/:id",  async (req, res) => {
     try {
 
         const resp = await updatePlayer(id, req.body)
+        if ( resp ) return res.send(resp)
 
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.put("/allowToPlay/:id",  async (req, res) => {
+
+    const { id } = req.params
+
+    try {
+
+        const resp = await allowToPlayFunc(id)
         if ( resp ) return res.send(resp)
 
     } catch (e) {

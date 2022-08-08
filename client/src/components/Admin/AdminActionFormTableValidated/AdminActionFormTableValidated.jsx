@@ -5,20 +5,18 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
 import { getPenddingForms } from "../../../redux/actions/actions";
+import Table from "react-bootstrap/esm/Table";
 
 export default function AdminActionFormTableValidated () {
 
     const dispatch = useDispatch()
     const forms = useSelector(state => state.penddingForms)
-    
-    if (forms.length === 0) var formul = ["none"]  
-    else var formul = forms.filter(m => m.validateByAdmin !== 0)
 
     useEffect(() => {
         dispatch(getPenddingForms())
     }, [dispatch])
 
-    const data = useMemo(() => formul, [forms])
+    const data = useMemo(() => forms, [forms])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,
@@ -48,7 +46,7 @@ export default function AdminActionFormTableValidated () {
     return (
         <>
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table {...getTableProps()}>
         
             <thead>
                 {
@@ -84,7 +82,7 @@ export default function AdminActionFormTableValidated () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>

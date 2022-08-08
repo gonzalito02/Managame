@@ -1,4 +1,4 @@
-const { Player, Rol, DinamicForm, ActionData, QualityRegister } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { Player, Rol, DinamicForm, ActionData, QualityRegister, ResultsData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 const bcrypt = require("bcrypt");
 
 async function playerCreate ({id, officialName, fantasyName, group, members, password}) {
@@ -25,7 +25,8 @@ async function playerCreate ({id, officialName, fantasyName, group, members, pas
     if (newPlayer) return newPlayer
 
     } catch (e) {
-        throw new Error("Cannot create the player, maybe conflict id. Try again.")
+        console.log(e)
+        throw new Error("Cannot create the player, maybe conflict whit the id. Try again.")
     }
 
 }
@@ -35,7 +36,7 @@ async function getPlayers () {
     try {
 
     const players = await Player.findAll({
-//        include: [{model: DinamicForm}]
+            include: [{model: ResultsData}]
     })
 
     if (players) return players
@@ -157,7 +158,55 @@ async function updatePlayer (id, {officialName, fantasyName, group, members, pas
 
 }
 
+async function disallowToPlay (id) {
+
+    try {
+
+        await Player.update(
+        {
+            allowToPlay: false,
+        },
+        {
+            where: { id: id },
+        }
+        );
+    
+
+    return {message: "Disallowed to play", id: id}
+
+    } catch (e) {
+        throw new Error(`Cannot update the player with the playerId: ${id}`)
+    }
+
+}
+
+async function allowToPlayFunc (id) {
+
+    try {
+
+        const player = await Player.findByPk(id)
+
+        const current = player.dataValues.allowToPlay
+
+        await Player.update(
+        {
+            allowToPlay: !current,
+        },
+        {
+            where: { id: id },
+        }
+        );
+    
+
+    return {message: "Change status allowToPlay done", id: id}
+
+    } catch (e) {
+        throw new Error(`Cannot update the player with the playerId: ${id}`)
+    }
+
+}
 
 
 
-module.exports = { playerCreate, getPlayers, getPlayer, updatePlayer }
+
+module.exports = { playerCreate, getPlayers, getPlayer, updatePlayer, disallowToPlay, allowToPlayFunc}

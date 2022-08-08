@@ -1,5 +1,3 @@
-// aca, ademas de los botones para controlar el juego, tmb poner los controles para autorizar o no una inversión o prestamo.
-
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllForms, getGameControl } from "../../redux/actions/actions";
@@ -20,19 +18,19 @@ export default function AdminControl () {
     return (
         <>
             <NavBar />
-        <h2>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
             Controles de juego
-        </h2>
+        </h2 >
             <GameControl />
-        <h2>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
             Billetera
         </h2>
             <SetWallet />
-        <h2>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
             Formularios presentados.
         </h2>
             <AdminActionFormTable />
-        <h2>
+        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
             Formularios evaluados
         </h2>
             <AdminActionFormTableValidated />

@@ -6,6 +6,7 @@ const validateJwt = require("../controllers/validationJWT.js")
 const validationPlayer = require("../controllers/validationPlayer.js")
 const router = express.Router()
 const { formCreate, getForms, getForm} = require("./functions/formFunctions.js")
+const { disallowToPlay} = require("./functions/playerFunctions.js")
 
 // aca se construyen las rutas sobre router:
 
@@ -44,30 +45,17 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/:id", async (req, res) => {
-
-    // let tok = validateJwt(req.headers.authorization) 
-    // if (!tok) res.send({message: "Invalid token"}) 
-    // else {
-
-    const { 
-            period, 
-            priceA, 
-            qualityA,
-            quantityA,
-            priceB, 
-            qualityB,
-            quantityB,
-            priceC, 
-            qualityC,
-            quantityC
-        } = req.body
     
     const { id } = req.params
-    //validation
 
     try {
 
         const newForm = await formCreate(id, req.body)
+
+        //change to false allowToPlay:
+        await disallowToPlay(id)
+        // ----
+
         if (newForm) return res.send({message: `form created for playerID ${id}`, response: newForm})
 
     
@@ -77,7 +65,6 @@ router.post("/:id", async (req, res) => {
     
     }
 
-    // }
 })
 
 module.exports = router

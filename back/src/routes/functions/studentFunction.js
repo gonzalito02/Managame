@@ -188,6 +188,8 @@ async function playerAdd({
         if(!student) return "No student found"
         if(!player) return "No player found"
 
+        if (student.dataValues.playerId !== null) return "The student already have a player"
+
         const add = await player.addStudent(student);
 
         console.log(add)

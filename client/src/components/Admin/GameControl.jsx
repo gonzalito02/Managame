@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
+import Button from "react-bootstrap/esm/Button"
+import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
 import { getGameControl, updateGameControl } from "../../redux/actions/actions"
 
@@ -84,8 +86,7 @@ export default function GameControl () {
 
     return (
         <>
-            <button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</button>
-            <table>
+            <Table>
                 <thead>
                         <tr>
                             <th>
@@ -281,7 +282,8 @@ export default function GameControl () {
                         </tr>
     
             </tbody>
-            </table>
+            </Table>
+            <Button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</Button>
             <span>{error}</span>
         </>
     )

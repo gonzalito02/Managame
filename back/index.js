@@ -54,10 +54,10 @@ function gameControlInit () {
       maxRateFinFixedInvest: 0.3,
       maxTotalFinInvestAmount: 200000,
       wallet: 0,
-      actionGame: 1 // 0 = Production phase; 1 = Market phase; 2 = Clean phase  
+      actionGame: 1 // 0 = Production phase; 1 = Market phase; 2 = Clean phase (clearing)  
     }
   )
-  console.log("gameControlInit executed")
+  console.log("gameControlInit function executed")
 }
 // actions before start to set up the program
 
@@ -65,7 +65,6 @@ conn.sync({ force: true }).then(() => {
   server.listen(3002, () => {
 
     // first functions to execute ------------
-
     initial();
     rolesCreateInit();
     gameControlInit();

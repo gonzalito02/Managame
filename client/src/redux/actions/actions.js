@@ -74,6 +74,91 @@ export const getAllStudents = (dispatch) => {
     }
 }
 
+export const createPlayer = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.post(`http://localhost:3002/player`, data);
+            return dispatch({type: SET_ERRORS, payload: `Player whit ID ${data.id}`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
+export const createStudent = (data) => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.post(`http://localhost:3002/student`, data);
+            return dispatch({type: SET_ERRORS, payload: `Student whit ID ${data.id}`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
+export const allowToPlay = (id) => {
+    return async function (dispatch) {
+  
+        try {
+
+            var response = await axios.put(`http://localhost:3002/player/allowToPlay/${id}`);
+            return dispatch({type: SET_ERRORS, payload: `Player allowed to play ID ${id}`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action allowToPlay; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
+export const setToNullBusiness = (id) => {
+    return async function (dispatch) {
+  
+        try {
+
+            var response = await axios.put(`http://localhost:3002/student/player/remove`, id);
+            return dispatch({type: SET_ERRORS, payload: `Setted business to null for ${id}`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action setToNullBusiness; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
+export const setBusinessStudent = (data) => {
+    return async function (dispatch) {
+  
+        try {
+
+            var response = await axios.put(`http://localhost:3002/student/player/add`, data);
+            return dispatch({type: SET_ERRORS, payload: `Student ${data.id} add to ${data.playerId}`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action setBusinessStudent; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
 export const getGameControl = () => {
   return async function (dispatch) {
 
@@ -108,7 +193,6 @@ export const createActionForm = (id, actionForm, loan, investment) => {
           var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm, config);
           if (loan) if (loan.amount > 0) var responseLoan = await axios.post(`http://localhost:3002/dinamicForm/${id}`, loan, config);
           if (investment) if (investment.amount > 0) var responseInvestment = await axios.post(`http://localhost:3002/dinamicForm/${id}`, investment, config);  
-          console.log(response, responseLoan, responseInvestment)
           return dispatch({type: SET_ERRORS, payload: "Form sent"});
           
         } catch (e) {
@@ -137,7 +221,7 @@ export const insertMarketLive = (data) => {
             
         }
     }
-  }
+}
 
 export const createResultsData = (id, data) => {
     return async function (dispatch) {
@@ -452,7 +536,6 @@ export const closeDinamicForm = (data) => {
   
             var response = await axios.put(`http://localhost:3002/dinamicForm/closeDinamicForm`, data);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
-            console.log(response)
   
         } catch (e) {
   
@@ -525,6 +608,8 @@ export const decrementMarket = (data) => {
         }
     }
 }
+
+
 
 export const handlePurchase = (data, wallet) => {
     return async function (dispatch) {

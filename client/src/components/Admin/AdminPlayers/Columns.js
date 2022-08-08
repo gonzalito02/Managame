@@ -32,6 +32,10 @@ export const COLUMNS = [
     {
         Header: 'Index',
         accessor: 'index',
+    },  
+    {
+        Header: 'Allow Play',
+        accessor: row => { return row.allowToPlay? "Allowed" : "Not allowed"}
     },    
     {
         Header: 'Actions',

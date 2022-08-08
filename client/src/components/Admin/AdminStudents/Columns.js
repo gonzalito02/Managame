@@ -14,6 +14,10 @@ export const COLUMNS = [
         accessor: 'email',
     }, 
     {
+        Header: 'Business',
+        accessor: 'playerId',
+    },
+    {
         Header: 'Wallet',
         accessor: 'wallet',
     },
