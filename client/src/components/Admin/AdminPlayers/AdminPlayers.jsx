@@ -11,12 +11,13 @@ export default function AdminPlayers () {
 
     const dispatch = useDispatch()
     const players = useSelector(state => state.allPlayers)
+    const submit = useSelector(state => state.submit)
 
     useEffect(() => {
         dispatch(getAllPlayers())
-    }, [dispatch])
+    }, [submit])
 
-    const data = useMemo(() => players, [players])
+    const data = useMemo(() => players, [players, submit])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,

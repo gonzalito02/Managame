@@ -68,7 +68,12 @@ module.exports = (sequelize) => {
     validateByAdmin: {
       type: DataTypes.INTEGER, // 0 pendiente, 1 validado, 2 rechazado
       defaultValue: 0
-    }
+    },
+    idControl: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
   }, {
     timestamps: true,
     createdAt: true,

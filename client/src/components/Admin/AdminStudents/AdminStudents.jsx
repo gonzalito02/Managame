@@ -11,12 +11,13 @@ export default function AdminStudents () {
 
     const dispatch = useDispatch()
     const students = useSelector(state => state.allStudents)
+    const submit = useSelector(state => state.submit)
 
     useEffect(() => {
         dispatch(getAllStudents())
-    }, [dispatch])
+    }, [submit])
 
-    const data = useMemo(() => students, [students])
+    const data = useMemo(() => students, [students, submit])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,

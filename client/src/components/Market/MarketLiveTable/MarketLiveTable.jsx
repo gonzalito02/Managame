@@ -4,7 +4,7 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { decrementMarket, getMarketLive, handlePurchase, makeCart } from "../../../redux/actions/actions";
+import { decrementMarket, getMarketLive, getStudentById, handlePurchase, makeCart } from "../../../redux/actions/actions";
 import Table from "react-bootstrap/esm/Table";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
@@ -64,14 +64,11 @@ export default function MarketLiveTable () {
         } 
         return total
     }
-    
-    // if (market.length === 0) var marketLive = ["none"]  
-    // else var marketLive = market
 
     useEffect(() => {
         dispatch(getMarketLive())
-        // cartFill()
-    }, [])
+        dispatch(getStudentById(userLogin.id))
+    }, [userLogin])
 
     const data = useMemo(() => market, [market])
     const columns = useMemo(() => COLUMNS, [])
@@ -118,6 +115,11 @@ export default function MarketLiveTable () {
         {(market.length === 0) ?
         <Container>
             <Alert variant={"warning"}>No market data yet</Alert>
+        </Container>
+        :
+        (!studentData.playerId) ?
+        <Container>
+            <Alert variant={"warning"}>You must have a business assigned to buy</Alert>
         </Container>
         :
         <Container>

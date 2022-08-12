@@ -46,6 +46,11 @@ module.exports = (sequelize) => {
       set () {
         throw new Error('Do not try to set the totalPeriod value!');
       }
+    },
+    idControl: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     }
   }, {
     timestamps: true,

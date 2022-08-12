@@ -20,6 +20,7 @@ import {
   GET_QUALITYREGISTER_ID,
   GET_STUDENTSHOPREG_ID,
   GET_PLAYERSHOPREG_ID,
+  SUBMIT_UPDATE,
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
@@ -131,7 +132,7 @@ export const setToNullBusiness = (id) => {
         try {
 
             var response = await axios.put(`http://localhost:3002/student/player/remove`, id);
-            return dispatch({type: SET_ERRORS, payload: `Setted business to null for ${id}`});
+            return dispatch({type: SET_ERRORS, payload: `Set business to null for ${id}`});
   
         } catch (e) {
   
@@ -580,6 +581,21 @@ export const getMarketLive = () => {
     }
   }
 
+export const destroyMarketLive = () => {
+    return async function (dispatch) {
+  
+        try {
+            var response = await axios.delete(`http://localhost:3002/market`);
+            return dispatch({ type: SET_ERRORS, payload: "Market destroyed succesfully" });
+  
+        } catch (e) {
+  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action destroyMarketLive; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
 export const makeCart = (data) => {
     return function (dispatch) {
         return dispatch ({ type: MAKE_CART, payload: data})
@@ -686,4 +702,22 @@ export const setUserLogged = (data) => {
     return function (dispatch) {
         return dispatch ({ type: SET_USER_LOGGED, payload: data })
     }
+}
+
+export const checkLog = (log) => {
+    if (!tokenjson) {
+        return window.location.replace("http://localhost:3000/home")
+    } else if (log !== JSON.parse(tokenjson).rol) { 
+        return window.location.replace("http://localhost:3000/home")
+    }
+}
+
+export const submitUpdate = () => {
+    return function (dispatch) {
+        return dispatch ({ type: SUBMIT_UPDATE })
+    }
+}
+
+export const parseCurrency = (value) => {
+    return `$ ${value.toString()}`
 }

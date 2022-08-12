@@ -19,6 +19,7 @@ import {
     GET_QUALITYREGISTER_ID,
     GET_STUDENTSHOPREG_ID,
     GET_PLAYERSHOPREG_ID,
+    SUBMIT_UPDATE,
 } from "../actions/types";
   
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
     shoppingRegister: [],
     cart: [],
     cartControl: [],
+    submit: true
 };
   
 export default function rootReducer(state = initialState, action) {
@@ -74,13 +76,12 @@ export default function rootReducer(state = initialState, action) {
 
         case GET_ALLPLAYERS:
 
-        function SortArray(x, y){
-            if (x.index > y.index) {return -1;}
-            if (x.index < y.index) {return 1;}
-            return 0;
-        }
-        var sorted = payload.response.sort(SortArray);
-        console.log(sorted)
+            function SortArray(x, y){
+                if (x.index > y.index) {return -1;}
+                if (x.index < y.index) {return 1;}
+                return 0;
+            }
+            var sorted = payload.response.sort(SortArray);
 
         return {
             ...state,
@@ -113,7 +114,7 @@ export default function rootReducer(state = initialState, action) {
         return {
             ...state,
             gameControl: payload,
-            errors: "gameControl setted"
+            errors: "gameControl set"
         };
 
         case GET_ACTIONFORMS:
@@ -178,6 +179,13 @@ export default function rootReducer(state = initialState, action) {
             marketLive: payload,
             errors: "Market live obtained"
         };
+
+        case SUBMIT_UPDATE:
+            return {
+                ...state,
+                submit: !(state.submit),
+                errors: "Updating"
+            };
 
         case MAKE_CART:
 

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Table from "react-bootstrap/esm/Table";
-import { useDispatch } from "react-redux";
-import { allowToPlay, updateDataPlayer } from "../../../redux/actions/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { allowToPlay, submitUpdate, updateDataPlayer } from "../../../redux/actions/actions";
 
 export default function UpdatePlayer ({data}) {
 
     const dispatch = useDispatch()
 
-    var [submit, setSubmit] = useState(true)
+    const submit = useSelector(state => state.submit)
     const [input, setInput] = useState(true)
 
     var { 
@@ -25,7 +25,7 @@ export default function UpdatePlayer ({data}) {
     })
 
     const handleInput = () => {
-        if (!input) {dispatch(updateDataPlayer(id, form)); setSubmit(!submit); console.log("aca")}
+        if (!input) {dispatch(updateDataPlayer(id, form)); dispatch(submitUpdate())}
         else {
         setForm({
             index: index,
@@ -41,7 +41,8 @@ export default function UpdatePlayer ({data}) {
     }
 
     const handleAllow = (e) => {
-        dispatch(allowToPlay(id))
+        dispatch(allowToPlay(id)); 
+        dispatch(submitUpdate())
     }
 
     return (

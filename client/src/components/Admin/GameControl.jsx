@@ -2,15 +2,15 @@ import React, { useEffect, useMemo, useState } from "react"
 import Button from "react-bootstrap/esm/Button"
 import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
-import { getGameControl, updateGameControl } from "../../redux/actions/actions"
+import { getGameControl, submitUpdate, updateGameControl } from "../../redux/actions/actions"
 
 export default function GameControl () {
 
     const dispatch = useDispatch()
 
     var gameControl = useSelector(state => state.gameControl)
+    var submit = useSelector(state => state.submit)
 
-    var [submit, setSubmit] = useState(true)
     var [error, setError] = useState("")
 
     useEffect(() => {
@@ -53,7 +53,7 @@ export default function GameControl () {
     const [input, setInput] = useState(true)
 
     const handleInput = () => {
-        if (!input) dispatch(updateGameControl(form), setSubmit(!submit))
+        if (!input) {dispatch(updateGameControl(form)); dispatch(submitUpdate())}
         else {
         setForm({
             period: period,

@@ -19,6 +19,8 @@ async function formCreate (playerID,
     }
     ) {
 
+    const dataControl = playerID.toString() + period.toString() + "actionForm"
+
     try {
 
     const player = await Player.findOne({ where: { id: playerID } });
@@ -36,7 +38,9 @@ async function formCreate (playerID,
         quantityC: quantityC,
         qualityInvestment: qualityInvestment,
         finantialFixedInvestment: finantialFixedInvestment,
-        finantialFixedRentability: finantialFixedRentability
+        finantialFixedRentability: finantialFixedRentability,
+        idControl: dataControl
+
     })
 
     const newQualityRegister = await QualityRegister.create({
@@ -49,10 +53,10 @@ async function formCreate (playerID,
 
     await player.addActionData(newForm);
     const a = await player.addQualityRegister(newQualityRegister);
-    console.log(a)
     if (newForm) return (newForm)
 
     } catch (e) {
+        console.log(e)
         throw new Error("Cannot create the form")
     }
 

@@ -8,6 +8,7 @@ export default function ShoppingSet ({data}) {
     const dispatch = useDispatch()
 
     const cart = useSelector(state => state.cart)
+    const student = useSelector(state => state.dataStudentId)
 
     var [errors, setErrors] = useState({valid: ""})
 
@@ -52,6 +53,9 @@ export default function ShoppingSet ({data}) {
     return (
 
         <>
+            {(data.playerId === student.playerId)?
+            <span>You cant buy this product</span>
+            :
             <input name={
                     (data.typeProduct === "A")? `${data.playerId}1`: 
                     (data.typeProduct === "B")? `${data.playerId}2`:
@@ -61,6 +65,7 @@ export default function ShoppingSet ({data}) {
                     (data.typeProduct === "B")? `${data.playerId}2`:
                     `${data.playerId}3`} 
             ></input>
+            }
             {errors.valid? <span>{errors.valid}</span> : null}
         </>
     )

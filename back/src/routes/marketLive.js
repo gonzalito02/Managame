@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { MarketLive } = require('../db.js')
-const { getMarketLive, marketOfferInsert, marketOfferDecrement } = require("./functions/marketLiveFunctions.js")
+const { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive } = require("./functions/marketLiveFunctions.js")
 
 router.get("/",  async (req, res) => {
 
@@ -91,6 +91,20 @@ router.put("/bulk/decrement",  async (req, res) => {
 
         if (errors.length > 0) return (res.send({message: "Purchase with errors, check out the log"}), console.log(errors))
         else res.send({message: "Purchase done"})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.delete("/",  async (req, res) => {
+
+    try {
+
+        const market = await destroyMarketLive()
+        if (market) return res.send({message: "Market destroy", response: market})
 
     } catch (e) {
 

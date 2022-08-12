@@ -11,13 +11,13 @@ export default function AdminActionFormTable () {
 
     const dispatch = useDispatch()
     const forms = useSelector(state => state.penddingForms)
-    const [submit, setSubmit] = useState(true)
+    const submit = useSelector(state => state.submit)
 
     useEffect(() => {
         dispatch(getPenddingForms())
     }, [dispatch, submit])
 
-    const data = useMemo(() => forms, [forms])
+    const data = useMemo(() => forms.filter(e => e.validateByAdmin === 0), [forms])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,

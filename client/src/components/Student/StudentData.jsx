@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import Button from "react-bootstrap/esm/Button"
 import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
-import { getStudentById, updateDataStudent } from "../../redux/actions/actions"
+import { getStudentById, submitUpdate, updateDataStudent } from "../../redux/actions/actions"
 
 
 export default function StudentData () {
@@ -11,14 +11,13 @@ export default function StudentData () {
 
     var student = useSelector(state => state.userLogin)
     var dataStudent = useSelector(state => state.dataStudentId)
-
-    var [submit, setSubmit] = useState(true)
+    const submit = useSelector(state => state.submit)
 
     useEffect(() => {
         dispatch(getStudentById(student.id))
     }, [dispatch, submit, student])
 
-    var { id, name, wallet, email, rolName } = dataStudent
+    var { id, name, wallet, email, rolName, playerId } = dataStudent
 
     const [form, setForm] = useState({
         email,
@@ -27,7 +26,7 @@ export default function StudentData () {
     const [input, setInput] = useState(true)
 
     const handleInput = () => {
-        if (!input) dispatch(updateDataStudent(id, form), setSubmit(!submit))
+        if (!input) {dispatch(updateDataStudent(id, form)); dispatch(submitUpdate())}
         setForm({
             email: email,
         });
@@ -107,6 +106,17 @@ export default function StudentData () {
                             </td> 
                             <td> 
                                 {wallet} 
+                            </td> 
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                Empresa
+                            </td> 
+                            <td> 
+                                {playerId? playerId: "None"} 
                             </td> 
 
                         </tr>
