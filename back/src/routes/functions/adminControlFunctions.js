@@ -40,8 +40,6 @@ async function updateGameControl (variables) {
 
     try {
 
-        console.log("estoy aca en variables", variables)
-
         await GameControl.destroy({where: {}})
 
         const gameControl = await GameControl.create(
@@ -79,7 +77,8 @@ async function validateActionForms ({playerId, period, validate, type}) {
     }
 }
 
-async function validateDinamicForms ({playerId, period, validate, type}) {
+async function validateDinamicForms ({playerId, period, validate, type, loanInterest, clearingPeriod}) {
+    
     try {
 
         const form = await DinamicForm.update(
@@ -173,7 +172,6 @@ async function getAdminForms ({type, period}) {
 //esta funcion se usa abajo, en walletSet
 async function updateWallet(id, value) {
 
-    console.log("aca toy", id, value)
     try {
         await Student.update(
             {

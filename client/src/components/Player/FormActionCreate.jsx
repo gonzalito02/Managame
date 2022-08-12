@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Table from "react-bootstrap/esm/Table";
 import { useSelector, useDispatch } from "react-redux";
-import { createActionForm, getQualityRegisterById } from "../../redux/actions/actions";
+import { createActionForm, getPlayerById, getQualityRegisterById, parseCurrency, submitUpdate } from "../../redux/actions/actions";
+import Swal from 'sweetalert2'
+
 
 export default function FormActionCreate () {
 
@@ -13,20 +15,10 @@ export default function FormActionCreate () {
     var gameControl = useSelector(state => state.gameControl)
     var loginData = useSelector(state => state.userLogin)
     var dataPlayer = useSelector(state => state.dataPlayerId)
+    var qualityRegister = useSelector(state => state.qualityRegister)
+    const [netLoan, setNetLoan] = useState(0)
 
     const allowed = dataPlayer.allowToPlay
-    var qualityRegister = useSelector(state => state.qualityRegister)
-
-    if (dataPlayer.dinamicForms) {
-        if (dataPlayer.dinamicForms.length > 1) {
-            var loans = dataPlayer.dinamicForms.filter(m => m.type === "loan" &&
-            m.clearingPeriod === gameControl.period)
-            if (loans.length > 0) var netLoan = loans.reduce((a, b) => a + b.amount, 0)
-            else netLoan = 0
-        }
-        else var loans = null
-    } 
-    else var loans = null
 
     var { initialCapital } = dataPlayer
 
@@ -46,11 +38,19 @@ export default function FormActionCreate () {
     } = gameControl
 
     if (qualityRegister) {
-        var resq = qualityRegister.filter(q => q.period === (period - 1))
-        if (resq.length > 0) {
-            var initQualityA = resq[0].qualityA
-            var initQualityB = resq[0].qualityB
-            var initQualityC = resq[0].qualityC
+        var resq = qualityRegister.filter(q => q.period < (period))
+        
+        function SortArray(x, y){
+            if (x.period > y.period) {return -1;}
+            if (x.period < y.period) {return 1;}
+            return 0;
+        }
+        var sorted = resq.sort(SortArray);
+
+        if (sorted.length > 0) {
+            var initQualityA = sorted[0].qualityA
+            var initQualityB = sorted[0].qualityB
+            var initQualityC = sorted[0].qualityC
         } else {
             var initQualityA = costProdA / 1000
             var initQualityB = costProdB / 1000
@@ -98,11 +98,31 @@ export default function FormActionCreate () {
     })
 
     useEffect(() => {
-        if (gameControl) if (gameControl.period) {setInvestmentForm({...investmentForm, period: gameControl.period}); 
-        setLoanForm({...loanForm, period: gameControl.period, clearingPeriod: gameControl.period + 1});
-        dispatch(getQualityRegisterById(loginData.id))
+        if (gameControl) {
+            if (gameControl.period) {
+                setInvestmentForm({...investmentForm, period: gameControl.period}); 
+                setLoanForm({...loanForm, period: gameControl.period, clearingPeriod: gameControl.period + 1});
+                dispatch(getQualityRegisterById(loginData.id));
+                dispatch(getPlayerById(loginData.id));
+            }
         }
-    }, [gameControl, dataPlayer])
+    }, [gameControl])
+
+    useEffect(() => {
+            if (dataPlayer.dinamicForms) {
+                if (dataPlayer.dinamicForms.length > 0) {
+                    var loans = dataPlayer.dinamicForms.filter(m => m.type === "loan" &&
+                    m.clearingPeriod === gameControl.period)
+                    if (loans.length > 0) {
+                        let total = loans.reduce((a, b) => a + b.amount, 0)
+                        setNetLoan(total)
+                    }
+                    else setNetLoan(0)
+                }
+                else setNetLoan(0)
+            } 
+            else setNetLoan(0)
+    }, [dataPlayer])
 
     const changeValue = (e) => {
         var value = parseInt(e.target.value)
@@ -137,6 +157,14 @@ export default function FormActionCreate () {
         else setErrors({...errors, dinform:""})
     }
 
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
     const submitForm = () => {
         const formul = {
             period: period,
@@ -153,7 +181,24 @@ export default function FormActionCreate () {
             finantialFixedInvestment: form.finantialFixedInvestment,
             finantialFixedRentability: form.finantialFixedRentability
         }
-        dispatch(createActionForm(loginData.id, formul, loanForm, investmentForm)) 
+
+        swalWithBootstrapButtons.fire({
+            text: "Are you sure?",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(createActionForm(loginData.id, formul, loanForm, investmentForm));
+                swalWithBootstrapButtons.fire({
+                    text: 'Form sent!',
+                    timer: 1000
+                })
+            } 
+            setTimeout(()=> window.location.reload(), 1500)
+          })
+        
     }
 
     var rateFinantialFixedInvestment = ((form.finantialFixedRentability / form.finantialFixedInvestment * 100).toFixed(2)) || 0
@@ -163,9 +208,10 @@ export default function FormActionCreate () {
         form.quantityB * costProdB + 
         form.quantityC * costProdC +
         ((form.qualityA + form.qualityB + form.qualityC ) * qualityInvCost) +
-        form.finantialFixedInvestment + investmentForm.amount)
+        form.finantialFixedInvestment + investmentForm.amount
+        )
     
-    const capitalGame = (parseInt(initialCapital) - (loans? netLoan : 0) + loanForm.amount) || 0
+    const capitalGame = (parseInt(initialCapital) - (netLoan) + loanForm.amount) || 0
 
     var controlProd = ((form.quantityA * costProdA) / (productionCapacity / 100)) +
                       ((form.quantityB * costProdB) / (productionCapacity / 100)) +
@@ -199,8 +245,6 @@ export default function FormActionCreate () {
         setErrors({...errors, dinform: `La tasa de rentabilidad de la inversión dinámica no puede ser superior a ${maxRateFinDinInvest}`})
     }
 
-
-
     var disabled = true
 
     if (
@@ -210,7 +254,7 @@ export default function FormActionCreate () {
         ) {disabled = false}
 
     return (
-        allowed?
+        (allowed && gameControl.actionGame === 0)?
         (<>
             <h4>
                 Datos de la empresa
@@ -232,7 +276,7 @@ export default function FormActionCreate () {
                             Capital Inicial:
                         </td>
                         <td>
-                            {initialCapital}
+                            {parseCurrency(initialCapital)}
                         </td>
                     </tr>
                     <tr>
@@ -240,7 +284,7 @@ export default function FormActionCreate () {
                             Pago de préstamos (k):
                         </td>
                         <td>
-                            {loans? netLoan : 0}
+                            {parseCurrency(netLoan)}
                         </td>
                     </tr>
                     <tr>
@@ -248,7 +292,7 @@ export default function FormActionCreate () {
                             Préstamos a tomar:
                         </td>
                         <td>
-                            {loanForm.amount}
+                            {parseCurrency(loanForm.amount)}
                         </td>
                     </tr>
                     <tr>
@@ -256,7 +300,7 @@ export default function FormActionCreate () {
                             Neto - en juego:
                         </td>
                         <td>
-                            {capitalGame}
+                            {parseCurrency(capitalGame)}
                         </td>
                     </tr>
                     <tr>
@@ -553,7 +597,7 @@ export default function FormActionCreate () {
                         <input name="rate" value={investmentForm.rate} type="number" onChange={(e) => {changeInvestment(e); floatControl(e)}}/>
                     </td>
                     <td>
-                        <span> ${finalAmountDinamicFinantial}</span>
+                        <span> $ {finalAmountDinamicFinantial}</span>
                     </td>
                 </tr>
                 <tr>
@@ -624,7 +668,7 @@ export default function FormActionCreate () {
                         Total acumulado
                     </th>
                     <th>
-                        {totalAcc}
+                        {parseCurrency(totalAcc)}
                     </th>
                 </tr>
 
@@ -645,6 +689,5 @@ export default function FormActionCreate () {
         (<>
             <Alert variant={"warning"}>You are not allowed to present a form. Maybe you have already done it for this period.</Alert>
         </>)
-        
     )
 }

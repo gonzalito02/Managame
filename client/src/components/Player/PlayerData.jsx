@@ -2,16 +2,16 @@ import React, { useEffect, useMemo, useState } from "react"
 import Button from "react-bootstrap/esm/Button"
 import Table from "react-bootstrap/esm/Table"
 import { useDispatch, useSelector } from "react-redux"
-import { getPlayerById, setBusinessStudent, updateDataPlayer } from "../../redux/actions/actions"
+import { getPlayerById, setBusinessStudent, submitUpdate, updateDataPlayer } from "../../redux/actions/actions"
 
 
 export default function PlayerData ({playerID}) {
 
     const dispatch = useDispatch()
-
     var dataPlayer = useSelector(state => state.dataPlayerId)
+    var submit = useSelector(state => state.submit)
 
-    var [submit, setSubmit] = useState(true)
+    var [sub, setSub] = useState(true)
 
     const [formAdd, setFormAdd] = useState({
         id: "",
@@ -33,7 +33,7 @@ export default function PlayerData ({playerID}) {
     const [input, setInput] = useState(true)
 
     const handleInput = () => {
-        if (!input) dispatch(updateDataPlayer(playerID, form), setSubmit(!submit))
+        if (!input) {dispatch(updateDataPlayer(playerID, form)); setSub(!sub); dispatch(submitUpdate())}
         setForm({
             fantasyName: fantasyName,
             members: members
@@ -52,8 +52,8 @@ export default function PlayerData ({playerID}) {
     }
 
     const handleAddSubmit = (e) => {
-        dispatch(setBusinessStudent(formAdd))
-        console.log("setted")
+        dispatch(setBusinessStudent(formAdd));
+        dispatch(submitUpdate())
     }
 
     return (
@@ -117,12 +117,21 @@ export default function PlayerData ({playerID}) {
                                 {`Resultados Acumulados: $ ${resultsAcc}; Grupo: ${group}; PlayerID: ${id}`}
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>
+                                Workers by Id
+                            </td>
+                            <td>
+                                {dataPlayer.students? dataPlayer.students.map(m => m.id).join(" - "): null}
+                            </td>
+                        </tr>
     
                 </tbody>
             </Table>
             <Button onClick={()=> handleInput()}>{input? "Modificar":"Aplicar"}</Button>
             
-            <h4 style={{padding:"20px", borderBottom:"solid 1px"}}>Add student/customer</h4>
+            <h4 style={{padding:"20px", borderBottom:"solid 1px"}}>Add worker</h4>
 
             <Table>
                 <thead>

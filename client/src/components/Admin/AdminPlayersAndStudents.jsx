@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { checkLog } from "../../redux/actions/actions";
 import NavBar from "../NavBar";
 import AdminPlayers from "./AdminPlayers/AdminPlayers";
 import AdminStudents from "./AdminStudents/AdminStudents";
 
 export default function AdminPlayersAndStudents () {
+
+    useEffect(() => {
+        checkLog("admin")  
+    }, [])
 
     return (
         <>  

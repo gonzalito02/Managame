@@ -30,10 +30,7 @@ router.get("/:id", async (req, res) => {
 
     try {
         
-
         const form = await getForm(id)
-
-
         if (form) return res.send({message: `forms id:${id} obtained`, response: form})
 
     } catch (e) {
@@ -54,10 +51,8 @@ router.post("/:id", async (req, res) => {
 
         //change to false allowToPlay:
         await disallowToPlay(id)
-        // ----
 
         if (newForm) return res.send({message: `form created for playerID ${id}`, response: newForm})
-
     
     } catch (e) {
 

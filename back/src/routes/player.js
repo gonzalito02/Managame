@@ -13,9 +13,7 @@ router.get("/",  async (req, res) => {
         if (players) return res.send({message: "getPlayers ok", response: players})
 
     } catch (e) {
-
         res.status(400).send(e.message)
-    
     }
 })
 
@@ -38,8 +36,6 @@ router.post("/",  async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-
-    // ejemplo ruta de acceso : http://localhost:3002/player/1006
 
     const { id } = req.params 
 

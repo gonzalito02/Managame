@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllForms, getGameControl } from "../../redux/actions/actions";
+import { checkLog, getAllForms, getAllPlayers, getGameControl } from "../../redux/actions/actions";
 import NavBar from "../NavBar";
 import AdminActionFormTable from "./AdminActionFormTable/AdminActionFormTable";
 import AdminActionFormTableValidated from "./AdminActionFormTableValidated/AdminActionFormTableValidated";
@@ -13,25 +13,27 @@ export default function AdminControl () {
 
     useEffect(() => {
         dispatch(getAllForms())
+        dispatch(getAllPlayers())
+        checkLog("admin")  
     }, [dispatch])
 
     return (
         <>
             <NavBar />
         <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
-            Controles de juego
+            Game Control
         </h2 >
             <GameControl />
         <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
-            Billetera
+            Wallet and Market Destroy
         </h2>
             <SetWallet />
         <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
-            Formularios presentados.
+            Submitted Forms.
         </h2>
             <AdminActionFormTable />
         <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
-            Formularios evaluados
+            Controlled Forms
         </h2>
             <AdminActionFormTableValidated />
         </>

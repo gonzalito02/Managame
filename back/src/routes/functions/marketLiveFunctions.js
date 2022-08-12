@@ -49,8 +49,6 @@ async function marketOfferInsert (playerID, {
         } catch (e) {
             throw new Error("An error has ocurred, cannot create a market offer")
         }
-    
-    
 }
 
 async function marketOfferDecrement ({
@@ -87,5 +85,23 @@ async function marketOfferDecrement ({
 
 }
 
+async function destroyMarketLive () {
 
-module.exports = { getMarketLive, marketOfferInsert, marketOfferDecrement }
+    try {
+
+    const market = await MarketLive.destroy({
+        where:{}
+    })
+    console.log(market)
+
+    if (market) return market
+    else return "No market found"
+
+    } catch (e) {
+        throw new Error("An error has ocurred, no market found")
+    }
+
+}
+
+
+module.exports = { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive}

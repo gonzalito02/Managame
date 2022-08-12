@@ -1,3 +1,4 @@
+const { resultsDataCreate } = require("./resultsDataFunctions")
 const { DinamicForm, Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
 
 async function getDinamicForms () {
@@ -47,6 +48,8 @@ async function dinamicFormCreate (playerID,
     }
     ) {
 
+    var dataControl = playerID.toString() + period.toString() + type
+
     if (!period || !type || !amount || !rate) return "missing data"
 
     if (type === "loan" && !clearingPeriod) return "missing clearing period"
@@ -61,12 +64,13 @@ async function dinamicFormCreate (playerID,
         amount: amount, 
         rate: rate,
         description: description,
-        clearingPeriod: clearingPeriod
+        clearingPeriod: clearingPeriod,
+        idControl: dataControl
     })
 
-        await player.addDinamicForm(newDinamicForm);
+    await player.addDinamicForm(newDinamicForm);
 
-        if (newDinamicForm) return (newDinamicForm)
+    if (newDinamicForm) return (newDinamicForm)
 
     } catch (e) {
         throw new Error("Cannot create the dinamic form")
@@ -88,7 +92,7 @@ async function closeDinamicForm ({
             {
                 amount: amount,
                 rate: rate,
-                description: description,
+                descriptionClose: description,
                 status: true
             },
             {
@@ -103,9 +107,29 @@ async function closeDinamicForm ({
         return closer
 
     } catch (e) {
-        throw new Error("Cannot validate the indicated form")
+        throw new Error("Cannot close the indicated form")
     }
 
 }
+
+// async function closeValidatedLoan ({ 
+//     period, 
+//     playerId, 
+//     loanInterest,
+//     }
+    
+//     ) {
+
+//     try {
+
+//         const resultsData = resultsDataCreate(playerId, {loanInterest, period})
+        
+//         if (resultsData) return resultsData
+
+//     } catch (e) {
+//         throw new Error("Cannot close the loan form")
+//     }
+
+// }
 
 module.exports = { getDinamicForms, dinamicFormCreate, getDinamicFormId, closeDinamicForm }

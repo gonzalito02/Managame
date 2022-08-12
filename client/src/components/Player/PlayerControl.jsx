@@ -31,11 +31,11 @@ export default function PlayerControl () {
 
             <PlayerData playerID={idt}/>
 
-            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Planes de acción presentados</h2>
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Submitted Action forms</h2>
 
             <ActionFormTable />
 
-            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Formulario</h2>
+            <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Action and Dinamic Forms</h2>
 
             <FormActionCreate />
         

@@ -7,7 +7,6 @@ const router = express.Router()
 router.post("/:id", async (req, res) => {
     
     const { id } = req.params
-    //validation
 
     try {
 
@@ -19,8 +18,6 @@ router.post("/:id", async (req, res) => {
         res.status(400).send(e.message)
     
     }
-
-    // }
 })
 
 router.put("/:id",  async (req, res) => {
