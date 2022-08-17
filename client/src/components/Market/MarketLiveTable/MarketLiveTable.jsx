@@ -210,9 +210,8 @@ export default function MarketLiveTable () {
             <CSVLink  data={market}><button>Download CSV</button></CSVLink>
         </div>
        
-
-        {errors.validate !== ""? <span>{errors.validate}</span> : null}
-        {errors.total !== ""? <span>{errors.total}</span> : null}
+        {errors.validate !== ""? <Alert variant={"danger"}>{errors.validate}</Alert>: <Alert variant={"success"}>Validate OK</Alert>}
+        {errors.total !== ""? <Alert variant={"danger"}>{errors.total}</Alert>: <Alert variant={"success"}>Total OK</Alert>}
 
         <div>
             <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Orden de compra</h2>

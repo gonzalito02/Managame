@@ -39,7 +39,8 @@ async function getShoppingRegisterPlayerId (id) {
     try {
 
         var shoppingReg = await ShoppingRegister.findAll({
-            where: {playerId: id}
+            where: {playerId: id},
+            attributes: {exclude: ["studentId"]}
         })
 
         if (shoppingReg) return shoppingReg
