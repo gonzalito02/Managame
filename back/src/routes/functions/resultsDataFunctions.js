@@ -11,7 +11,7 @@ async function resultsDataCreate (playerID,
     ) 
     
     {
-        console.log("aca", playerID, period, qualityInvestment, finantialFixedInvestment)
+
         const dataControl = playerID.toString() + period.toString() + "ResultsData"
 
     try {
@@ -107,7 +107,6 @@ async function updateResultsData (playerId, {
         if(extraResults) await resultsData.increment("extraResults", {by: extraResults})
         if(totalSales) await resultsData.increment("totalSales", {by: totalSales})
         if(finantialInvestmentResults) await resultsData.increment("finantialInvestmentResults", {by: finantialInvestmentResults})
-        // if(loanInterest) await resultsData.increment("loanInterest", {by: loanInterest})
         if(observations) await resultsData.update({observations: observations})
 
         const newResultsData = await ResultsData.findOne({ where: { playerId: playerId, period: period }}); 

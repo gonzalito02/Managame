@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createResultsData, insertMarketLive, submitUpdate, updateDataPlayer, updateResultsData, validateForm } from "../../../redux/actions/actions";
+import Swal from 'sweetalert2'
 
 export default function ValidateButtons ({data}) {
 
     const dispatch = useDispatch()
     const [stock, setStock] = useState([])
-
-    console.log(data)
 
     useEffect(() => {
         if (data) {
@@ -40,6 +39,26 @@ export default function ValidateButtons ({data}) {
         }
     }, [dispatch])
 
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
     const handlePass = (e) => {
         if(data.type === "loan" || data.type === "investment") {var typo = data.type} else {var typo = ""}
         dispatch(validateForm({playerId: data.playerId, period: data.period, validate: 1, type: typo}))
@@ -54,29 +73,50 @@ export default function ValidateButtons ({data}) {
         if(data.type === "investment") {
             dispatch(updateResultsData(data.playerId,{
                 period: data.period,
-                finantialInvestmentResults: (data.amount * (1 + data.rate))
+                finantialInvestmentResults: parseInt((data.amount * (1 + data.rate)))
             }))
         }
         if(data.type === "loan") {
-            console.log("toy aca bro", data.type)
             dispatch(updateResultsData(data.playerId,{
                 period: data.clearingPeriod,
-                loanInterest: (data.amount * data.rate)
+                loanInterest: parseInt((data.amount * data.rate))
             }))
         }
         dispatch(submitUpdate())
+        Toast.fire({
+            icon: 'success',
+            title: 'Form validated!'
+        })
+        window.location.reload()
     }
 
     const handleDenegate = (e) => {
+        
         if(data.type === "loan" || data.type === "investment") {var typo = data.type} else {var typo = ""}
-        dispatch(validateForm({playerId: data.playerId, period: data.period, validate: 2, type: typo}))
-        if(data.type === "loan") {
-            dispatch(updateResultsData(data.playerId,{
-                period: data.clearingPeriod,
-                loanInterest: data.amount
-            }))
-        }
-        dispatch(submitUpdate())
+
+        swalWithBootstrapButtons.fire({
+            text: "Are you sure?",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(validateForm({playerId: data.playerId, period: data.period, validate: 2, type: typo}))
+                if(data.type === "loan") {
+                    dispatch(updateResultsData(data.playerId,{
+                        period: data.clearingPeriod,
+                        loanInterest: parseInt(data.amount)
+                    }))
+                }
+                dispatch(submitUpdate())
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Form denegated'
+                })
+                window.location.reload()
+            } 
+        })
     }
 
     return (

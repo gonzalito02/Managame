@@ -8,6 +8,7 @@ import { getShopRegStudentById } from "../../../redux/actions/actions";
 import Container from "react-bootstrap/esm/Container";
 import Alert from 'react-bootstrap/Alert';
 import { CSVLink } from "react-csv";
+import Table from "react-bootstrap/esm/Table";
 
 export default function StudentResultsTable () {
 
@@ -60,7 +61,7 @@ export default function StudentResultsTable () {
         <Container>
 
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <table {...getTableProps()}>
+        <Table {...getTableProps()}>
         
             <thead>
                 {
@@ -96,7 +97,7 @@ export default function StudentResultsTable () {
 
             </tbody>
 
-        </table>
+        </Table>
 
         <div>
             <span>Page{"    "}<strong>{pageIndex + 1} of {pageOptions.length}</strong>{"    "}</span>

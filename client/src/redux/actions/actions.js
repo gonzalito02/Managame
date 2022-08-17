@@ -183,8 +183,6 @@ export const createActionForm = (id, actionForm, loan, investment) => {
 
       try {
 
-        console.log(loan, investment)
-
           var config = {
             headers: {
                 Authorization: `Bearer ${tokenSet}`
@@ -625,47 +623,38 @@ export const decrementMarket = (data) => {
     }
 }
 
-
-
-export const handlePurchase = (data, wallet) => {
+export const handlePurchase = (global, wallet, id) => {
     return async function (dispatch) {
 
-        console.log("actions", data)
+        const data = {
+            wallet: {
+                id: id,
+                wallet: wallet
+            },
+            global: global
+        }
+        
+        // 0:
+        //     id: 12345678
+        //     purchase:
+        //         period: 1
+        //         playerId: 1003
+        //         priceProduct: 20000
+        //         qualityProduct: 22
+        //         stockProduct: 2
+        //         typeProduct: "A"
 
-        var wal = {
-            id: data.id,
-            wallet: wallet
-        } 
-  
         try {
   
-            console.log("estoy aca")
-            await axios.put(`http://localhost:3002/market/bulk/decrement`, data);
-            await axios.put(`http://localhost:3002/student/wallet/decrement`, wal);
-            
-            try {
-
-                // {   
-                //     "period": 1,
-                //     "observations": "Aloha",
-                //     "totalSales": 120
-                // }
-                
-                // {
-                //     "id": 12345678,
-                //     "wallet": 1001
-                // }
-
-            } catch {
-
-
-            }
+            var response = await axios.put(`http://localhost:3002/manager`, data);
 
             return dispatch({ type: SET_ERRORS, payload: "Purchase done succesfully"});
 
         } catch (e) {
+            
             console.log(e)
-  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response}; action purchase; status: ${e.response.status}; code: ${e.code}`});
+        
         }
     }
 }
@@ -705,11 +694,9 @@ export const setUserLogged = (data) => {
 }
 
 export const checkLog = (log) => {
-    if (!tokenjson) {
+    if (!tokenjson || log !== JSON.parse(tokenjson).rol) {
         return window.location.replace("http://localhost:3000/home")
-    } else if (log !== JSON.parse(tokenjson).rol) { 
-        return window.location.replace("http://localhost:3000/home")
-    }
+    } 
 }
 
 export const submitUpdate = () => {

@@ -4,12 +4,13 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { decrementMarket, getMarketLive, getStudentById, handlePurchase, makeCart } from "../../../redux/actions/actions";
+import { getMarketLive, getStudentById, handlePurchase } from "../../../redux/actions/actions";
 import Table from "react-bootstrap/esm/Table";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import Alert from 'react-bootstrap/Alert';
 import { CSVLink } from "react-csv";
+import Swal from 'sweetalert2'
 
 export default function MarketLiveTable () {
 
@@ -21,6 +22,8 @@ export default function MarketLiveTable () {
     const cart = useSelector(state => state.cart)
     const cartControl = useSelector(state => state.cartControl)
 
+    const idStudent = studentData.id
+
     var [errors, setErrors] = useState({validate: "", total: ""})
 
     const cartFill = () => {
@@ -28,7 +31,7 @@ export default function MarketLiveTable () {
             var finalCart = {}
             for (let i = 0; i < cart.length; i++) {
                 let obj = {
-                    "id": studentData.id,
+                    "id": idStudent,
                     "purchase":{   
                                 "period": gameControl.period,
                                 "typeProduct": cart[i][2].typeProduct,
@@ -72,6 +75,27 @@ export default function MarketLiveTable () {
 
     const data = useMemo(() => market, [market])
     const columns = useMemo(() => COLUMNS, [])
+    
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 
     const sendPurchase = () => {
         const finalCart = cartFill()
@@ -82,8 +106,22 @@ export default function MarketLiveTable () {
             global.push(finalCart[i])
         }
 
-        dispatch(handlePurchase(global, wallet))
-        console.log("Purchase done")
+        swalWithBootstrapButtons.fire({
+            text: "Are you sure?",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(handlePurchase(global, wallet, idStudent))
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Purchase sent to database'
+                })
+                window.location.reload()
+            } 
+        })
     }
 
     const { getTableProps,
@@ -119,7 +157,7 @@ export default function MarketLiveTable () {
         :
         (!studentData.playerId) ?
         <Container>
-            <Alert variant={"warning"}>You must have a business assigned to buy</Alert>
+            <Alert variant={"warning"}>You must have a business assigned first</Alert>
         </Container>
         :
         <Container>
