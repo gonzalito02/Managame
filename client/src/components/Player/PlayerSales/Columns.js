@@ -4,9 +4,9 @@ export const COLUMNS = [
         accessor: 'playerId',
     }, 
     {
-        Header: 'Cliente',
-        accessor: 'studentId',
-    }, 
+        Header: 'Fecha de venta',
+        accessor: row => { return row.createdAt? row.createdAt.slice(0,10) : null}
+    },
     {
         Header: 'Periodo',
         accessor: 'period',

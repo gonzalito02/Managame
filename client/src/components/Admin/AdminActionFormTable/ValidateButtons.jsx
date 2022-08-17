@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { createResultsData, insertMarketLive, submitUpdate, updateDataPlayer, updateResultsData, validateForm } from "../../../redux/actions/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { createResultsData, insertMarketLive, submitUpdate, updateResultsData, validateForm } from "../../../redux/actions/actions";
 import Swal from 'sweetalert2'
 
 export default function ValidateButtons ({data}) {
 
     const dispatch = useDispatch()
     const [stock, setStock] = useState([])
+    const gameControl = useSelector(state => state.gameControl)
+
+    const act = gameControl.actionGame
+    const typo = data.type
 
     useEffect(() => {
         if (data) {
@@ -122,8 +126,8 @@ export default function ValidateButtons ({data}) {
     return (
         <>
             <div>
-                  <button onClick={e => handlePass(e)}>Validate</button>
-                  <button onClick={e => handleDenegate(e)}>Denegate</button>
+                  {(act === 2 || typo === "actionForm")?<button onClick={e => handlePass(e)}>Validate</button>:null}
+                  {(act === 2 || typo === "actionForm")?<button onClick={e => handleDenegate(e)}>Denegate</button>:null}
             </div>
         </>
     )
