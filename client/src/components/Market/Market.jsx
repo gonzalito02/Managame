@@ -29,8 +29,8 @@ export default function Market () {
 
             <Container>
 
-                <input></input>
-                <button onClick={() => sendMessage()}>Send the message</button>
+                {/* <input></input>
+                <button onClick={() => sendMessage()}>Send the message</button> */}
                 <MarketLiveTable />
 
             </Container>

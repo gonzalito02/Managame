@@ -12,7 +12,7 @@ const { createStudent } = require('./src/routes/functions/studentFunction.js');
 // tasa maxima de rendimiento de una inversión financiera.
 // capital inicial global ?
 // costo de produccion de los productos.
-// tasa minima de costo de un prestamo.
+// tasa minima de interes de un prestamo.
 // montos maximos de inversión y mínimo de producción.
 // habilitaciones para comprar o enviar formularios.
 
@@ -54,7 +54,7 @@ function gameControlInit () {
       maxRateFinFixedInvest: 0.3,
       maxTotalFinInvestAmount: 200000,
       wallet: 0,
-      actionGame: 0 // 0 = Production phase; 1 = Market phase; 2 = Clean phase (clearing)  
+      actionGame: 1 // 0 = Production phase; 1 = Market phase; 2 = Clean phase (clearing)  
     }
   )
   console.log("gameControlInit function executed")

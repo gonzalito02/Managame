@@ -105,7 +105,7 @@ export default function StudentData () {
                                 Billetera
                             </td> 
                             <td> 
-                                {wallet} 
+                                $ {wallet} 
                             </td> 
 
                         </tr>

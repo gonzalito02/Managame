@@ -7,6 +7,16 @@ const { shoppingCreate } = require("./functions/shoppingRegisterFunctions.js")
 const { walletDecrement } = require("./functions/studentFunction.js")
 const router = express.Router()
 
+        //   0:
+        //     id: 12345678
+        //     purchase:
+        //         period: 1
+        //         playerId: 1003
+        //         priceProduct: 20000
+        //         qualityProduct: 22
+        //         stockProduct: 2
+        //         typeProduct: "A"
+
 router.put("/",  async (req, res) => {
 
     const { global, wallet } = req.body
@@ -14,6 +24,8 @@ router.put("/",  async (req, res) => {
     try {
 
         var errors = []
+
+        console.log(global)
 
         for (var i = 0; i < global.length; i++) {
             const marketRes = await marketOfferDecrement(global[i].purchase)
@@ -30,10 +42,10 @@ router.put("/",  async (req, res) => {
         await walletDecrement(wallet)
 
         let batch = await updateBulkResultsData(global)
-        if (batch) res.send("Done, check the log")
+        if (batch) res.send(errors)
 
     } catch (e) {
-
+        console.log(e)
         res.status(400).send(e.message)
     
     }
