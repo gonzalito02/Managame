@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { MarketLive } = require('../db.js')
-const { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive } = require("./functions/marketLiveFunctions.js")
+const { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive, getMarketLiveForDownload, updatePlayerMarket } = require("./functions/marketLiveFunctions.js")
 
 router.get("/",  async (req, res) => {
 
@@ -17,10 +17,22 @@ router.get("/",  async (req, res) => {
     }
 })
 
+router.get("/forDownload",  async (req, res) => {
+
+    try {
+
+        const market = await getMarketLiveForDownload()
+        if (market) return res.send({message: "market obtained", response: market})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
 router.post("/:id",  async (req, res) => {
 
-    // let {} = req.body
-    // if (!playerId || !officialName || !group || !members || !password) res.send({error:true, message: "missing data"})
     const { id } = req.params
 
     try {
@@ -91,6 +103,22 @@ router.put("/bulk/decrement",  async (req, res) => {
 
         if (errors.length > 0) return (res.send({message: "Purchase with errors, check out the log"}), console.log(errors))
         else res.send({message: "Purchase done"})
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.put("/player/increment",  async (req, res) => {
+
+    try {
+        
+        const marketUpdate = await updatePlayerMarket(req.body)
+        
+        if (marketUpdate) res.send({message: "Updated"})
+        else res.send({message: "Cant update the market"})
 
     } catch (e) {
 

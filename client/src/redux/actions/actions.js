@@ -21,6 +21,7 @@ import {
   GET_STUDENTSHOPREG_ID,
   GET_PLAYERSHOPREG_ID,
   SUBMIT_UPDATE,
+  GET_MARKETLIVE_DOWNLOAD,
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
@@ -579,6 +580,22 @@ export const getMarketLive = () => {
     }
   }
 
+export const getMarketForDownload = () => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.get(`http://localhost:3002/market/forDownload`);
+            return dispatch({ type: GET_MARKETLIVE_DOWNLOAD, payload: response.data.response });
+  
+        } catch (e) {
+  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getMarketForDownload; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
 export const destroyMarketLive = () => {
     return async function (dispatch) {
   
@@ -633,16 +650,6 @@ export const handlePurchase = (global, wallet, id) => {
             },
             global: global
         }
-        
-        // 0:
-        //     id: 12345678
-        //     purchase:
-        //         period: 1
-        //         playerId: 1003
-        //         priceProduct: 20000
-        //         qualityProduct: 22
-        //         stockProduct: 2
-        //         typeProduct: "A"
 
         try {
   

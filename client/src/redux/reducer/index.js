@@ -20,6 +20,7 @@ import {
     GET_STUDENTSHOPREG_ID,
     GET_PLAYERSHOPREG_ID,
     SUBMIT_UPDATE,
+    GET_MARKETLIVE_DOWNLOAD,
 } from "../actions/types";
   
 const initialState = {
@@ -37,6 +38,7 @@ const initialState = {
     qualityRegister: [],
     playerForms: [],
     marketLive: [],
+    marketLiveDownload: [],
     shoppingRegister: [],
     cart: [],
     cartControl: [],
@@ -178,6 +180,13 @@ export default function rootReducer(state = initialState, action) {
             ...state,
             marketLive: payload,
             errors: "Market live obtained"
+        };
+
+        case GET_MARKETLIVE_DOWNLOAD:
+        return {
+            ...state,
+            marketLiveDownload: payload,
+            errors: "Market live for download obtained"
         };
 
         case SUBMIT_UPDATE:
