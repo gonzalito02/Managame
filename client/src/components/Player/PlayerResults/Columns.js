@@ -24,11 +24,15 @@ export const COLUMNS = [
         accessor: 'totalSales',
     },
     {
+        Header: 'Impuestos',
+        accessor: 'taxes',
+    },
+    {
         Header: 'Resultados extras',
         accessor: 'extraResults',
     },
     {
-        Header: 'Total del período',
+        Header: 'Total del período (-capTrabajo)',
         accessor: 'totalPeriod',
     },
     {

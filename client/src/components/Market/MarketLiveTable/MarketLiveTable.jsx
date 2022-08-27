@@ -4,7 +4,7 @@ import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { getMarketLive, getStudentById, handlePurchase } from "../../../redux/actions/actions";
+import { getMarketForDownload, getMarketLive, getStudentById, handlePurchase } from "../../../redux/actions/actions";
 import Table from "react-bootstrap/esm/Table";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
@@ -16,6 +16,7 @@ export default function MarketLiveTable () {
 
     const dispatch = useDispatch()
     const market = useSelector(state => state.marketLive)
+    const marketDownload = useSelector(state => state.marketLiveDownload)
     const gameControl = useSelector(state => state.gameControl)
     const studentData = useSelector(state => state.dataStudentId)
     const userLogin = useSelector(state => state.userLogin)
@@ -70,6 +71,7 @@ export default function MarketLiveTable () {
 
     useEffect(() => {
         dispatch(getMarketLive())
+        dispatch(getMarketForDownload())
         dispatch(getStudentById(userLogin.id))
     }, [userLogin])
 
@@ -207,7 +209,7 @@ export default function MarketLiveTable () {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
-            <CSVLink  data={market}><button>Download CSV</button></CSVLink>
+            <CSVLink data={marketDownload}><button>Download CSV</button></CSVLink>
         </div>
        
         {errors.validate !== ""? <Alert variant={"danger"}>{errors.validate}</Alert>: <Alert variant={"success"}>Validate OK</Alert>}

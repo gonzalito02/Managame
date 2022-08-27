@@ -1,3 +1,6 @@
+import Quality from "./Quality"
+import TotalQuality from "./TotalQuality"
+
 export const COLUMNS = [
     {
         Header: 'Empresa',
@@ -17,7 +20,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Calidad del producto',
-        accessor: 'qualityProduct',
+        accessor: row => { return <Quality data={row}/>}
     },
     {
         Header: 'Precio unitario',
@@ -25,7 +28,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Total calidad comprada',
-        accessor: 'totalQuality',
+        accessor: row => { return <TotalQuality data={row}/>}
     },
     {
         Header: 'Monto total',

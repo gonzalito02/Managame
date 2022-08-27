@@ -15,6 +15,25 @@ async function getMarketLive () {
 
 }
 
+async function getMarketLiveForDownload () {
+
+    try {
+
+    const market = await MarketLive.findAll({
+        attributes: {
+            exclude: ["qualityProduct", "id"]
+        }
+    })
+
+    if (market) return market
+    else return "No market found"
+
+    } catch (e) {
+        throw new Error("An error has ocurred, no market found")
+    }
+
+}
+
 async function marketOfferInsert (playerID, {
         period,
         typeProduct,
@@ -63,9 +82,16 @@ async function marketOfferDecrement ({
 
     const marketObject = await MarketLive.findOne({ where: { playerId: playerId, period: period, typeProduct: typeProduct } }); 
 
-    if (marketObject?.dataValues.stockProduct < stockProduct) return ("No stock")
+            if (marketObject?.dataValues.stockProduct === 0) {
+                return "no stock"
+            }
 
-            try {
+             try {
+
+                if (marketObject?.dataValues.stockProduct < stockProduct) {
+                    const newMarketObject = await marketObject.update({stockProduct: 0})
+                    return newMarketObject
+                }
 
                 const newMarketObject = await marketObject.decrement({stockProduct: stockProduct})
 
@@ -103,5 +129,26 @@ async function destroyMarketLive () {
 
 }
 
+async function updatePlayerMarket ({playerId, typeProduct, qualityProduct, stockProduct}) {
 
-module.exports = { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive}
+    try {
+        
+        var marketPlayer = await MarketLive.findOne({ where: { playerId: playerId, typeProduct: typeProduct }}); 
+
+        if (marketPlayer) {
+
+            if(qualityProduct) await marketPlayer.increment("qualityProduct", {by: qualityProduct})
+            if(stockProduct) await marketPlayer.increment("stockProduct", {by: stockProduct})
+
+        }
+
+        if (marketPlayer) return marketPlayer
+
+    } catch (e) {
+
+        throw new Error(`Cannot update the marketLive`)
+
+    }
+}
+
+module.exports = { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive, getMarketLiveForDownload, updatePlayerMarket}

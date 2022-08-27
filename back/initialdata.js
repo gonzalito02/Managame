@@ -68,6 +68,27 @@ const dataPlayer = [
         group: "Presencial",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empJ1010"
+    },
+    {   
+        id: 1011,
+        officialName: "EMPRESA K",
+        group: "Presencial",
+        members: ["alumno 1","alumno 2","alumno 3"],
+        password: "empK1011"
+    },
+    {   
+        id: 1012,
+        officialName: "EMPRESA L",
+        group: "Presencial",
+        members: ["alumno 1","alumno 2","alumno 3"],
+        password: "empL1012"
+    },
+    {   
+        id: 1111,
+        officialName: "CONTROLER",
+        group: "omnipresente",
+        members: ["unique"],
+        password: "theChosenOne"
     }
 ]
 
@@ -107,7 +128,15 @@ const students = [
         password: "Manzana12",
         email: "gonza0211@gmail.com",
         rol: "student"
-    }
+    },
+    {
+        id: 99999999,
+        name: "Big Buyer",
+        password: "algoritmo2",
+        email: "gonza0211@gmail.com",
+        rol: "student"
+    },
+
 ]
 
 module.exports = { dataPlayer, students, roles }

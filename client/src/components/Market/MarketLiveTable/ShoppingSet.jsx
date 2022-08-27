@@ -53,8 +53,8 @@ export default function ShoppingSet ({data}) {
     return (
 
         <>
-            {(data.playerId === student.playerId)?
-            <span>You cant buy this product</span>
+            {(data.playerId === student.playerId || data.stockProduct === 0)?
+            <span>You cant buy this product or there are no stock</span>
             :
             <input name={
                     (data.typeProduct === "A")? `${data.playerId}1`: 

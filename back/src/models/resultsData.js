@@ -35,13 +35,19 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    taxes: {
+      type: DataTypes.INTEGER,
+      get () {
+        return ((this.totalSales + this.finantialInvestmentResults - this.loanInterest + this.extraResults - 1000000) * 0.35)
+      }
+    },
     observations: {
       type: DataTypes.STRING,
     },
     totalPeriod: {
       type: DataTypes.INTEGER,
       get() {
-        return this.totalSales + this.finantialInvestmentResults - this.loanInterest + this.extraResults  
+        return this.totalSales + this.finantialInvestmentResults - this.loanInterest + this.extraResults - this.taxes - 1000000
       },
       set () {
         throw new Error('Do not try to set the totalPeriod value!');

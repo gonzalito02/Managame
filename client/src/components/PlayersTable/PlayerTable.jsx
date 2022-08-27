@@ -2,12 +2,10 @@ import React, { useEffect } from "react";
 import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { getAllPlayers, getAllStudents } from "../../redux/actions/actions";
-import { GlobalFilter } from "../GlobalFilter";
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import Table from "react-bootstrap/Table"
 import { CSVLink } from "react-csv"
-import { Button } from "bootstrap";
 import Container from "react-bootstrap/esm/Container";
 
 export default function PlayerTable () {
@@ -20,7 +18,7 @@ export default function PlayerTable () {
         dispatch(getAllStudents())
     }, [dispatch])
 
-    const data = useMemo(() => players, [players])
+    const data = useMemo(() => players.filter(e => e.id !== 1111), [players])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,
