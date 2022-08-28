@@ -1,5 +1,7 @@
 const express = require("express")
 const router = express.Router()
+const validationAdmin = require("../controllers/validationAdmin.js")
+const validationJWT = require("../controllers/validationJWT.js")
 const { Student } = require('../db.js')
 const { getStudents, createStudent, getStudentId, updateStudent, walletDecrement, deleteStudent, playerAdd, playerRemove } = require("./functions/studentFunction.js")
 
@@ -20,7 +22,7 @@ router.get("/",  async (req, res) => {
 })
 
 
-router.post("/",  async (req, res) => {
+router.post("/", validationAdmin, validationJWT, async (req, res) => {
 
     let { id, name, password, email, rol } = req.body
 
@@ -115,7 +117,7 @@ router.put("/wallet/decrement",  async (req, res) => {
     }
 })
 
-router.delete("/:id",  async (req, res) => {
+router.delete("/:id", validationAdmin, validationJWT, async (req, res) => {
 
     const { id } = req.params
 

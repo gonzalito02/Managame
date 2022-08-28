@@ -44,42 +44,42 @@ const dataPlayer = [
     {   
         id: 1007,
         officialName: "EMPRESA G",
-        group: "Presencial",
+        group: "Distancia",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empG1007"
     },
     {   
         id: 1008,
         officialName: "EMPRESA H",
-        group: "Presencial",
+        group: "Distancia",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empH1008"
     },
     {   
         id: 1009,
         officialName: "EMPRESA I",
-        group: "Presencial",
+        group: "Distancia",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empI1009"
     },
     {   
         id: 1010,
         officialName: "EMPRESA J",
-        group: "Presencial",
+        group: "Distancia",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empJ1010"
     },
     {   
         id: 1011,
         officialName: "EMPRESA K",
-        group: "Presencial",
+        group: "Distancia",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empK1011"
     },
     {   
         id: 1012,
         officialName: "EMPRESA L",
-        group: "Presencial",
+        group: "Distancia",
         members: ["alumno 1","alumno 2","alumno 3"],
         password: "empL1012"
     },

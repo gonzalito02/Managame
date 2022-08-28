@@ -1,7 +1,7 @@
 const { Player, Rol, DinamicForm, ActionData, QualityRegister, ResultsData, Student } = require('../../db')
 const bcrypt = require("bcrypt");
 
-async function playerCreate ({id, officialName, fantasyName, group, members, password}) {
+async function playerCreate ({id, officialName, group, members, password}) {
 
     try {
 
@@ -9,23 +9,28 @@ async function playerCreate ({id, officialName, fantasyName, group, members, pas
     
     const hash = bcrypt.hashSync(password, genSalt);
 
+    const playerExist = await Player.findByPk(id)
+
+    if (playerExist) return playerExist
+    else {
+
     const newPlayer = await Player.create({
         id: id,
         officialName: officialName,
-        fantasyName: fantasyName,
         group: group,
         members: members,
-        password: hash,
+        password: hash
     })
 
-    const role = await Rol.findOne({ where: { name: "player" }});
+    if (newPlayer) {var role = await Rol.findOne({ where: { name: "player" }})}
 
-    await role.addPlayer(newPlayer);
+    if (role) {await role.addPlayer(newPlayer)};
 
     if (newPlayer) return newPlayer
+    
+    }
 
     } catch (e) {
-        console.log(e)
         throw new Error("Cannot create the player, maybe conflict whit the id. Try again.")
     }
 

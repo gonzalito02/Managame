@@ -1,19 +1,23 @@
-//? create role
 const { Rol } = require('../../db');
 
 async function createRole(data) {
 
     const { name, description } = data;
+
+    
     try {
 
-        const role = await Rol.create({
-            name,
-            description
+        const role = await Rol.findOrCreate({
+            where: {
+                name: name,
+                description: description
+            }
         })
         
         if (role) return role 
 
     } catch (e) {
+
         throw new Error("Cannot create the role. Try again.")
     }
 };

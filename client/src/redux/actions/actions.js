@@ -80,8 +80,14 @@ export const createPlayer = (data) => {
     return async function (dispatch) {
   
         try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
   
-            var response = await axios.post(`http://localhost:3002/player`, data);
+            var response = await axios.post(`http://localhost:3002/player`, data, config);
             return dispatch({type: SET_ERRORS, payload: `Player whit ID ${data.id}`});
   
         } catch (e) {
@@ -97,8 +103,14 @@ export const createStudent = (data) => {
     return async function (dispatch) {
   
         try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
   
-            var response = await axios.post(`http://localhost:3002/student`, data);
+            var response = await axios.post(`http://localhost:3002/student`, data, config);
             return dispatch({type: SET_ERRORS, payload: `Student whit ID ${data.id}`});
   
         } catch (e) {
@@ -115,7 +127,13 @@ export const allowToPlay = (id) => {
   
         try {
 
-            var response = await axios.put(`http://localhost:3002/player/allowToPlay/${id}`);
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
+
+            var response = await axios.put(`http://localhost:3002/player/allowToPlay/${id}`, config);
             return dispatch({type: SET_ERRORS, payload: `Player allowed to play ID ${id}`});
   
         } catch (e) {
@@ -404,10 +422,16 @@ export const getStudentById = (id) => {
 
 export const deleteStudent = (id) => {
     return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
   
         try {
   
-            var response = await axios.delete(`http://localhost:3002/student/${id}`);
+            var response = await axios.delete(`http://localhost:3002/student/${id}`, config);
             return dispatch({ type: SET_ERRORS, payload: `student ${id} deleted`});
   
         } catch (e) {
@@ -479,7 +503,7 @@ export const updateGameControl = (data) => {
                 headers: {
                     Authorization: `Bearer ${tokenSet}`
                 }
-              }
+            }
   
             var response = await axios.put(`http://localhost:3002/adminControl`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
@@ -495,10 +519,16 @@ export const updateGameControl = (data) => {
 
 export const setWallet = (data) => {
     return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/adminControl/wallet/set`, data);
+            var response = await axios.put(`http://localhost:3002/adminControl/wallet/set`, data, config);
             return dispatch({ type: SET_ERRORS, payload: "wallet set succesfully"});
   
         } catch (e) {
@@ -512,10 +542,16 @@ export const setWallet = (data) => {
 
 export const validateForm = (data) => {
     return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/adminControl/validate`, data);
+            var response = await axios.put(`http://localhost:3002/adminControl/validate`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -598,9 +634,15 @@ export const getMarketForDownload = () => {
 
 export const destroyMarketLive = () => {
     return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
   
         try {
-            var response = await axios.delete(`http://localhost:3002/market`);
+            var response = await axios.delete(`http://localhost:3002/market`, config);
             return dispatch({ type: SET_ERRORS, payload: "Market destroyed succesfully" });
   
         } catch (e) {

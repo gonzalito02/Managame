@@ -1,5 +1,6 @@
 const express = require("express")
 const validationAdmin = require("../controllers/validationAdmin.js")
+const validationJWT = require("../controllers/validationJWT.js")
 const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, validateDinamicForms,
      deleteForm, getAdminForms, walletSet } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
@@ -37,7 +38,7 @@ router.post("/",  async (req, res) => {
     }
 })
 
-router.put("/", async (req, res) => {
+router.put("/", validationAdmin, validationJWT, async (req, res) => {
     
     if ( !req.body ) res.send({error:true, message: "missing data"})
 
@@ -59,7 +60,7 @@ router.put("/", async (req, res) => {
 //  |
 //  V
 
-router.put("/validate", async (req, res) => {
+router.put("/validate", validationAdmin, validationJWT, async (req, res) => {
 
     
     let { period, playerId, validate, type } = req.body
@@ -87,7 +88,7 @@ router.put("/validate", async (req, res) => {
 //  |
 //  V
 
-router.delete("/", async (req, res) => {
+router.delete("/", validationAdmin, validationJWT, async (req, res) => {
 
     let { period, playerId } = req.body
 
@@ -107,7 +108,7 @@ router.delete("/", async (req, res) => {
 
 })
 
-router.get("/getFormsValidate",  async (req, res) => {
+router.get("/getFormsValidate", async (req, res) => {
 
     try {
 
@@ -121,7 +122,7 @@ router.get("/getFormsValidate",  async (req, res) => {
     }
 })
 
-router.put("/wallet/set",  async (req, res) => {
+router.put("/wallet/set", validationAdmin, validationJWT, async (req, res) => {
 
     try {
 

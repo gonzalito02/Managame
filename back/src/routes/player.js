@@ -1,5 +1,7 @@
 const express = require("express")
 const router = express.Router()
+const validationAdmin = require("../controllers/validationAdmin.js")
+const validationJWT = require("../controllers/validationJWT.js")
 const { Player } = require('../db.js')
 const { playerCreate, getPlayers, getPlayer, updatePlayer, allowToPlayFunc } = require("./functions/playerFunctions.js")
 
@@ -10,6 +12,7 @@ router.get("/",  async (req, res) => {
     try {
 
         const players = await getPlayers()
+
         if (players) return res.send({message: "getPlayers ok", response: players})
 
     } catch (e) {
@@ -18,7 +21,7 @@ router.get("/",  async (req, res) => {
 })
 
 
-router.post("/",  async (req, res) => {
+router.post("/", validationAdmin, validationJWT, async (req, res) => {
 
     let { id, officialName, group, members, password } = req.body
     if (!id || !officialName || !group || !members || !password) res.send({error:true, message: "missing data"})
@@ -68,7 +71,7 @@ router.put("/:id",  async (req, res) => {
     }
 })
 
-router.put("/allowToPlay/:id",  async (req, res) => {
+router.put("/allowToPlay/:id", validationAdmin, validationJWT, async (req, res) => {
 
     const { id } = req.params
 

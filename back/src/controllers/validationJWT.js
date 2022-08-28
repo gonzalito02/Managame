@@ -18,13 +18,19 @@ module.exports = (req, res, next) => {
 
     const tokenId = validator.id.toString()
 
-    if (data || id) {
-        if (id !== tokenId) {
-            res.status(401).send("Sintax error")
-        } else {
-            if (validator.id) next()
-            else res.status(401).send("Invalid token")
-        }
+    console.log(tokenId)
+
+    if (validator.id) next()
+    else res.status(401).send("Invalid token")
+
     }
 
-}
+    // if (data || id) {
+    //     if (id !== tokenId) {
+    //         res.status(401).send("Sintax error")
+    //     } else {
+    //         if (validator.id) next()
+    //         else res.status(401).send("Invalid token")
+    //     }
+    // }
+

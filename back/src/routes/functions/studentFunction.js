@@ -12,6 +12,11 @@ async function createStudent(data) {
         const hash = bcrypt.hashSync(password, genSalt);
 
         const role = await Rol.findOne({ where: { name: rol }});
+
+        const studentExist = await Student.findByPk(id)
+
+        if (studentExist) return studentExist
+        else {
         
         const student = await Student.create({
             id: id,
@@ -22,49 +27,13 @@ async function createStudent(data) {
         
         await role.addStudents(student);
 
-        //await student.addRols(role);
-        
-        //student.password = undefined;
-
-        //? enviar email de confirmacion de registro
-
-        // ------------------------
-        // const transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         user: 'bookstore1511@gmail.com',
-        //         pass: 'qyrvkdsvuzwgotne'
-        //     }
-        // });
-        // const mailOptions = {
-        //     from: "BookStore <",
-        //     to: user.email,
-        //     subject: 'Confirmation of registration',
-        //     text: 'Hello ' + user.name + ' ' + user.lastName + '\n\n' +
-        //         'Thank you for registering on BookStore.\n' +
-        //         'To confirm your registration, please click on the following link:\n\n' +
-        //         'http://localhost:3000/confirmation/' + user.idUser + '\n\n' +
-        //         "If it doesn't work, copy and paste the link into your browser.\n\n" +
-        //         'Thank you,\n' +
-        //         'BookStore'
-        // };
-        // transporter.sendMail(mailOptions, function (error, info) {
-        //     if (error) {
-        //         console.log(error);
-        //     } else {
-        //         console.log('Email sent: ' + info.response);
-        //     }
-        // });
-
-        // ------------------------
-
-        //? respuesta
-
         if (student.dataValues.id > 0) return ({message: `Student (id: ${id}, name: ${name}) generated`})
 
+        }
     } 
 
     catch (e) {
+
         throw new Error("Cannot create the student.")
     }
 

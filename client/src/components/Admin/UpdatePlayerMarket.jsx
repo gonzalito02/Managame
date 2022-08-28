@@ -12,7 +12,7 @@ export default function UpdatePlayerMarket () {
 
     useEffect(() => {
         dispatch(getMarketLive())
-    }, [market])
+    }, [])
 
     const [data, setData] = useState({playerId: "", typeProduct: "", qualityProduct: 0, stockProduct: 0})
 

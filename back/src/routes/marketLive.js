@@ -1,5 +1,7 @@
 const express = require("express")
 const router = express.Router()
+const validationAdmin = require("../controllers/validationAdmin.js")
+const validationJWT = require("../controllers/validationJWT.js")
 const { MarketLive } = require('../db.js')
 const { getMarketLive, marketOfferInsert, marketOfferDecrement, destroyMarketLive, getMarketLiveForDownload, updatePlayerMarket } = require("./functions/marketLiveFunctions.js")
 
@@ -127,7 +129,7 @@ router.put("/player/increment",  async (req, res) => {
     }
 })
 
-router.delete("/",  async (req, res) => {
+router.delete("/", validationAdmin, validationJWT, async (req, res) => {
 
     try {
 
