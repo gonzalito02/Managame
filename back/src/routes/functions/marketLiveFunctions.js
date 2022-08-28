@@ -1,4 +1,4 @@
-const { MarketLive, Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { MarketLive, Player } = require('../../db')
 
 async function getMarketLive () {
 

@@ -1,4 +1,4 @@
-const { GameControl, ActionData, DinamicForm, Student } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { GameControl, ActionData, DinamicForm, Student } = require('../../db')
 
 // costo de un punto de calidad.
 // tasa maxima de rendimiento de una inversión financiera.

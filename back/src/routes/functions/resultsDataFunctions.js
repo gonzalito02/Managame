@@ -1,5 +1,4 @@
-const { Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
-const { ResultsData } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { ResultsData, Player} = require('../../db')
 
 async function resultsDataCreate (playerID,
     {

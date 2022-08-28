@@ -1,5 +1,5 @@
 //? create role
-const { Rol } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js");
+const { Rol } = require('../../db');
 
 async function createRole(data) {
 

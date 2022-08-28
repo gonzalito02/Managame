@@ -1,4 +1,4 @@
-const { QualityRegister } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { QualityRegister } = require('../../db')
 
 async function getQualityRegister () {
 

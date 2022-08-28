@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt")
-const { Student, Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { Student, Player } = require('../../db')
 const jwt = require("jsonwebtoken")
 const {
     ACCESS_TOKEN_SECRET,

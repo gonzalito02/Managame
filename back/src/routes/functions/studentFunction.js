@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-const { Student, Rol, Player} = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js");
+const { Student, Rol, Player} = require('../../db');
+// const { Student, Rol, Player} = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js");
 
 async function createStudent(data) {
 

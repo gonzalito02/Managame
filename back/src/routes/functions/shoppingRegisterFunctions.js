@@ -1,4 +1,4 @@
-const { ShoppingRegister, Player, Student } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { ShoppingRegister, Player, Student } = require('../../db')
 
 async function getShoppingRegister () {
 

@@ -1,5 +1,4 @@
-const { Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
-const { ActionData, DinamicForm, QualityRegister} = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { ActionData, DinamicForm, QualityRegister, Player} = require('../../db')
 
 async function formCreate (playerID,
     {

@@ -1,4 +1,4 @@
-const { Player, Rol, DinamicForm, ActionData, QualityRegister, ResultsData, Student } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { Player, Rol, DinamicForm, ActionData, QualityRegister, ResultsData, Student } = require('../../db')
 const bcrypt = require("bcrypt");
 
 async function playerCreate ({id, officialName, fantasyName, group, members, password}) {

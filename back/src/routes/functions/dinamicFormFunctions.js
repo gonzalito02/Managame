@@ -1,5 +1,5 @@
 const { resultsDataCreate } = require("./resultsDataFunctions")
-const { DinamicForm, Player } = require("C:/Users/gonza/Desktop/Managame/Managame/back/src/db.js")
+const { DinamicForm, Player } = require('../../db')
 
 async function getDinamicForms () {
 
