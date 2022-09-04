@@ -5,6 +5,7 @@ import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllPlayers } from "../../../redux/actions/actions";
 import { GlobalFilter } from "../../GlobalFilter";
+import { CSVLink } from "react-csv";
 import Table from "react-bootstrap/esm/Table";
 
 export default function AdminPlayers () {
@@ -91,6 +92,7 @@ export default function AdminPlayers () {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
+            <CSVLink data={players}><button>Download CSV</button></CSVLink>
         </div>
 
         </>

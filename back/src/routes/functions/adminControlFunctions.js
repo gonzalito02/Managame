@@ -210,4 +210,4 @@ async function walletSet({value}) {
 
 module.exports = { gameControlCreate, getGameControl, updateGameControl, 
     validateActionForms, deleteForm, getAdminForms, validateDinamicForms,
-    walletSet }
+    walletSet, updateWallet }

@@ -4,7 +4,6 @@ import { checkLog, getAllForms, getAllPlayers, getGameControl } from "../../redu
 import NavBar from "../NavBar";
 import AdminActionFormTable from "./AdminActionFormTable/AdminActionFormTable";
 import AdminActionFormTableValidated from "./AdminActionFormTableValidated/AdminActionFormTableValidated";
-import SetWallet from "./AdminStudents/SetWallet";
 import GameControl from "./GameControl";
 import UpdatePlayerMarket from "./UpdatePlayerMarket";
 
@@ -25,15 +24,6 @@ export default function AdminControl () {
             Game Control
         </h2 >
             <GameControl />
-        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
-            Wallet and Market Destroy
-        </h2>
-            <SetWallet />
-
-        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
-            Update Player Market.
-        </h2>
-            <UpdatePlayerMarket />
 
         <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>
             Submitted Forms.

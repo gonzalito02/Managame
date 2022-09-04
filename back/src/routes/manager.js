@@ -25,8 +25,6 @@ router.put("/",  async (req, res) => {
 
         var errors = []
 
-        console.log(global)
-
         for (var i = 0; i < global.length; i++) {
             const marketRes = await marketOfferDecrement(global[i].purchase)
             
@@ -43,6 +41,7 @@ router.put("/",  async (req, res) => {
 
         let batch = await updateBulkResultsData(global)
         if (batch) res.send(errors)
+        else res.send("Cant resolve updateBulkResultsData")
 
     } catch (e) {
         console.log(e)

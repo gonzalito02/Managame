@@ -8,7 +8,6 @@ import { getShopRegPlayerById } from "../../../redux/actions/actions";
 import Table from "react-bootstrap/esm/Table";
 import Container from "react-bootstrap/esm/Container";
 import Alert from 'react-bootstrap/Alert';
-import { CSVLink } from "react-csv";
 
 export default function PlayerSalesTable () {
 
@@ -105,7 +104,6 @@ export default function PlayerSalesTable () {
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
         </div>
-        <CSVLink  data={results}><button>Download CSV</button></CSVLink>
         </>
         }
         </Container>

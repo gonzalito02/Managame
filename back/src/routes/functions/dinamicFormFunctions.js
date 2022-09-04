@@ -6,8 +6,6 @@ async function getDinamicForms () {
     try {
 
         const dinForms = await DinamicForm.findAll()
-        
-        console.log(dinForms)
 
         if (dinForms[0].dataValues.playerId > 0) return dinForms
         
@@ -55,6 +53,17 @@ async function dinamicFormCreate (playerID,
     if (type === "loan" && !clearingPeriod) return "missing clearing period"
 
     try {
+        
+    var dinamicExist = await DinamicForm.findOne({ where: { playerId: playerID, period: period, type: type }}); 
+
+
+
+    if (dinamicExist) {if(amount) {
+        await dinamicExist.increment("amount", {by: amount})
+        return dinamicExist
+    }}
+
+    else {
 
     const player = await Player.findOne({ where: { id: playerID } });
 
@@ -70,9 +79,14 @@ async function dinamicFormCreate (playerID,
 
     await player.addDinamicForm(newDinamicForm);
 
+    console.log(newDinamicForm)
+
     if (newDinamicForm) return (newDinamicForm)
 
+    }
+
     } catch (e) {
+        console.log(e)
         throw new Error("Cannot create the dinamic form")
     }
 
@@ -111,25 +125,5 @@ async function closeDinamicForm ({
     }
 
 }
-
-// async function closeValidatedLoan ({ 
-//     period, 
-//     playerId, 
-//     loanInterest,
-//     }
-    
-//     ) {
-
-//     try {
-
-//         const resultsData = resultsDataCreate(playerId, {loanInterest, period})
-        
-//         if (resultsData) return resultsData
-
-//     } catch (e) {
-//         throw new Error("Cannot close the loan form")
-//     }
-
-// }
 
 module.exports = { getDinamicForms, dinamicFormCreate, getDinamicFormId, closeDinamicForm }

@@ -10,20 +10,36 @@ export const COLUMNS = [
         accessor: 'period',
     }, 
     {
-        Header: 'Inversión en Calidad',
+        Header: 'Inversión en producción',
+        accessor: 'productionInvestment',
+    },
+    {
+        Header: 'Inversiones financieras',
+        accessor: 'finantialInvestment',
+    },
+    {
+        Header: 'Inversión en calidad',
         accessor: 'qualityInvestment',
     },
     {
-        Header: 'Intereses por préstamos',
-        accessor: 'loanInterest',
+        Header: 'Total ventas',
+        accessor: 'totalSales',
+    },
+    {
+        Header: 'Margen Neto',
+        accessor: 'grossProfit',
     },
     {
         Header: 'Resultados Financieros',
         accessor: 'finantialInvestmentResults',
     },
     {
-        Header: 'Total ventas',
-        accessor: 'totalSales',
+        Header: 'Intereses por préstamos',
+        accessor: 'loanInterest',
+    },
+    {
+        Header: 'Impuestos',
+        accessor: 'taxes',
     },
     {
         Header: 'Resultados extras',

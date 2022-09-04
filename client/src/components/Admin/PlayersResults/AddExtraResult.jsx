@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateResultsData } from "../../../redux/actions/actions";
+import { submitUpdate, updateResultsData } from "../../../redux/actions/actions";
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/esm/Button";
+import Swal from 'sweetalert2'
 
 export default function AddExtraResult ({data}) {
 
@@ -10,9 +11,25 @@ export default function AddExtraResult ({data}) {
 
     const [amount, setAmount] = useState({period: data.period, extraResults: 0, observations: data.observations})
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
     const handleClick = () => {
         dispatch(updateResultsData(data.playerId, amount))
-        console.log("done")
+        dispatch(submitUpdate())
+        Toast.fire({
+            icon: 'success',
+            title: 'Updating the player'
+        })
     }
 
     const handleChange = (e) => {

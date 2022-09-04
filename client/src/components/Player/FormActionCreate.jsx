@@ -24,6 +24,7 @@ export default function FormActionCreate () {
 
     const {
         period,
+        taxesRate,
         qualityInvCost,
         productionCapacity,
         costProdA,
@@ -67,6 +68,7 @@ export default function FormActionCreate () {
 
     const [form, setForm] = useState({
         period: gameControl.period,
+        taxesRate: gameControl.taxesRate,
         priceA: 0, 
         qualityA: 0,
         quantityA: 0,
@@ -152,6 +154,12 @@ export default function FormActionCreate () {
         else setErrors({...errors, integer:"", general: "", dinform:""})
     }
 
+    // const integerFinControl = (e) => {
+    //     if (e.target.value > 1000000 || e.target.value < 0) setErrors({...errors, integer: "Debe ser un valor entero menor que 1000000 y mayor que 0"})
+    //     else if (e.target.name.slice(0,7) === "quality" && e.target.value % 1 !== 0) setErrors({...errors, integer: "Deben ser unidades enteras, no decimales"})
+    //     else setErrors({...errors, integer:"", general: "", dinform:""})
+    // }
+
     const floatControl = (e) => {
         if (e.target.value < 0 || e.target.value >= 1) setErrors({...errors, dinform: "Debe ser un valor entre 0 y 1"})
         else setErrors({...errors, dinform:""})
@@ -168,6 +176,7 @@ export default function FormActionCreate () {
     const submitForm = () => {
         const formul = {
             period: period,
+            taxesRate: taxesRate,
             priceA: form.priceA,
             qualityA: form.qualityA + initQualityA,
             quantityA: form.quantityA,
@@ -178,6 +187,8 @@ export default function FormActionCreate () {
             qualityC: form.qualityC + initQualityC,
             quantityC: form.quantityC,
             qualityInvestment: (form.qualityA + form.qualityB + form.qualityC) * qualityInvCost, 
+            productionInvestment: (costProdA * form.quantityA) + (costProdB * form.quantityB) + (costProdC * form.quantityC),
+            finantialInvestment: form.finantialFixedInvestment + investmentForm.amount,
             finantialFixedInvestment: form.finantialFixedInvestment,
             finantialFixedRentability: form.finantialFixedRentability
         }
@@ -195,8 +206,9 @@ export default function FormActionCreate () {
                     text: 'Form sent!',
                     timer: 1000
                 })
+               setTimeout(()=> window.location.reload(), 1500)
             } 
-            setTimeout(()=> window.location.reload(), 1500)
+
           })
         
     }
@@ -217,8 +229,8 @@ export default function FormActionCreate () {
                       ((form.quantityB * costProdB) / (productionCapacity / 100)) +
                       ((form.quantityC * costProdC) / (productionCapacity / 100))
 
-    if (controlProd > (minProductCapacity*2) && errors.general === "") {
-        setErrors({...errors, general: `La capacidad de la planta en general no puede superar el ${minProductCapacity*2}%`})
+    if (controlProd > (100) && errors.general === "") {
+        setErrors({...errors, general: `La capacidad de la planta en general no puede superar el ${100}%`})
     }
     if (controlProd < minProductCapacity && errors.general === "") {
         setErrors({...errors, general: `La capacidad de la planta no puede ser inferior al ${minProductCapacity}%`})

@@ -11,12 +11,11 @@ export default function AllPlayersResultsTable () {
 
     const dispatch = useDispatch()
     var results = useSelector(state => state.allResultsPlayer)
-
-    console.log(results)
+    var submit = useSelector(state => state.submit)
 
     useEffect(() => {
         dispatch(getAllResultsData())
-    }, [dispatch])
+    }, [dispatch, submit])
 
     const data = useMemo(() => results, [results])
     const columns = useMemo(() => COLUMNS, [])

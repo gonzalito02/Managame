@@ -3,6 +3,7 @@ const { ActionData, DinamicForm, QualityRegister, Player} = require('../../db')
 async function formCreate (playerID,
     {
         period, 
+        taxesRate,
         priceA, 
         qualityA,
         quantityA,
@@ -13,6 +14,8 @@ async function formCreate (playerID,
         qualityC,
         quantityC,
         qualityInvestment,
+        productionInvestment,
+        finantialInvestment,
         finantialFixedInvestment,
         finantialFixedRentability
     }
@@ -26,6 +29,7 @@ async function formCreate (playerID,
 
     const newForm = await ActionData.create({
         period: period,  
+        taxesRate: taxesRate,
         priceA: priceA, 
         qualityA: qualityA,
         quantityA: quantityA,
@@ -36,6 +40,8 @@ async function formCreate (playerID,
         qualityC: qualityC,
         quantityC: quantityC,
         qualityInvestment: qualityInvestment,
+        productionInvestment: productionInvestment,
+        finantialInvestment: finantialInvestment,
         finantialFixedInvestment: finantialFixedInvestment,
         finantialFixedRentability: finantialFixedRentability,
         idControl: dataControl

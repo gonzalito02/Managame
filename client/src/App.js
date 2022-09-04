@@ -12,12 +12,14 @@ import PlayerSales from "./components/Player/PlayerSales/PlayerSales";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import About from "./components/About/About";
 import AdminCreate from "./components/Admin/AdminCreate";
+import AdminMarketControl from "./components/Admin/AdminMarketControl";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
+          <Route exact path="/" element = {<Home/>}/>
           <Route path="/home" element = {<Home/>}/>
           <Route path="/player" element = {<PlayerControl/>}/>
           <Route path="/student" element = {<StudentControl/>}/>
@@ -28,6 +30,7 @@ function App() {
           <Route path="/adminPlayerAndStudents" element = {<AdminPlayersAndStudents />}/>
           <Route path="/adminPlayersResults" element = {<AdminPlayersResults />}/>
           <Route path="/adminCreate" element = {<AdminCreate />}/>
+          <Route path="/adminMarket" element = {<AdminMarketControl />}/>
           <Route path="/market" element = {<Market />}/>
           <Route path="/about" element = {<About />}/>
         </Routes>

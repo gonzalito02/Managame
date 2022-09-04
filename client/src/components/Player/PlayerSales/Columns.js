@@ -8,6 +8,10 @@ export const COLUMNS = [
         accessor: row => { return row.createdAt? row.createdAt.slice(0,10) : null}
     },
     {
+        Header: 'Cliente',
+        accessor: row => { return row.studentId? (row.studentId * 3).toString().slice(3) : null}
+    },
+    {
         Header: 'Periodo',
         accessor: 'period',
     }, 

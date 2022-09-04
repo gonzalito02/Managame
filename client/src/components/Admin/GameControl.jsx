@@ -19,6 +19,7 @@ export default function GameControl () {
 
     var { 
         period,
+        taxesRate,
         qualityInvCost,
         productionCapacity,
         costProdA,
@@ -35,6 +36,7 @@ export default function GameControl () {
 
     const [form, setForm] = useState({
         period,
+        taxesRate,
         qualityInvCost,
         productionCapacity,
         costProdA,
@@ -57,6 +59,7 @@ export default function GameControl () {
         else {
         setForm({
             period: period,
+            taxesRate: taxesRate,
             qualityInvCost: qualityInvCost,
             productionCapacity: productionCapacity,
             costProdA: costProdA,
@@ -77,7 +80,7 @@ export default function GameControl () {
 
     const handleChange = (e) => {
         if(e.target.value > 99999999) {setError("Must be numbers lower than 999999999")}
-        else if(!e.target.value || e.target.value < 0) {setForm({...form, [e.target.name]: 0})}
+        else if(!e.target.value) {setForm({...form, [e.target.name]: 0})}
         else {
         setForm({...form, [e.target.name]: parseFloat(e.target.value)})
         setError("")
@@ -271,12 +274,12 @@ export default function GameControl () {
                         <tr>
                             
                             <td>
-                                Wallet
+                                Taxes
                             </td>
                             
                             {input? 
-                            <td> {wallet} </td> :
-                            <input name="wallet" type="number" value={form.wallet} onChange={(e) => handleChange(e)}></input>
+                            <td> {taxesRate} </td> :
+                            <input name="taxesRate" type="number" value={form.taxesRate} onChange={(e) => handleChange(e)}></input>
                             }
 
                         </tr>

@@ -145,12 +145,41 @@ export const allowToPlay = (id) => {
     }
 }
 
+export const updateMarketPlayer = (data) => {
+    return async function (dispatch) {
+  
+        try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
+
+            var response = await axios.put(`http://localhost:3002/market/player/increment`, data, config);
+            return dispatch({type: SET_ERRORS, payload: `Player increment`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action updateMarketPlayer; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
 export const setToNullBusiness = (id) => {
     return async function (dispatch) {
   
         try {
 
-            var response = await axios.put(`http://localhost:3002/student/player/remove`, id);
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
+
+            var response = await axios.put(`http://localhost:3002/student/player/remove`, id, config);
             return dispatch({type: SET_ERRORS, payload: `Set business to null for ${id}`});
   
         } catch (e) {
@@ -228,8 +257,13 @@ export const insertMarketLive = (data) => {
     return async function (dispatch) {
   
         try {
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
   
-            var response = await axios.post(`http://localhost:3002/market/bulk/insert`, data);
+            var response = await axios.post(`http://localhost:3002/market/bulk/insert`, data, config);
             return dispatch({type: SET_ERRORS, payload: "Stock enviado al mercado"});
   
         } catch (e) {
@@ -245,8 +279,14 @@ export const createResultsData = (id, data) => {
     return async function (dispatch) {
 
         try {
+            
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
 
-            var response = await axios.post(`http://localhost:3002/resultsData/${id}`, data);
+            var response = await axios.post(`http://localhost:3002/resultsData/${id}`, data, config);
             return dispatch({type: SET_ERRORS, payload: "Formulario de resultados creado"});
 
         } catch (e) {
@@ -447,8 +487,14 @@ export const updateDataPlayer = (id, data) => {
     return async function (dispatch) {
   
         try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
   
-            var response = await axios.put(`http://localhost:3002/player/${id}`, data);
+            var response = await axios.put(`http://localhost:3002/player/${id}`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -481,8 +527,14 @@ export const updateResultsData = (id, data) => {
     return async function (dispatch) {
   
         try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
   
-            var response = await axios.put(`http://localhost:3002/resultsData/${id}`, data);
+            var response = await axios.put(`http://localhost:3002/resultsData/${id}`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -529,6 +581,29 @@ export const setWallet = (data) => {
         try {
   
             var response = await axios.put(`http://localhost:3002/adminControl/wallet/set`, data, config);
+            return dispatch({ type: SET_ERRORS, payload: "wallet set succesfully"});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action setWallet; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const setWalletAdmin = (data) => {
+    return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
+  
+        try {
+  
+            var response = await axios.put(`http://localhost:3002/adminControl/walletAdmin`, data, config);
             return dispatch({ type: SET_ERRORS, payload: "wallet set succesfully"});
   
         } catch (e) {
@@ -696,7 +771,6 @@ export const handlePurchase = (global, wallet, id) => {
         try {
   
             var response = await axios.put(`http://localhost:3002/manager`, data);
-
             return dispatch({ type: SET_ERRORS, payload: "Purchase done succesfully"});
 
         } catch (e) {

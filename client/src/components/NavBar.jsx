@@ -61,6 +61,7 @@ export default function NavBar () {
 
     var {
         period,
+        taxesRate,
         qualityInvCost,
         productionCapacity,
         costProdA,
@@ -137,6 +138,9 @@ export default function NavBar () {
                                 </NavDropdown.Item>
                                 <NavDropdown.Item href="/adminCreate">
                                 Players and Students Create
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/adminMarket">
+                                Market Control
                                 </NavDropdown.Item>
                             </NavDropdown>
                         : null}
@@ -275,10 +279,10 @@ export default function NavBar () {
                                 {maxTotalFinInvestAmount}
                             </td>
                             <th>
-                            wallet
+                            taxes
                             </th>
                             <td>
-                                {wallet}
+                                {taxesRate}
                             </td>
                         </tr>
 

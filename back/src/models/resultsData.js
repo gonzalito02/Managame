@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    taxesRate: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0.35,
+    },
     totalSales: {
       type: DataTypes.INTEGER,
       defaultValue: 0
@@ -27,9 +31,26 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
+    productionInvestment: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    finantialInvestment: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
     loanInterest: {
       type: DataTypes.INTEGER,
       defaultValue: 0
+    },
+    grossProfit: {
+      type: DataTypes.INTEGER,
+      get () {
+        return (this.totalSales - this.productionInvestment)
+      },
+      set () {
+        throw new Error('Do not try to set the grossProfit value!');
+      }
     },
     extraResults: {
       type: DataTypes.INTEGER,
@@ -38,7 +59,12 @@ module.exports = (sequelize) => {
     taxes: {
       type: DataTypes.INTEGER,
       get () {
-        return ((this.totalSales + this.finantialInvestmentResults - this.loanInterest + this.extraResults - 1000000) * 0.35)
+        var total = (this.totalSales - this.productionInvestment + this.finantialInvestmentResults + this.extraResults - this.loanInterest ) * this.taxesRate
+        if (total > 0) return total
+        else return 0
+      },
+      set () {
+        throw new Error('Do not try to set the taxes value!');
       }
     },
     observations: {
@@ -47,7 +73,7 @@ module.exports = (sequelize) => {
     totalPeriod: {
       type: DataTypes.INTEGER,
       get() {
-        return this.totalSales + this.finantialInvestmentResults - this.loanInterest + this.extraResults - this.taxes - 1000000
+        return this.totalSales - this.productionInvestment + this.finantialInvestmentResults - this.loanInterest + this.extraResults - this.taxes
       },
       set () {
         throw new Error('Do not try to set the totalPeriod value!');

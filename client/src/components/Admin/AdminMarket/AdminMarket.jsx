@@ -1,28 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMemo } from "react";
 import { useTable, usePagination, useGlobalFilter } from "react-table"
 import { COLUMNS } from "./Columns";
 import { useSelector, useDispatch } from 'react-redux';
 import { GlobalFilter } from "../../GlobalFilter";
-import { getShopRegStudentById } from "../../../redux/actions/actions";
+import { getMarketLive } from "../../../redux/actions/actions";
 import Container from "react-bootstrap/esm/Container";
+import Table from "react-bootstrap/esm/Table";
 import Alert from 'react-bootstrap/Alert';
 import { CSVLink } from "react-csv";
-import Table from "react-bootstrap/esm/Table";
 
-export default function StudentResultsTable () {
+export default function AdminMarket () {
 
     const dispatch = useDispatch()
-    var results = useSelector(state => state.shoppingRegister)
-    var loginUser = useSelector(state => state.userLogin)
-
-    const idt = loginUser.id
+    const market = useSelector(state => state.marketLive)
+    var submit = useSelector(state => state.submit)
 
     useEffect(() => {
-        if (loginUser) dispatch(getShopRegStudentById(idt))
-    }, [dispatch, loginUser])
+        dispatch(getMarketLive())
+    }, [dispatch, submit])
 
-    const data = useMemo(() => results, [results])
+    const data = useMemo(() => market, [market])
     const columns = useMemo(() => COLUMNS, [])
 
     const { getTableProps,
@@ -42,8 +40,7 @@ export default function StudentResultsTable () {
             prepareRow } = useTable({
                 columns,
                 data
-            }, useGlobalFilter, usePagination)
-
+            } , useGlobalFilter, usePagination)
 
     const { pageIndex, pageSize, globalFilter } = state 
 
@@ -51,17 +48,14 @@ export default function StudentResultsTable () {
 
     return (
         <>
-
-        <h2 style={{padding:"20px", borderBottom:"solid 1px"}}>Shopping</h2>
-        {(results.length === 0) ?
+        {(market.length === 0) ?
         <Container>
-            <Alert variant={"warning"}>No shopping data yet</Alert>
+            <Alert variant={"warning"}>No market data yet</Alert>
         </Container>
         :
         <Container>
-
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-        <Table {...getTableProps()}>
+        <Table hover={true} {...getTableProps()}>
         
             <thead>
                 {
@@ -105,11 +99,11 @@ export default function StudentResultsTable () {
             <button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
             <button onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>{">>"}</button>
+            <CSVLink  data={market}><button>Download CSV</button></CSVLink>
         </div>
-
         </Container>
         }
-        </>
+     </>
     )
 
 }

@@ -118,7 +118,6 @@ async function destroyMarketLive () {
     const market = await MarketLive.destroy({
         where:{}
     })
-    console.log(market)
 
     if (market) return market
     else return "No market found"

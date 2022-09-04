@@ -5,6 +5,7 @@ const { Student, Rol, Player} = require('../../db');
 async function createStudent(data) {
 
     const { id, name, password, email, rol } = data;
+
     try {
 
         const genSalt = await bcrypt.genSalt(5);
@@ -24,7 +25,7 @@ async function createStudent(data) {
             email: email,
             password: hash    
         });  
-        
+
         await role.addStudents(student);
 
         if (student.dataValues.id > 0) return ({message: `Student (id: ${id}, name: ${name}) generated`})
@@ -33,8 +34,7 @@ async function createStudent(data) {
     } 
 
     catch (e) {
-
-        throw new Error("Cannot create the student.")
+        return `The following student can not be created ${id, "    ",name}`
     }
 
 }

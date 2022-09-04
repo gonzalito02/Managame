@@ -168,7 +168,7 @@ export default function PlayerData ({playerID}) {
                         </tr>
                 </tbody>
             </Table>
-            <Button disabled={formAdd.id.toString().length !== 8} onClick={()=> handleAddSubmit()}>Agregar</Button>
+            <Button disabled={formAdd.id.toString().length < 7} onClick={()=> handleAddSubmit()}>Agregar</Button>
         </>
     )
 }

@@ -157,11 +157,8 @@ export default function MarketLiveTable () {
             <Alert variant={"warning"}>No market data yet</Alert>
         </Container>
         :
-        (!studentData.playerId) ?
-        <Container>
-            <Alert variant={"warning"}>You must have a business assigned first</Alert>
-        </Container>
-        :
+        (studentData.playerId || studentData.rolName === "admin") ?
+        
         <Container>
         
         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
@@ -275,6 +272,10 @@ export default function MarketLiveTable () {
         {gameControl.actionGame === 1?
         <Button disabled={(errors.validate !== "" || errors.total !== "")} onClick={() => sendPurchase()}>Comprar</Button>
         : null}
+        </Container>
+        :
+        <Container>
+        <Alert variant={"warning"}>You must have a business assigned first</Alert>
         </Container>
         }
      </>

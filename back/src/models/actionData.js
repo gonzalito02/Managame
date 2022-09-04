@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    taxesRate: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
     priceA: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -54,6 +58,14 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     qualityInvestment: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    finantialInvestment: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    productionInvestment: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

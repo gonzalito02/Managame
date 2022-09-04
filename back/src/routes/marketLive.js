@@ -113,17 +113,17 @@ router.put("/bulk/decrement",  async (req, res) => {
     }
 })
 
-router.put("/player/increment",  async (req, res) => {
+router.put("/player/increment", async (req, res) => {
 
     try {
-        
+
         const marketUpdate = await updatePlayerMarket(req.body)
         
         if (marketUpdate) res.send({message: "Updated"})
         else res.send({message: "Cant update the market"})
 
     } catch (e) {
-
+        console.log(e)
         res.status(400).send(e.message)
     
     }

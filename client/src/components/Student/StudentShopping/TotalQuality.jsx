@@ -8,7 +8,7 @@ export default function TotalQuality ({data}) {
     return (
 
         <>
-            {(gameControl.actionGame !== 1)? <span>{data.TotalQuality}</span> : null}
+            {(gameControl.actionGame !== 1)? <span>{data.totalQuality}</span> : null}
         </>
     )
 }

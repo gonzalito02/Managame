@@ -38,7 +38,15 @@ export const COLUMNS = [
                 <li>A: {row.qualityA}</li>
                 <li>B: {row.qualityB}</li>
                 <li>C: {row.qualityC}</li>
-                <li>Qinvest: {row.qualityInvestment}</li>
+            </ul> : null}
+    },
+    {
+        Header: 'Investment',
+        accessor: row => { return row.productionInvestment? 
+            <ul>
+                <li>Production: {row.productionInvestment}</li>
+                <li>Finantial: {row.finantialInvestment}</li>
+                <li>Quality: {row.qualityInvestment}</li>
             </ul> : null}
     },
     {

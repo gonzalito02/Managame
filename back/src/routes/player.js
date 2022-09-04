@@ -71,7 +71,7 @@ router.put("/:id",  async (req, res) => {
     }
 })
 
-router.put("/allowToPlay/:id", validationAdmin, validationJWT, async (req, res) => {
+router.put("/allowToPlay/:id", async (req, res) => {
 
     const { id } = req.params
 

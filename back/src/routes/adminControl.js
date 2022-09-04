@@ -2,7 +2,7 @@ const express = require("express")
 const validationAdmin = require("../controllers/validationAdmin.js")
 const validationJWT = require("../controllers/validationJWT.js")
 const { gameControlCreate, getGameControl, updateGameControl, validateActionForms, validateDinamicForms,
-     deleteForm, getAdminForms, walletSet } = require("./functions/adminControlFunctions.js")
+     deleteForm, getAdminForms, walletSet, updateWallet } = require("./functions/adminControlFunctions.js")
 const router = express.Router()
 
 
@@ -126,7 +126,22 @@ router.put("/wallet/set", validationAdmin, validationJWT, async (req, res) => {
 
     try {
 
-        const wallets = await walletSet(req.body)
+        const wallet = await walletSet(req.body)
+
+        if ( wallet ) return res.send(wallet)
+
+    } catch (e) {
+
+        res.status(400).send(e.message)
+    
+    }
+})
+
+router.put("/walletAdmin", validationAdmin, validationJWT, async (req, res) => {
+
+    try {
+
+        const wallets = await updateWallet(req.body.id, req.body.value)
 
         if ( wallets ) return res.send(wallets)
 

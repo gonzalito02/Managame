@@ -23,13 +23,6 @@ function initial () {
   console.log("initialPlayers function executed")
 }
 
-function studentCreateInit () {
-  for (data of students) {
-    createStudent(data)
-  }
-  console.log("studentCreateInit function executed")
-}
-
 function rolesCreateInit () {
   for (data of roles) {
     createRole(data)
@@ -37,11 +30,21 @@ function rolesCreateInit () {
   console.log("rolesCreateInit function executed")
 }
 
+function studentCreateInit () {
+  for (data of roles) {
+    createRole(data)
+  }
+  for (data of students) {
+    createStudent(data)
+  }
+  console.log("studentCreateInit function executed")
+}
 
 function gameControlInit () {
   gameControlCreate(
     {
       period: 1,
+      taxesRate: 0.35,
       qualityInvCost: 25000,
       productionCapacity: 1000000,
       costProdA: 20000,

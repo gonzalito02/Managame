@@ -1,24 +1,28 @@
 const { ResultsData, Player} = require('../../db')
 
-async function resultsDataCreate (playerID,
+async function resultsDataCreate (playerId,
     {
         period, 
+        taxesRate,
         qualityInvestment,
+        productionInvestment,
+        finantialInvestment,
         finantialFixedInvestment,
         loanInterest
     }
-    ) 
-    
+    )   
+
     {
 
-        const dataControl = playerID.toString() + period.toString() + "ResultsData"
+        console.log("el taxes", taxesRate)
+    const dataControl = playerId.toString() + period.toString() + "ResultsData"
 
     try {
 
-    const player = await Player.findOne({ where: { id: playerID } });
+    const player = await Player.findOne({ where: { id: playerId } });
 
-    const searchResultsData = await ResultsData.findOne({
-            where: { playerId: playerID, period: period } 
+    var searchResultsData = await ResultsData.findOne({
+            where: { idControl: dataControl } 
     })
 
     if (searchResultsData) {
@@ -26,14 +30,20 @@ async function resultsDataCreate (playerID,
         if(loanInterest) await searchResultsData.update({loanInterest: loanInterest})
         if(finantialFixedInvestment) await searchResultsData.update({finantialInvestmentResults: finantialFixedInvestment})
         if(qualityInvestment) await searchResultsData.update({qualityInvestment: qualityInvestment})
+        if(finantialInvestment) await searchResultsData.update({finantialInvestment: finantialInvestment})
+        if(productionInvestment) await searchResultsData.update({productionInvestment: productionInvestment})
+        if(taxesRate) await searchResultsData.update({taxesRate: taxesRate})
             
     } else {
 
         var resultsData = await ResultsData.create({
             period: period,  
+            taxesRate: taxesRate,
             totalSales: 0,
             finantialInvestmentResults: finantialFixedInvestment || 0,
             qualityInvestment: qualityInvestment || 0,
+            finantialInvestment: finantialInvestment || 0,
+            productionInvestment: productionInvestment || 0,
             loanInterest: loanInterest || 0,
             extraResults: 0,
             observations: "",
@@ -43,12 +53,12 @@ async function resultsDataCreate (playerID,
     }
 
     if (resultsData) return (resultsData)
+    else return searchResultsData
 
     } catch (e) {
         console.log(e)
         throw new Error("An error has ocurred, cannot create the resultsData or update it")
     }
-
 }
 
 async function getResultsData () {
@@ -83,6 +93,7 @@ async function getResultsDataById(id) {
 
 async function updateResultsData (playerId, {
     period,
+    taxesRate,
     totalSales,
     finantialInvestmentResults,
     loanInterest,
@@ -94,19 +105,21 @@ async function updateResultsData (playerId, {
     try {
 
         var resultsData = []
-        
+
         var searchResultsData = await ResultsData.findOne({ where: { playerId: playerId, period: period }}); 
 
         if (searchResultsData) {
             var resultsData = searchResultsData
+            if(loanInterest) await resultsData.increment("loanInterest", {by: loanInterest})
         } else {
-            var resultsData = await resultsDataCreate(playerId, {loanInterest, period})
+            var resultsData = await resultsDataCreate(playerId, {taxesRate, loanInterest, period})
         }
- 
+        
         if(extraResults) await resultsData.increment("extraResults", {by: extraResults})
         if(totalSales) await resultsData.increment("totalSales", {by: totalSales})
         if(finantialInvestmentResults) await resultsData.increment("finantialInvestmentResults", {by: finantialInvestmentResults})
         if(observations) await resultsData.update({observations: observations})
+        if(taxesRate) await resultsData.update({taxesRate: taxesRate})
 
         const newResultsData = await ResultsData.findOne({ where: { playerId: playerId, period: period }}); 
 

@@ -23,6 +23,8 @@ module.exports = (req, res, next) => {
     if (validator.id) next()
     else res.status(401).send("Invalid token")
 
+    // next()
+
     }
 
     // if (data || id) {

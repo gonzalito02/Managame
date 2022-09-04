@@ -7,6 +7,10 @@ export default function InvestmentCloser ({data}) {
 
     var { amount, rate, description, status, period } = data
 
+    var gameControl = useSelector(state => state.gameControl)
+
+    var limit = gameControl.maxRateFinDinInvest
+
     var loginData = useSelector(state => state.userLogin)
 
     const dispatch = useDispatch()
@@ -24,13 +28,13 @@ export default function InvestmentCloser ({data}) {
     const [input, setInput] = useState(true)
 
     const handleInput = (e) => {
-        if (!input) {dispatch(closeDinamicForm(form))}
+        if (!input) {dispatch(closeDinamicForm(form)); setTimeout(()=> window.location.reload(), 800)}
         else {
             setForm({
                 playerId: loginData.id,
                 period: period,
                 amount: amount,
-                rate, rate,
+                rate: (rate > limit)? limit: rate,
                 description: description
             })
         }
@@ -38,8 +42,7 @@ export default function InvestmentCloser ({data}) {
     }
 
     const handleChange = (e) => {
-        if (e.target.name === "amount") var value = parseInt(e.target.value)
-        else if (e.target.name === "rate") var value = parseFloat(e.target.value)
+        if (e.target.name === "rate") var value = parseFloat(e.target.value)
         else var value = e.target.value
         setForm({...form, [e.target.name]: value})
     }
@@ -53,13 +56,8 @@ export default function InvestmentCloser ({data}) {
                         <tr>      
                             <td>
                                 Amount
-                            </td>
-                            
-                            {input? 
-                            <td> {amount} </td> :
-                            <input name="amount" type="number" value={form.amount} onChange={(e) => handleChange(e)}></input>
-                            }
-
+                            </td>                                     
+                            <td> {amount} </td> :                  
                         </tr>
 
                         <tr>

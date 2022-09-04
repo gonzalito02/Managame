@@ -11,6 +11,8 @@ export default function ValidateButtons ({data}) {
     const gameControl = useSelector(state => state.gameControl)
 
     const act = gameControl.actionGame
+    const tax = gameControl.taxesRate
+    const rateControl = gameControl.maxRateFinDinInvest
     const typo = data.type
 
     useEffect(() => {
@@ -70,21 +72,27 @@ export default function ValidateButtons ({data}) {
             dispatch(insertMarketLive(stock));  
             dispatch(createResultsData(data.playerId, {
                 period: data.period,
+                taxesRate: data.taxesRate,
                 qualityInvestment: data.qualityInvestment,
-                finantialFixedInvestment: (data.finantialFixedInvestment)? (data.finantialFixedInvestment + data.finantialFixedRentability) : 0
+                productionInvestment: data.productionInvestment,
+                finantialInvestment: data.finantialInvestment,
+                finantialFixedInvestment: (data.finantialFixedInvestment)? data.finantialFixedRentability : 0
         }))}
         
         if(data.type === "investment") {
+            let finalRate = (data.rate > rateControl)? rateControl : data.rate
             dispatch(updateResultsData(data.playerId,{
                 period: data.period,
-                finantialInvestmentResults: parseInt((data.amount * (1 + data.rate)))
+                finantialInvestmentResults: parseInt((data.amount * (finalRate)))
             }))
         }
         if(data.type === "loan") {
             dispatch(updateResultsData(data.playerId,{
                 period: data.clearingPeriod,
+                taxesRate: tax,
                 loanInterest: parseInt((data.amount * data.rate))
             }))
+            console.log("aca")
         }
         dispatch(submitUpdate())
         Toast.fire({
@@ -110,6 +118,7 @@ export default function ValidateButtons ({data}) {
                 if(data.type === "loan") {
                     dispatch(updateResultsData(data.playerId,{
                         period: data.clearingPeriod,
+                        taxesRate: tax,
                         loanInterest: parseInt(data.amount)
                     }))
                 }
