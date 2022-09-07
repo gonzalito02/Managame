@@ -16,10 +16,10 @@ export default function AdminPlayers () {
 
     useEffect(() => {
         dispatch(getAllPlayers())
-    }, [submit])
+    }, [dispatch, submit])
 
     const data = useMemo(() => players, [players, submit])
-    const columns = useMemo(() => COLUMNS, [])
+    const columns = useMemo(() => COLUMNS, [submit])
 
     const { getTableProps,
             getTableBodyProps,

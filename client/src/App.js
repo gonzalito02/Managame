@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import About from "./components/About/About";
 import AdminCreate from "./components/Admin/AdminCreate";
 import AdminMarketControl from "./components/Admin/AdminMarketControl";
+import Memory from "./components/Memory/Memory";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/adminMarket" element = {<AdminMarketControl />}/>
           <Route path="/market" element = {<Market />}/>
           <Route path="/about" element = {<About />}/>
+          <Route path="/memory" element = {<Memory />}/>
         </Routes>
       </div>
     </BrowserRouter>

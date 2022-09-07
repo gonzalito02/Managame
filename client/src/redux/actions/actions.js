@@ -22,6 +22,7 @@ import {
   GET_PLAYERSHOPREG_ID,
   SUBMIT_UPDATE,
   GET_MARKETLIVE_DOWNLOAD,
+  GET_MEMORY,
 } from "./types";
 
 var tokenjson = localStorage.getItem("loggedUser")
@@ -253,6 +254,29 @@ export const createActionForm = (id, actionForm, loan, investment) => {
   }
 }
 
+export const createMemory = (data) => {
+    return async function (dispatch) {
+  
+        try {
+
+            var config = {
+                headers: {
+                    Authorization: `Bearer ${tokenSet}`
+                }
+            }
+  
+            var response = await axios.post(`http://localhost:3002/memory`, data, config);
+            return dispatch({type: SET_ERRORS, payload: `Memory created`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action createMemory; status: ${e.response.status}; code: ${e.code}`})
+            
+        }
+    }
+}
+
 export const insertMarketLive = (data) => {
     return async function (dispatch) {
   
@@ -312,6 +336,22 @@ export const getAllForms = () => {
 
       }
   }
+}
+
+export const getMemory = () => {
+    return async function (dispatch) {
+  
+        try {
+  
+            var response = await axios.get(`http://localhost:3002/memory`);
+            return dispatch({ type: GET_MEMORY, payload: response.data.response });
+  
+        } catch (e) {
+  
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getMemory; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
 }
 
 export const getAllResultsData = () => {
@@ -478,6 +518,52 @@ export const deleteStudent = (id) => {
   
             console.log(e);
             return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action getPlayerById; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const deleteMemory = (id) => {
+    return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
+  
+        try {
+  
+            var response = await axios.delete(`http://localhost:3002/memory/${id}`, config);
+            return dispatch({ type: SET_ERRORS, payload: `Memory deleted`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action deleteMemory; status: ${e.response.status}; code: ${e.code}`});
+  
+        }
+    }
+}
+
+export const deleteForm = (id) => {
+    return async function (dispatch) {
+
+        var config = {
+            headers: {
+                Authorization: `Bearer ${tokenSet}`
+            }
+        }
+  
+        try {
+  
+            var response = await axios.delete(`http://localhost:3002/form/${id}`, config);
+            return dispatch({ type: SET_ERRORS, payload: `Form deleted`});
+  
+        } catch (e) {
+  
+            console.log(e);
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action deleteForm; status: ${e.response.status}; code: ${e.code}`});
   
         }
     }

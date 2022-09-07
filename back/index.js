@@ -64,7 +64,7 @@ function gameControlInit () {
 }
 // actions before start to set up the program
 
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: true }).then(() => {
   server.listen(3002, () => {
 
     // first functions to execute ------------

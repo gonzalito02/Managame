@@ -30,7 +30,7 @@ export default function Home () {
                     <Carousel.Caption>
                         <div className="itemCarousel">
                         <h3>Welcome to Business Game</h3>
-                        <p>We simule, like a game, to improve the decition process.</p>
+                        <p>We simule, like a game, to improve the decision process.</p>
                         </div>
                     </Carousel.Caption>
                 </Carousel.Item>

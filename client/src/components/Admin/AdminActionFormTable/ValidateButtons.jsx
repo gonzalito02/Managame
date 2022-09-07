@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createResultsData, insertMarketLive, submitUpdate, updateResultsData, validateForm } from "../../../redux/actions/actions";
+import { createResultsData, deleteForm, insertMarketLive, submitUpdate, updateResultsData, validateForm } from "../../../redux/actions/actions";
 import Swal from 'sweetalert2'
 
 export default function ValidateButtons ({data}) {
@@ -121,6 +121,9 @@ export default function ValidateButtons ({data}) {
                         taxesRate: tax,
                         loanInterest: parseInt(data.amount)
                     }))
+                }
+                if(data.type === "actionForm") {
+                    dispatch(deleteForm(data.id))
                 }
                 dispatch(submitUpdate())
                 Toast.fire({

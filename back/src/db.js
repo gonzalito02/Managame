@@ -34,7 +34,7 @@ console.log("modelos injectados con sequelize: " ,sequelize.models)
 // Para relacionarlos hacemos un destructuring
 
 const { Player, GameControl, ActionData, ResultsData, MarketLive, 
-  Student, Rol, DinamicForm, QualityRegister, ShoppingRegister } = sequelize.models;
+  Student, Rol, DinamicForm, QualityRegister, ShoppingRegister, Memory } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);

@@ -35,6 +35,24 @@ async function getDinamicFormId (id) {
 
 }
 
+// async function destroyDinamicFormId(id, period) {
+
+//     try {
+
+//         const dinamicForm = await DinamicForm.destroy({
+//             where: {playerId: id, period: period}
+//         })
+
+//         if (dinamicForm) return dinamicForm
+        
+//         else return "No dinamic form found"
+
+//     } catch (e) {
+//         throw new Error(`No dinamic forms found, playerID: ${id}`)
+//     }
+
+// }
+
 async function dinamicFormCreate (playerID,
     {
         period, 
@@ -126,4 +144,33 @@ async function closeDinamicForm ({
 
 }
 
-module.exports = { getDinamicForms, dinamicFormCreate, getDinamicFormId, closeDinamicForm }
+async function destroyDinamicForm(playerId, period) {
+
+    try {
+
+        // const dataFor = await ActionData.findByPk(id) 
+
+        // if (dataFor) {
+        //     var idPlayer = dataFor.dataValues.playerId
+        //     var period = dataFor.dataValues.period
+        // }
+
+        // console.log(idPlayer, period)
+
+        const dinamicForm = await DinamicForm.destroy({
+            where: {
+                playerId: playerId,
+                period: period
+            }
+        })
+
+        if (dinamicForm) return dinamicForm 
+
+    } catch (error) {
+
+        throw new Error("Cannot destroy the form. Try again.")
+    
+    }
+}
+
+module.exports = { getDinamicForms, dinamicFormCreate, getDinamicFormId, closeDinamicForm, destroyDinamicForm}

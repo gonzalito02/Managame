@@ -21,6 +21,7 @@ import {
     GET_PLAYERSHOPREG_ID,
     SUBMIT_UPDATE,
     GET_MARKETLIVE_DOWNLOAD,
+    GET_MEMORY,
 } from "../actions/types";
   
 const initialState = {
@@ -42,7 +43,8 @@ const initialState = {
     shoppingRegister: [],
     cart: [],
     cartControl: [],
-    submit: true
+    submit: true,
+    memory: []
 };
   
 export default function rootReducer(state = initialState, action) {
@@ -124,6 +126,13 @@ export default function rootReducer(state = initialState, action) {
             ...state,
             allForms: payload,
             errors: "All forms obtained"
+        };
+
+        case GET_MEMORY:
+        return {
+            ...state,
+            memory: payload,
+            errors: "Memories obtained"
         };
 
         case GET_ALLRESULTSPLAYER:

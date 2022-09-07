@@ -89,6 +89,7 @@ export default function NavBar () {
                 <Navbar.Collapse id="options">
                     <Nav className="allOptions">
                     <Nav.Link href="/home">Home</Nav.Link>
+                    <Nav.Link href="/memory">Memory</Nav.Link>
                     <Nav.Link href="/about">About</Nav.Link>
                         {(loginUser.rol === "student" || loginUser.rol === "admin")?
                         <Nav>
@@ -187,49 +188,49 @@ export default function NavBar () {
                     <tbody>
                         <tr>
                             <th>
-                                period
+                                Period
                             </th>
                             <td>
                                 {period}
                             </td>
 
                             <th>
-                                qualityInvCost
+                                QualityInvCost
                             </th>
                             <td>
                                 {qualityInvCost}
                             </td>
 
                             <th>
-                                productionCapacity
+                                ProductionCapacity
                             </th>
                             <td>
                                 {productionCapacity}
                             </td>
 
                             <th>
-                            costProdA
+                                CostProdA
                             </th>
                             <td>
                                 {costProdA}
                             </td>
 
                             <th>
-                            costProdB
+                                CostProdB
                             </th>
                             <td>
                                 {costProdB}
                             </td>
 
                             <th>
-                            costProdC
+                                CostProdC
                             </th>
                             <td>
                                 {costProdC}
                             </td>
 
                             <th>
-                            actionGame
+                                ActionGame
                             </th>
                             <td>
                                 {(actionGame === 0)? "Production" : ((actionGame === 1)? "Market" : "Clearing")}
@@ -238,48 +239,48 @@ export default function NavBar () {
 
                         <tr>
                             <th>
-                            minProductCapacity
+                                MinProductCapacity
                             </th>
                             <td>
                                 {minProductCapacity}
                             </td>
 
                             <th>
-                            minRateLoan
+                                MinRateLoan
                             </th>
                             <td>
                                 {minRateLoan}
                             </td>
 
                             <th>
-                            maxLoanAmount
+                                MaxLoanAmount
                             </th>
                             <td>
                                 {maxLoanAmount}
                             </td>
 
                             <th>
-                            maxRateFinDinInvest
+                                MaxRateFinDinInvest
                             </th>
                             <td>
                                 {maxRateFinDinInvest}
                             </td>
 
                             <th>
-                            maxRateFinFixedInvest
+                                MaxRateFinFixedInvest
                             </th>
                             <td>
                                 {maxRateFinFixedInvest}
                             </td>
 
                             <th>
-                            maxTotalFinInvestAmount
+                                MaxTotalFinInvestAmount
                             </th>
                             <td>
                                 {maxTotalFinInvestAmount}
                             </td>
                             <th>
-                            taxes
+                                Taxes
                             </th>
                             <td>
                                 {taxesRate}

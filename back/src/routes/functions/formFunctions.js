@@ -1,4 +1,5 @@
-const { ActionData, DinamicForm, QualityRegister, Player} = require('../../db')
+const { ActionData, DinamicForm, QualityRegister, Player} = require('../../db');
+const { destroyDinamicFormId, destroyDinamicForm } = require('./dinamicFormFunctions');
 
 async function formCreate (playerID,
     {
@@ -117,4 +118,31 @@ async function getForm(id) {
 
 }
 
-module.exports = { formCreate, getForms, getForm, getPenddingForms }
+async function destroyForm(id) {
+
+    try {
+
+        const dataFor = await ActionData.findByPk(id) 
+
+        if (dataFor) {
+            var playerId = dataFor.dataValues.playerId
+            var period = dataFor.dataValues.period
+            const dinamic = await destroyDinamicForm(playerId, period)
+        }
+
+        const form = await ActionData.destroy({
+            where: {
+                id: id
+            }
+        })
+
+        if (form) return form 
+
+    } catch (error) {
+
+        throw new Error("Cannot destroy the form. Try again.")
+    
+    }
+}
+
+module.exports = { formCreate, getForms, getForm, getPenddingForms, destroyForm }
