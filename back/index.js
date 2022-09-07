@@ -64,8 +64,8 @@ function gameControlInit () {
 }
 // actions before start to set up the program
 
-conn.sync({ force: true }).then(() => {
-  server.listen(3002, () => {
+conn.sync({ force: false }).then(() => {
+  server.listen(process.env.PORT, () => {
 
     // first functions to execute ------------
     initial();
@@ -74,6 +74,6 @@ conn.sync({ force: true }).then(() => {
     studentCreateInit()
     // ------------
     
-    console.log('%s listening at 3002'); // eslint-disable-line no-console
+    console.log(`%s listening at ${process.env.PORT}`); // eslint-disable-line no-console
   });
 });

@@ -27,7 +27,7 @@ import {
 
 var tokenjson = localStorage.getItem("loggedUser")
 
-console.log(tokenjson)
+const urlBack = "http://localhost:3002"
 
 export const setToken = (token) => {
     return tokenSet = token
@@ -48,7 +48,7 @@ export const getAllPlayers = (dispatch) => {
 
         try {
 
-            var response = await axios.get(`http://localhost:3002/player`);
+            var response = await axios.get(`${urlBack}/player`);
             return dispatch({ type: GET_ALLPLAYERS, payload: response.data });
 
         } catch (e) {
@@ -65,7 +65,7 @@ export const getAllStudents = (dispatch) => {
 
         try {
 
-            var response = await axios.get(`http://localhost:3002/student`);
+            var response = await axios.get(`${urlBack}/student`);
             return dispatch({ type: GET_STUDENTS, payload: response.data });
 
         } catch (e) {
@@ -88,7 +88,7 @@ export const createPlayer = (data) => {
                 }
             }
   
-            var response = await axios.post(`http://localhost:3002/player`, data, config);
+            var response = await axios.post(`${urlBack}/player`, data, config);
             return dispatch({type: SET_ERRORS, payload: `Player whit ID ${data.id}`});
   
         } catch (e) {
@@ -111,7 +111,7 @@ export const createStudent = (data) => {
                 }
             }
   
-            var response = await axios.post(`http://localhost:3002/student`, data, config);
+            var response = await axios.post(`${urlBack}/student`, data, config);
             return dispatch({type: SET_ERRORS, payload: `Student whit ID ${data.id}`});
   
         } catch (e) {
@@ -134,7 +134,7 @@ export const allowToPlay = (id) => {
                 }
             }
 
-            var response = await axios.put(`http://localhost:3002/player/allowToPlay/${id}`, config);
+            var response = await axios.put(`${urlBack}/player/allowToPlay/${id}`, config);
             return dispatch({type: SET_ERRORS, payload: `Player allowed to play ID ${id}`});
   
         } catch (e) {
@@ -157,7 +157,7 @@ export const updateMarketPlayer = (data) => {
                 }
             }
 
-            var response = await axios.put(`http://localhost:3002/market/player/increment`, data, config);
+            var response = await axios.put(`${urlBack}/market/player/increment`, data, config);
             return dispatch({type: SET_ERRORS, payload: `Player increment`});
   
         } catch (e) {
@@ -180,7 +180,7 @@ export const setToNullBusiness = (id) => {
                 }
             }
 
-            var response = await axios.put(`http://localhost:3002/student/player/remove`, id, config);
+            var response = await axios.put(`${urlBack}/student/player/remove`, id, config);
             return dispatch({type: SET_ERRORS, payload: `Set business to null for ${id}`});
   
         } catch (e) {
@@ -197,7 +197,7 @@ export const setBusinessStudent = (data) => {
   
         try {
 
-            var response = await axios.put(`http://localhost:3002/student/player/add`, data);
+            var response = await axios.put(`${urlBack}/student/player/add`, data);
             return dispatch({type: SET_ERRORS, payload: `Student ${data.id} add to ${data.playerId}`});
   
         } catch (e) {
@@ -214,8 +214,8 @@ export const getGameControl = () => {
 
       try {
 
-          var response = await axios.get(`http://localhost:3002/adminControl`);
-          if (response.data.response.length === 0) var response = await axios.get(`http://localhost:3002/adminControl`)
+          var response = await axios.get(`${urlBack}/adminControl`);
+          if (response.data.response.length === 0) var response = await axios.get(`${urlBack}/adminControl`)
           return dispatch({ type: GET_GAMECONTROL, payload: response.data.response[0].variables });
 
       } catch (e) {
@@ -238,9 +238,9 @@ export const createActionForm = (id, actionForm, loan, investment) => {
             }
           }
 
-          var response = await axios.post(`http://localhost:3002/form/${id}`, actionForm, config);
-          if (loan) if (loan.amount > 0) var responseLoan = await axios.post(`http://localhost:3002/dinamicForm/${id}`, loan, config);
-          if (investment) if (investment.amount > 0) var responseInvestment = await axios.post(`http://localhost:3002/dinamicForm/${id}`, investment, config);  
+          var response = await axios.post(`${urlBack}/form/${id}`, actionForm, config);
+          if (loan) if (loan.amount > 0) var responseLoan = await axios.post(`${urlBack}/dinamicForm/${id}`, loan, config);
+          if (investment) if (investment.amount > 0) var responseInvestment = await axios.post(`${urlBack}/dinamicForm/${id}`, investment, config);  
           return dispatch({type: SET_ERRORS, payload: "Form sent"});
           
         } catch (e) {
@@ -265,7 +265,7 @@ export const createMemory = (data) => {
                 }
             }
   
-            var response = await axios.post(`http://localhost:3002/memory`, data, config);
+            var response = await axios.post(`${urlBack}/memory`, data, config);
             return dispatch({type: SET_ERRORS, payload: `Memory created`});
   
         } catch (e) {
@@ -287,7 +287,7 @@ export const insertMarketLive = (data) => {
                 }
             }
   
-            var response = await axios.post(`http://localhost:3002/market/bulk/insert`, data, config);
+            var response = await axios.post(`${urlBack}/market/bulk/insert`, data, config);
             return dispatch({type: SET_ERRORS, payload: "Stock enviado al mercado"});
   
         } catch (e) {
@@ -310,7 +310,7 @@ export const createResultsData = (id, data) => {
                 }
             }
 
-            var response = await axios.post(`http://localhost:3002/resultsData/${id}`, data, config);
+            var response = await axios.post(`${urlBack}/resultsData/${id}`, data, config);
             return dispatch({type: SET_ERRORS, payload: "Formulario de resultados creado"});
 
         } catch (e) {
@@ -327,7 +327,7 @@ export const getAllForms = () => {
 
       try {
 
-          var response = await axios.get(`http://localhost:3002/form`);
+          var response = await axios.get(`${urlBack}/form`);
           return dispatch({ type: GET_ACTIONFORMS, payload: response.data.response });
 
       } catch (e) {
@@ -343,7 +343,7 @@ export const getMemory = () => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/memory`);
+            var response = await axios.get(`${urlBack}/memory`);
             return dispatch({ type: GET_MEMORY, payload: response.data.response });
   
         } catch (e) {
@@ -359,7 +359,7 @@ export const getAllResultsData = () => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/resultsData`);
+            var response = await axios.get(`${urlBack}/resultsData`);
             return dispatch({ type: GET_ALLRESULTSPLAYER, payload: response.data.response });
   
         } catch (e) {
@@ -375,7 +375,7 @@ export const getPenddingForms = () => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/adminControl/getFormsValidate`);
+            var response = await axios.get(`${urlBack}/adminControl/getFormsValidate`);
             return dispatch({ type: GET_PENDDINGACTIONFORMS, payload: response.data.response });
   
         } catch (e) {   
@@ -391,7 +391,7 @@ export const getFormById = (id) => {
 
       try {
 
-          var response = await axios.get(`http://localhost:3002/form/${id}`);
+          var response = await axios.get(`${urlBack}/form/${id}`);
           return dispatch({ type: GET_ACTIONFORM_ID, payload: response.data.response});
 
       } catch (e) {
@@ -407,7 +407,7 @@ export const getResultsPlayerById = (id) => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/resultsData/${id}`);
+            var response = await axios.get(`${urlBack}/resultsData/${id}`);
             return dispatch({ type: GET_RESULTSPLAYER_ID, payload: response.data.response});
   
         } catch (e) {
@@ -423,7 +423,7 @@ export const getQualityRegisterById = (id) => {
 
     try {
 
-        var response = await axios.get(`http://localhost:3002/qualityRegister/${id}`);
+        var response = await axios.get(`${urlBack}/qualityRegister/${id}`);
         return dispatch({ type: GET_QUALITYREGISTER_ID, payload: response.data.response});
 
     } catch (e) {
@@ -439,7 +439,7 @@ export const getShopRegStudentById = (id) => {
 
     try {
 
-        var response = await axios.get(`http://localhost:3002/shoppingRegister/student/${id}`);
+        var response = await axios.get(`${urlBack}/shoppingRegister/student/${id}`);
         return dispatch({ type: GET_STUDENTSHOPREG_ID, payload: response.data.response});
 
     } catch (e) {
@@ -455,7 +455,7 @@ export const getShopRegPlayerById = (id) => {
 
     try {
 
-        var response = await axios.get(`http://localhost:3002/shoppingRegister/player/${id}`);
+        var response = await axios.get(`${urlBack}/shoppingRegister/player/${id}`);
         return dispatch({ type: GET_PLAYERSHOPREG_ID, payload: response.data.response});
 
     } catch (e) {
@@ -471,7 +471,7 @@ export const getPlayerById = (id) => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/player/${id}`);
+            var response = await axios.get(`${urlBack}/player/${id}`);
             return dispatch({ type: GET_PLAYER_ID, payload: response.data.response});
   
         } catch (e) {
@@ -488,7 +488,7 @@ export const getStudentById = (id) => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/student/${id}`);
+            var response = await axios.get(`${urlBack}/student/${id}`);
             return dispatch({ type: GET_STUDENT_ID, payload: response.data.response});
   
         } catch (e) {
@@ -511,7 +511,7 @@ export const deleteStudent = (id) => {
   
         try {
   
-            var response = await axios.delete(`http://localhost:3002/student/${id}`, config);
+            var response = await axios.delete(`${urlBack}/student/${id}`, config);
             return dispatch({ type: SET_ERRORS, payload: `student ${id} deleted`});
   
         } catch (e) {
@@ -534,7 +534,7 @@ export const deleteMemory = (id) => {
   
         try {
   
-            var response = await axios.delete(`http://localhost:3002/memory/${id}`, config);
+            var response = await axios.delete(`${urlBack}/memory/${id}`, config);
             return dispatch({ type: SET_ERRORS, payload: `Memory deleted`});
   
         } catch (e) {
@@ -557,7 +557,7 @@ export const deleteForm = (id) => {
   
         try {
   
-            var response = await axios.delete(`http://localhost:3002/form/${id}`, config);
+            var response = await axios.delete(`${urlBack}/form/${id}`, config);
             return dispatch({ type: SET_ERRORS, payload: `Form deleted`});
   
         } catch (e) {
@@ -580,7 +580,7 @@ export const updateDataPlayer = (id, data) => {
                 }
             }
   
-            var response = await axios.put(`http://localhost:3002/player/${id}`, data, config);
+            var response = await axios.put(`${urlBack}/player/${id}`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -597,7 +597,7 @@ export const updateDataStudent = (id, data) => {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/student/${id}`, data);
+            var response = await axios.put(`${urlBack}/student/${id}`, data);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -620,7 +620,7 @@ export const updateResultsData = (id, data) => {
                 }
             }
   
-            var response = await axios.put(`http://localhost:3002/resultsData/${id}`, data, config);
+            var response = await axios.put(`${urlBack}/resultsData/${id}`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -643,7 +643,7 @@ export const updateGameControl = (data) => {
                 }
             }
   
-            var response = await axios.put(`http://localhost:3002/adminControl`, data, config);
+            var response = await axios.put(`${urlBack}/adminControl`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -666,7 +666,7 @@ export const setWallet = (data) => {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/adminControl/wallet/set`, data, config);
+            var response = await axios.put(`${urlBack}/adminControl/wallet/set`, data, config);
             return dispatch({ type: SET_ERRORS, payload: "wallet set succesfully"});
   
         } catch (e) {
@@ -689,7 +689,7 @@ export const setWalletAdmin = (data) => {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/adminControl/walletAdmin`, data, config);
+            var response = await axios.put(`${urlBack}/adminControl/walletAdmin`, data, config);
             return dispatch({ type: SET_ERRORS, payload: "wallet set succesfully"});
   
         } catch (e) {
@@ -712,7 +712,7 @@ export const validateForm = (data) => {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/adminControl/validate`, data, config);
+            var response = await axios.put(`${urlBack}/adminControl/validate`, data, config);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -731,7 +731,7 @@ export const closeDinamicForm = (data) => {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/dinamicForm/closeDinamicForm`, data);
+            var response = await axios.put(`${urlBack}/dinamicForm/closeDinamicForm`, data);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -748,7 +748,7 @@ export const deleteActionForm = (data) => {
     return async function (dispatch) {
   
         try {
-            var response = await axios.delete(`http://localhost:3002/adminControl`, data={data});
+            var response = await axios.delete(`${urlBack}/adminControl`, data={data});
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -766,7 +766,7 @@ export const getMarketLive = () => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/market`);
+            var response = await axios.get(`${urlBack}/market`);
             return dispatch({ type: GET_MARKETLIVE, payload: response.data.response });
   
         } catch (e) {
@@ -782,7 +782,7 @@ export const getMarketForDownload = () => {
   
         try {
   
-            var response = await axios.get(`http://localhost:3002/market/forDownload`);
+            var response = await axios.get(`${urlBack}/market/forDownload`);
             return dispatch({ type: GET_MARKETLIVE_DOWNLOAD, payload: response.data.response });
   
         } catch (e) {
@@ -803,7 +803,7 @@ export const destroyMarketLive = () => {
         }
   
         try {
-            var response = await axios.delete(`http://localhost:3002/market`, config);
+            var response = await axios.delete(`${urlBack}/market`, config);
             return dispatch({ type: SET_ERRORS, payload: "Market destroyed succesfully" });
   
         } catch (e) {
@@ -831,7 +831,7 @@ export const decrementMarket = (data) => {
   
         try {
   
-            var response = await axios.put(`http://localhost:3002/market/bulk/decrement`, data);
+            var response = await axios.put(`${urlBack}/market/bulk/decrement`, data);
             return dispatch({ type: SET_ERRORS, payload: response.data.message});
   
         } catch (e) {
@@ -856,7 +856,7 @@ export const handlePurchase = (global, wallet, id) => {
 
         try {
   
-            var response = await axios.put(`http://localhost:3002/manager`, data);
+            var response = await axios.put(`${urlBack}/manager`, data);
             return dispatch({ type: SET_ERRORS, payload: "Purchase done succesfully"});
 
         } catch (e) {
@@ -873,7 +873,7 @@ export const loginFunction = (data) => {
   
         try {
   
-            var response = await axios.post(`http://localhost:3002/login`, data);
+            var response = await axios.post(`${urlBack}/login`, data);
             const logged = response.data.response
             localStorage.setItem("loggedUser", JSON.stringify(logged))
             setToken(logged.token)
