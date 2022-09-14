@@ -18,7 +18,6 @@ export default function UpdateMarketRow (row) {
         setData({...data, playerId: row.data.playerId, typeProduct: row.data.typeProduct})
     }, [submit])
 
-    console.log(data)
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',

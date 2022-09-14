@@ -206,7 +206,7 @@ export default function FormActionCreate () {
                     text: 'Form sent!',
                     timer: 1000
                 })
-               setTimeout(()=> window.location.reload(), 1500)
+               setTimeout(() => window.location.reload(), 4000)
             } 
 
           })

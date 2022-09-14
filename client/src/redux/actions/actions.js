@@ -27,7 +27,8 @@ import {
 
 var tokenjson = localStorage.getItem("loggedUser")
 
-const urlBack = "http://localhost:3002"
+//const urlBack = "http://localhost:3002"
+const urlBack = "https://businessgame.herokuapp.com"
 
 export const setToken = (token) => {
     return tokenSet = token
@@ -117,7 +118,7 @@ export const createStudent = (data) => {
         } catch (e) {
   
             console.log(e);
-            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action insertMarketLive; status: ${e.response.status}; code: ${e.code}`})
+            return dispatch({ type: SET_ERRORS, payload: `${e.response.data}; action createStudent; status: ${e.response.status}; code: ${e.code}`})
             
         }
     }
